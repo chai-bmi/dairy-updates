@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European Dairies: May 2025 Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f7fa; /* Light gray background for the page */
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Default max-width, can be overridden by Tailwind */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height */
+            max-height: 400px; /* Max height */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .stat-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .primary-blue { color: #3791d1; }
+        .accent-green { color: #afcd37; }
+        .darker-blue { color: #005aaa; }
+        .bg-primary-blue { background-color: #3791d1; }
+        .bg-accent-green { background-color: #afcd37; }
+        .bg-darker-blue { background-color: #005aaa; }
+
+        h1, h2, h3 {
+            font-weight: 600;
+        }
+        h1 { font-size: 2.25rem; line-height: 2.5rem; color: #005aaa; } /* Darker blue for main titles */
+        h2 { font-size: 1.875rem; line-height: 2.25rem; color: #3791d1; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #afcd37; } /* Primary blue for section titles, green accent line */
+        h3 { font-size: 1.25rem; line-height: 1.75rem; color: #005aaa; margin-bottom: 0.75rem; } /* Darker blue for sub-titles within cards */
+        p, li {
+            font-size: 1rem; /* Equivalent to Tailwind's text-base, ensures >= 11pt */
+            line-height: 1.625;
+            color: #4a5568; /* Tailwind gray-700 */
+        }
+        .key-stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .key-stat-label {
+            font-size: 0.875rem;
+            color: #718096; /* Tailwind gray-600 */
+        }
+        .kpi-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .kpi-unit {
+            font-size: 1rem;
+            color: #555;
+        }
+        .kpi-change {
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .positive-change {
+            color: #afcd37; /* Accent Green */
+        }
+        .negative-change {
+            color: #e53e3e; /* Red-600 */
+        }
+        .neutral-change {
+            color: #718096; /* Gray-600 */
+        }
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .bullet-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #3791d1; /* Primary Blue for bullets */
+            font-weight: bold;
+        }
+        .logo-img {
+            max-height: 50px; /* Adjust as needed */
+            margin-bottom: 1rem;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <header class="bg-white py-8 shadow-lg">
+        <div class="container mx-auto px-6 text-center">
+            <img src="https://placehold.co/200x50/FFFFFF/005aaa?text=Bayerische+Milchindustrie+eG" alt="Bayerische Milchindustrie eG Logo" class="logo-img mx-auto">
+            <h1 class="text-4xl font-bold darker-blue">European Dairies: May 2025 Analysis</h1>
+            <p class="text-xl text-gray-600 mt-2">Market Updates</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        
+        <section id="executive-summary" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">Executive Summary & Key Highlights</h2>
+                <p class="mb-6 text-lg text-gray-700">The European dairy market in May 2025 is navigating a complex and dynamic landscape, characterized by stabilizing raw milk prices, diverging performance across various product categories, and persistent structural supply limitations. While some input costs have shown signs of easing, new geopolitical tariffs are poised to exert upward pressure on expenses, creating a delicately balanced and inherently high-cost operating environment for producers. This intricate interplay of factors necessitates a strategic and adaptable approach for all market participants.</p>
+                <h3 class="text-xl font-semibold darker-blue mb-4">Key Market Observations:</h3>
+                <ul class="bullet-list list-inside space-y-3 text-gray-700">
+                    <li>Raw milk prices have largely plateaued in early 2025, holding significant year-on-year gains (approx. 15-16% higher), suggesting a "new normal" of higher raw milk prices.</li>
+                    <li>A notable split in product pricing persists: Butter prices remain firm due to tight supplies, while Skimmed Milk Powder (SMP) continues to face downward pressure.</li>
+                    <li>EU milk production is projected to decline marginally in 2025 due to shrinking herds, stringent environmental regulations, and disease risks.</li>
+                    <li>Despite some stabilization in feed prices, the overall cost environment remains significantly elevated. New EU tariffs on Russian/Belarusian agricultural products (from July 1, 2025) are expected to increase input costs.</li>
+                    <li>The continued strength of the Euro against the US Dollar and new US tariffs on EU dairy imports create headwinds for export competitiveness.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="raw-milk-market" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">EU Raw Milk Market Overview</h2>
+                <p class="mb-6 text-gray-700">The raw milk market in the European Union has reached a point of stabilization in early 2025, following a period of substantial price increases. This plateauing, however, occurs at a significantly higher price level than previous years, reflecting a new market equilibrium.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="kpi-card">
+                        <div class="kpi-value primary-blue">0.534 <span class="kpi-unit">EUR/kg</span></div>
+                        <div class="text-gray-600 mt-1">April 2025 (Prov.) Avg. Price</div>
+                        <div class="kpi-change positive-change">+15.86% YoY</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value primary-blue">0.538 <span class="kpi-unit">EUR/kg</span></div>
+                        <div class="text-gray-600 mt-1">February 2025 Avg. Price</div>
+                        <div class="kpi-change positive-change">+16.00% YoY</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-value primary-blue">0.537 <span class="kpi-unit">EUR/kg</span></div>
+                        <div class="text-gray-600 mt-1">March 2025 (Fcst.) Avg. Price</div>
+                        <div class="kpi-change positive-change">+14.62% YoY</div>
+                    </div>
+                </div>
+                <p class="text-gray-700">Raw milk prices in the EU have largely stabilized around EUR 0.53-0.54/kg. This stability follows significant cost absorption in 2024. The continued year-on-year increase of over 15% underscores that higher cost structures and supply tightness are now integrated into the market. While upward momentum has ceased, prices remain structurally elevated, suggesting a new, higher baseline rather than a return to historical lows. This aligns with the European Commission's outlook for structurally higher EU milk prices.</p>
+            </div>
+        </section>
+
+        <section id="key-dairy-products" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">Key Dairy Product Prices</h2>
+                <p class="mb-8 text-gray-700">The EU dairy market exhibits a clear divergence in product pricing. Butter maintains strength due to tight supplies and strategic milk allocation towards cheese, while Skimmed Milk Powder (SMP) faces downward pressure. Cheddar cheese shows signs of stabilization after an earlier slump.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-2xl font-semibold darker-blue mb-4">Butter & Skimmed Milk Powder (SMP)</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div class="kpi-card">
+                                <div class="kpi-value accent-green">~7.61 <span class="kpi-unit">EUR/kg</span></div>
+                                <div class="text-gray-600 mt-1">Butter (Apr 28, 2025)</div>
+                                <div class="kpi-change neutral-change">Firm Prices</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value accent-green">2.32-2.48 <span class="kpi-unit">EUR/kg</span></div>
+                                <div class="text-gray-600 mt-1">SMP (May 23, 2025)</div>
+                                <div class="kpi-change negative-change">-0.43% vs Prev. Fortnight</div>
+                            </div>
+                        </div>
+                        <div class="chart-container mx-auto h-80 md:h-96 max-w-xl">
+                            <canvas id="butterSmpChart"></canvas>
+                        </div>
+                        <p class="text-gray-700 mb-4">Butter prices remain buoyant due to tight supplies and robust demand for milk fat. Conversely, SMP continues its downward trend, reflecting an imbalance in milk solids supply and demand. This divergence is largely a consequence of EU processors prioritizing cheese production, which reduces milk availability for butter and powders, impacting their respective price dynamics.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-semibold darker-blue mb-4">Cheddar Cheese</h3>
+                         <div class="kpi-card mb-6">
+                            <div class="kpi-value accent-green">4.633 <span class="kpi-unit">EUR/kg</span></div>
+                            <div class="text-gray-600 mt-1">Cheddar (May 18, 2025)</div>
+                            <div class="kpi-change positive-change">+0.6% vs Prev. Week</div>
+                        </div>
+                        <p class="text-gray-700 mb-4">After an earlier slump, EU cheddar cheese prices showed a modest rebound in May, suggesting market stabilization. This occurs despite processors prioritizing cheese production (forecasted +0.6% growth in 2025). The recent price uptick implies that market demand is effectively absorbing the increased supply, possibly after an initial adjustment period or stimulated by lower prices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="supply-demand" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">Supply & Demand Dynamics</h2>
+                <p class="mb-8 text-gray-700">The European dairy market in 2025 is shaped by constrained supply due to structural limitations and evolving, somewhat uncertain, demand patterns both globally and domestically.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">Supply Trends</h3>
+                        <ul class="bullet-list list-inside space-y-2 text-gray-700 mb-6">
+                            <li>EU milk production forecast to decline by <strong>-0.2%</strong> in 2025 (to 149.4 MMT).</li>
+                            <li>Jan-Mar 2025 milk production down <strong>-1.8%</strong> YoY. Germany (-3.7%), France (-3.1%).</li>
+                            <li>Drivers: Declining herds, tight margins, environmental regulations (Green Deal), disease.</li>
+                            <li>Strategic Shift: Cheese production <strong>+0.6%</strong>, Butter <strong>-1%</strong>, SMP <strong>-4%</strong>, WMP <strong>-5%</strong>.</li>
+                        </ul>
+                        <div class="chart-container mx-auto h-80 md:h-96 max-w-xl">
+                            <canvas id="milkProductionChangeChart"></canvas>
+                        </div>
+                         <p class="text-gray-700 mt-4">The chart above illustrates the forecasted percentage change in production for key EU dairy products in 2025, highlighting the strategic shift towards cheese.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">Demand Trends</h3>
+                         <ul class="bullet-list list-inside space-y-2 text-gray-700 mb-6">
+                            <li>Global demand remains "shaky"; China's import appetite is a key variable (+2% forecast after 3-year decline).</li>
+                            <li>EU dairy exports grew <strong>+8%</strong> in value (Jan 2025), largely due to price gains.</li>
+                            <li>EU fluid milk consumption continues long-term decline (<strong>-0.3%</strong> in 2025).</li>
+                            <li>EU consumer confidence up <strong>+1.4 pp</strong> in May 2025, but still below long-term average.</li>
+                        </ul>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="kpi-card">
+                                <div class="kpi-value primary-blue">+2%</div>
+                                <div class="text-gray-600 mt-1">Forecast China Dairy Import Growth 2025</div>
+                            </div>
+                             <div class="kpi-card">
+                                <div class="kpi-value primary-blue">-0.3%</div>
+                                <div class="text-gray-600 mt-1">Forecast EU Fluid Milk Consumption Change 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="text-xl font-semibold darker-blue mt-8 mb-4">Market Implications:</h3>
+                <p class="text-gray-700 mb-4">The marginal decline in EU milk production reflects deep structural challenges, implying a long-term recalibration of supply capacity. This could underpin higher domestic prices and influence global trade. </p>
+                <p class="text-gray-700">The processors' shift to prioritize cheese fundamentally alters other product availability, creating tightness in butter and potential oversupply in powders, leading to divergent prices and new trade opportunities.</p>
+            </div>
+        </section>
+
+        <section id="feed-market" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">Feed Market Impact on EU Dairy</h2>
+                <p class="mb-8 text-gray-700">Feed costs significantly impact dairy farmer margins. May 2025 shows some stabilization, but new tariffs on Russian/Belarusian imports (effective July 1, 2025) are a major concern, expected to increase input costs.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">Selected EU Feed Ingredient Prices (May 2025, Approx. EUR/KG)</h3>
+                        <div class="chart-container mx-auto h-96 md:h-[450px] max-w-xl">
+                            <canvas id="feedPricesChart"></canvas>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 text-center">Note: Prices are approximate and subject to market fluctuations. Conversions applied where necessary.</p>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">Key Feed Market Factors:</h3>
+                        <ul class="bullet-list list-inside space-y-3 text-gray-700">
+                            <li>Overall input costs (energy, feed) remain <strong>29% above pre-crisis levels</strong> despite some easing.</li>
+                            <li><strong>New EU Tariffs:</strong> Approved on Russian/Belarusian agricultural products (animal feed, fertilizers), effective July 1, 2025.
+                                <ul class="list-disc list-inside ml-6 mt-1 text-sm">
+                                    <li>50% increase on some products.</li>
+                                    <li>Fertilizer duties: €40-€45/ton (2025-2026).</li>
+                                    <li>Russia supplies 25% of EU's nitrogen-based fertilizers.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <h4 class="text-lg font-semibold darker-blue mt-6 mb-2">Commentary:</h4>
+                        <p class="text-gray-700">While some feed ingredient prices have stabilized, the overall cost environment for EU dairy farmers remains significantly elevated. The new EU tariffs on Russian/Belarusian agricultural products and fertilizers are expected to directly increase input costs from July 2025, further squeezing farmer margins and potentially leading to higher domestic dairy product prices. This highlights how geopolitical decisions can have immediate economic consequences for the agricultural sector.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="geopolitical-macroeconomic" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">Geopolitical & Macroeconomic Factors</h2>
+                <p class="mb-8 text-gray-700">The EU dairy market is influenced by trade relations, domestic economic conditions, and currency fluctuations.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">Geopolitical Factors</h3>
+                        <ul class="bullet-list list-inside space-y-2 text-gray-700">
+                            <li><strong>US-EU Trade Tensions:</strong> US imposed 20% tariffs on EU dairy imports (eff. Apr 9, 2025), impacting premium products.</li>
+                            <li><strong>EU-UK Trade:</strong> New SPS agreement (May 21, 2025) aims to ease food/dairy border checks.</li>
+                            <li><strong>Russia/Belarus Tariffs:</strong> New EU tariffs on agri-products (feed, fertilizers) from July 2025.</li>
+                            <li><strong>Disease Risks:</strong> HPAI in US cattle, Bluetongue in Europe pose ongoing supply risks.</li>
+                            <li><strong>Global Conflicts:</strong> War in Ukraine continues to disrupt supply chains.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">Macroeconomic Factors (EU)</h3>
+                        <ul class="bullet-list list-inside space-y-2 text-gray-700">
+                            <li><strong>Inflation (Apr 2025):</strong> Euro area annual rate stable at 2.2%. Food contributed +0.57pp. Overall 2025 forecast: 2.1%.</li>
+                            <li><strong>Economic Growth (2025):</strong> EU economy projected +1.1%.</li>
+                            <li><strong>Consumer Confidence (May 2025):</strong> Increased +1.4pp but remains markedly below long-term average.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold darker-blue mb-4">FX Markets (EUR/USD)</h3>
+                        <ul class="bullet-list list-inside space-y-2 text-gray-700">
+                            <li><strong>May 23, 2025 Rate:</strong> EUR 1 = USD 1.1301.</li>
+                            <li><strong>May 2025 Forecast Range:</strong> 1.1300 - 1.1530.</li>
+                            <li><strong>Impact:</strong> Strong Euro + US tariffs make EU dairy effectively ~3% more expensive vs US products, reducing export competitiveness.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="outlook" class="mb-16">
+            <div class="stat-card">
+                <h2 class="text-3xl font-semibold primary-blue mb-6 pb-2 border-b-2 border-accent-green">Outlook & Key Considerations</h2>
+                <p class="mb-6 text-gray-700">The European dairy market in May 2025 is characterized by a "fragile balance." Adaptability, rather than broad-based expansion, is key in this new era of constrained growth. The market is transitioning into a period where strategic adaptation and robust risk management will be paramount.</p>
+                <h3 class="text-xl font-semibold darker-blue mb-4">Key Factors to Monitor:</h3>
+                <ul class="bullet-list grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-gray-700">
+                    <li>Global demand evolution (especially China's import appetite).</li>
+                    <li>EU policy & regulatory landscape (CAP, Green Deal).</li>
+                    <li>Trade policy developments (US tariffs, UK-EU SPS agreement).</li>
+                    <li>Input cost volatility (impact of new EU tariffs on feed/fertilizers).</li>
+                    <li>Disease outbreaks (HPAI, Bluetongue).</li>
+                    <li>FX rate fluctuations (EUR/USD impact on export competitiveness).</li>
+                </ul>
+                <p class="mt-8 text-sm text-gray-600 italic">This analysis provides market observations for informational purposes only. It does not constitute investment or trading advice. Decisions should be based on independent research and professional consultation.</p>
+            </div>
+        </section>
+
+        <footer class="py-8 text-center">
+            <div class="stat-card">
+                <h2 class="text-2xl font-semibold primary-blue mb-4">Sources</h2>
+                <div class="text-left text-xs text-gray-600 space-y-1 px-4 max-h-60 overflow-y-auto">
+                    <p><strong>Primary Price Data:</strong> European Commission (EC) / Milk Market Observatory (MMO) via various aggregators (dairynews.today, avm-ua.org, CLAL.it), European Central Bank (ECB).</p>
+                    <p><strong>Market Commentary & Broader Context:</strong> DairyNews.today, The Bullvine, AVM-UA.org, European Dairy Association (EDA), AMS.USDA.gov, CLAL.it, GlobalDairyTrade.info, TradingEconomics.com, EC.Europa.eu (Eurostat, DG Agri), FAS.USDA.gov, Stat.si, Wodnesprawy.pl, UkrAgroConsult.com, FAS.scot, LiteFinance.org, Rabobank.com, AHDB.org.uk, FoodSafetyNews.com, PRO-E.org, Vespertool.com, GrainCentral.com, Commodity-Board.com, Barchart.com, Enga.org, Knews.kathimerini.com.cy, Essfeed.com, IFCNdairy.org, Europarl.europa.eu, ADM-Agri.co.uk, IMARCGroup.com, CMEGroup.com, UK.news.yahoo.com, and other cited sources from the original report.</p>
+                    <p class="mt-2 italic">Full list of numbered citations available in the original "European Dairies: May 2025 Analysis" report.</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-8">&copy; May 2025 - European Dairy Market Analysis Infographic. For illustrative purposes.</p>
+        </footer>
+
+    </main>
+
+<script>
+    const primaryBlue = '#3791d1';
+    const accentGreen = '#afcd37';
+    const darkerBlue = '#005aaa';
+    const textGray = '#4a5568';
+
+    function processLabel(label, maxLength = 16) {
+        if (label.length <= maxLength) {
+            return label;
+        }
+        const words = label.split(' ');
+        const lines = [];
+        let currentLine = '';
+        for (const word of words) {
+            if ((currentLine + word).length > maxLength && currentLine.length > 0) {
+                lines.push(currentLine.trim());
+                currentLine = word + ' ';
+            } else {
+                currentLine += word + ' ';
+            }
+        }
+        lines.push(currentLine.trim());
+        return lines;
+    }
+
+    const tooltipTitleCallback = function(tooltipItems) {
+        const item = tooltipItems[0];
+        let label = item.chart.data.labels[item.dataIndex];
+        if (Array.isArray(label)) {
+            return label.join(' ');
+        } else {
+            return label;
+        }
+    };
+
+    const commonChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textGray,
+                    font: { family: 'Montserrat' }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    title: tooltipTitleCallback
+                },
+                titleFont: { family: 'Montserrat' },
+                bodyFont: { family: 'Montserrat' }
+            }
+        },
+        scales: {
+            x: {
+                ticks: { color: textGray, font: { family: 'Montserrat' } },
+                grid: { display: false }
+            },
+            y: {
+                ticks: { color: textGray, font: { family: 'Montserrat' } },
+                grid: { color: '#e0e0e0', borderDash: [2, 5] }
+            }
+        }
+    };
+    
+    // Raw Milk Price Chart (REMOVED)
+
+    // Butter & SMP Chart
+    const butterSmpCtx = document.getElementById('butterSmpChart').getContext('2d');
+    new Chart(butterSmpCtx, {
+        type: 'bar',
+        data: {
+            labels: [processLabel('Butter (Apr 28)'), processLabel('SMP (May 23, Low)'), processLabel('SMP (May 23, High)')],
+            datasets: [{
+                label: 'Price (EUR/kg)',
+                data: [7.61, 2.323, 2.478],
+                backgroundColor: [accentGreen, darkerBlue, primaryBlue],
+                borderColor: [accentGreen, darkerBlue, primaryBlue],
+                borderWidth: 1
+            }]
+        },
+        options: { ...commonChartOptions, indexAxis: 'y' }
+    });
+
+    // Cheddar Price Chart (REMOVED)
+
+    // Milk Production Change Chart (Product Prioritization)
+    const milkProductionChangeCtx = document.getElementById('milkProductionChangeChart').getContext('2d');
+    new Chart(milkProductionChangeCtx, {
+        type: 'bar',
+        data: {
+            labels: [processLabel('Cheese'), processLabel('Butter'), processLabel('SMP'), processLabel('WMP')],
+            datasets: [{
+                label: 'Forecasted Production Change 2025 (%)',
+                data: [0.6, -1, -4, -5],
+                backgroundColor: [accentGreen, primaryBlue, darkerBlue, '#cccccc'],
+            }]
+        },
+        options: { ...commonChartOptions, 
+            scales: {
+                ...commonChartOptions.scales,
+                y: {
+                    ...commonChartOptions.scales.y,
+                    title: { display: true, text: '% Change', color: textGray, font: { family: 'Montserrat' }}
+                }
+            }
+        }
+    });
+    
+    // Feed Prices Chart
+    const feedPricesCtx = document.getElementById('feedPricesChart').getContext('2d');
+    new Chart(feedPricesCtx, {
+        type: 'bar',
+        data: {
+            labels: [processLabel('Corn'), processLabel('Soybean Meal (Non-GM, Low)'), processLabel('Soybean Meal (Non-GM, High)'), processLabel('Wheat (UK Feed)'), processLabel('Barley (EC Track)')],
+            datasets: [{
+                label: 'Price (EUR/kg)',
+                data: [0.154, 0.495, 0.510, 0.192, 0.305],
+                backgroundColor: [primaryBlue, accentGreen, accentGreen, darkerBlue, '#FDBA74'],
+                borderColor: [primaryBlue, accentGreen, accentGreen, darkerBlue, '#FDBA74'],
+                borderWidth: 1
+            }]
+        },
+        options: { ...commonChartOptions, indexAxis: 'y' }
+    });
+
+</script>
+</body>
+</html>
