@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>European Dairies: July 2025 Analysis</title>
+    <title>European Dairies: August 2025 Analysis</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -120,6 +120,11 @@
             color: var(--color-primary-dark-blue);
             margin-bottom: 1rem;
         }
+        /* Explicit styling for strong tags to ensure bolding */
+        strong {
+            font-weight: 700 !important; /* Use !important to override any potential conflicts */
+            color: var(--color-primary-dark-blue); /* Make bold text clearly visible */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
@@ -127,7 +132,7 @@
     <header class="bg-white py-8 shadow-lg">
         <div class="container mx-auto px-6 text-center">
             <div class="company-name">Bayerische Milchindustrie eG</div>
-            <h1 class="text-4xl font-bold" style="color: var(--color-primary-dark-blue);">European Dairies: July 2025 Analysis</h1>
+            <h1 class="text-4xl font-bold" style="color: var(--color-primary-dark-blue);">European Dairies: August 2025 Analysis</h1>
             <p class="text-xl text-gray-600 mt-2">Market Updates</p>
         </div>
     </header>
@@ -137,14 +142,14 @@
         <section id="executive-summary" class="mb-16">
             <div class="stat-card">
                 <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Executive Summary & Key Highlights</h2>
-                <p class="mb-6 text-lg" style="color: var(--color-text-medium);">The European dairy market in July 2025 continues to navigate a complex landscape, characterized by seasonal production shifts, evolving demand, and persistent macroeconomic influences. While overall market sentiment remains stable, specific product categories show varied performance.</p>
-                <h3 style="color: var(--color-primary-dark-blue);">Key Market Observations:</h3>
+                <p class="mb-6 text-lg" style="color: var(--color-text-medium);">The European dairy market in August 2025 continues to be influenced by seasonal factors, global trade dynamics, and specific product-category performance. Overall market conditions are generally stable, with some notable shifts.</p>
+                <h3 style="color: var(--color-primary-dark-blue);">Key Market Observations (Week 33 / 17-20.08.2025):</h3>
                 <ul class="bullet-list list-inside space-y-3" style="color: var(--color-text-medium);">
-                    <li><strong>EU Milk Deliveries:</strong> Cooler summer weather in some German regions is slowing the typical seasonal decline in milk volumes, whereas other parts of the EU are being affected by heatwaves, which could impact production. Jan-May 2025 EU milk collected is down 0.8% YoY.</li>
-                    <li><strong>Raw Milk Prices:</strong> The Weighted EU Average for raw milk was 53.1 €/100kg up to June 2025. Italian spot prices (Lodi) were 65.8 €/100kg as of July 20.</li>
-                    <li><strong>Product Category Performance:</strong> Butter prices remain strong. SMP and WMP show slight weekly declines but are up year-on-year. Cheese markets (Cheddar, Gouda, Edam, Emmental) show mixed signals with some weekly fluctuations.</li>
-                    <li><strong>Input Costs:</strong> Feed costs are slightly down, while energy costs are slightly up compared to the average of the previous 4 weeks (Week 29).</li>
-                    <li><strong>FX Rates:</strong> The Euro has maintained relative stability against major currencies through July 2025 (EUR/USD 1.1699 as of 23.07.25).</li>
+                    <li><strong>EU Milk Deliveries:</strong> The seasonal decline in milk supply has slowed slightly. EU milk collected for Jan-Jun 2025 is up 0.6% YoY.</li>
+                    <li><strong>Raw Milk Prices:</strong> The Weighted EU Average for raw milk in June 2025 was 52.9 €/100kg. Italian spot prices (Lodi) were 58.8 €/100kg as of August 17.</li>
+                    <li><strong>Product Category Performance:</strong> Butter prices are firm, with packed butter showing good demand. Powder markets are mixed; SMP stable, WMP slightly down. Cheese markets (Emmental, Schnittkäse) show good demand.</li>
+                    <li><strong>Input Costs:</strong> Feed costs are slightly down (-0.2%), while energy costs are more significantly down (-3.0%) compared to the average of the previous 4 weeks (Week 33).</li>
+                    <li><strong>FX Rates:</strong> The Euro has maintained relative stability against the USD (EUR/USD 1.1682 as of 20.08.25).</li>
                 </ul>
             </div>
         </section>
@@ -152,88 +157,88 @@
         <section id="raw-milk-market" class="mb-16">
             <div class="stat-card">
                 <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">EU Raw Milk Market Overview</h2>
-                <p class="mb-6" style="color: var(--color-text-medium);">The raw milk market in the European Union in July 2025 shows continued stability in pricing, reflecting persistent cost pressures and strategic processor demand. Cooler summer weather in some German regions is impacting the typical seasonal decline in milk volumes, while heatwaves in other EU areas pose potential challenges.</p>
+                <p class="mb-6" style="color: var(--color-text-medium);">The raw milk market in the European Union in August 2025 shows a slowed seasonal decline in supply, contributing to firm prices. Overall production trends indicate slight growth year-on-year for the first half of 2025.</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                     <div class="kpi-card">
-                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">53.1 <span class="kpi-unit">€/100kg</span></div>
-                        <div class="text-gray-600 mt-1">Weighted EU Avg. (up to Jun 2025)</div>
-                        <div class="kpi-change positive-change">Stable MoM, Strong YoY</div>
+                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">52.9 <span class="kpi-unit">€/100kg</span></div>
+                        <div class="text-gray-600 mt-1">Weighted EU Avg. (Jun 2025)</div>
+                        <div class="kpi-change negative-change">-0.3% MoM</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">65.8 <span class="kpi-unit">€/100kg</span></div>
-                        <div class="text-gray-600 mt-1">IT Lodi Spot Price (20 Jul)</div>
-                        <div class="kpi-change neutral-change">Fluctuating</div>
+                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">58.8 <span class="kpi-unit">€/100kg</span></div>
+                        <div class="text-gray-600 mt-1">IT Lodi Spot Price (17 Aug)</div>
+                        <div class="kpi-change positive-change">Up from July</div>
                     </div>
                     <div class="kpi-card">
-                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">-0.8%</div>
-                        <div class="text-gray-600 mt-1">Jan-May 2025 EU Milk Collected YoY</div>
-                        <div class="kpi-change negative-change">Slight Decline</div>
+                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">+0.6%</div>
+                        <div class="text-gray-600 mt-1">Jan-Jun 2025 EU Milk Collected YoY</div>
+                        <div class="kpi-change positive-change">Slight Growth</div>
                     </div>
                 </div>
-                <p style="color: var(--color-text-medium);">The EU average raw milk price remains stable at elevated levels. Italian spot prices show some volatility but remain firm. Overall EU milk collection for Jan-May 2025 is slightly down year-on-year. The cooler summer weather in certain German regions is slowing the typical seasonal decline in milk volumes, while the impact of heatwaves in other parts of the EU will be a key factor to monitor for overall milk supply in the coming weeks. Additionally, last year's Bluetongue disease outbreak shifted calving periods, potentially leading to a "second milk peak" later in the year.</p>
+                <p style="color: var(--color-text-medium);">The seasonal decline in milk deliveries has slowed, with milk supply exceeding last year's level by 2.2% (ZMB Quick Report). Prices in the liquid market have firmed up, with higher prices for industrial cream and skimmed milk concentrate. Whey concentrate continues to be traded at high prices, indicating strong demand from derivative production.</p>
             </div>
         </section>
 
         <section id="key-dairy-products" class="mb-16">
             <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Key Dairy Product Prices (Week ending 20/07/2025)</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">The EU dairy product market in July shows a split performance with strong butter and mixed signals for powders and cheeses.</p>
+                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Key Dairy Product Prices (Week 33 / 17-20.08.2025)</h2>
+                <p class="mb-8" style="color: var(--color-text-medium);">The EU dairy product market in August shows continued strong performance for butter and mixed trends for powders and cheeses.</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <h3 style="color: var(--color-primary-dark-blue);">Butter & Milk Powders</h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">7.34 <span class="kpi-unit">€/kg</span></div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">7.23 <span class="kpi-unit">€/kg</span></div>
                                 <div class="text-gray-600 mt-1">Butter</div>
-                                <div class="kpi-change positive-change">+0.3% (LW), +12% (Y-1)</div>
+                                <div class="kpi-change positive-change">+0.4% (LW)</div>
                             </div>
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">2.38 <span class="kpi-unit">€/kg</span></div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">2.39 <span class="kpi-unit">€/kg</span></div>
                                 <div class="text-gray-600 mt-1">SMP</div>
-                                <div class="kpi-change negative-change">-0.5% (LW), +1% (Y-1)</div>
+                                <div class="kpi-change neutral-change">+0.0% (LW)</div>
                             </div>
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.27 <span class="kpi-unit">€/kg</span></div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.18 <span class="kpi-unit">€/kg</span></div>
                                 <div class="text-gray-600 mt-1">WMP</div>
-                                <div class="kpi-change negative-change">-0.3% (LW), +12% (Y-1)</div>
+                                <div class="kpi-change negative-change">-2.1% (LW)</div>
                             </div>
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">0.94 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Whey Powder</div>
-                                <div class="kpi-change negative-change">-0.1% (LW), +16% (Y-1)</div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~0.97 <span class="kpi-unit">€/kg</span></div>
+                                <div class="text-gray-600 mt-1">Whey Powder (Est.)</div>
+                                <div class="kpi-change positive-change">Slightly firm (Market Report)</div>
                             </div>
                         </div>
                         <div class="chart-container mx-auto h-80 md:h-96 max-w-xl">
                             <canvas id="commodityPriceChart"></canvas>
                         </div>
-                        <p style="color: var(--color-text-medium);">Butter prices remain firm, with good sales for consumer packs, though block butter market is quiet due to holiday-reduced demand. Whole milk powder is stable. Skimmed milk powder (food grade) is slightly weaker, while feed grade is less demanded. Whey derivatives show good demand and stable prices.</p>
+                        <p style="color: var(--color-text-medium);">Packed butter shows good demand due to the holiday season, with expected increases in trade orders post-holidays. 25kg block butter saw a slight price increase, but buyers are observing price developments. Food-grade whole milk powder was slightly reduced in a quiet market. Skimmed milk powder (food grade) saw slight reductions in the lower range, with some market revival due to buyers returning from holidays. The strong Euro exchange rate complicates sales for European exporters. Feed-grade skimmed milk powder demand has calmed, while food-grade whey powder has firmed up. The high whey concentrate price is notable for feed-grade whey powder, with a significant increase of 50 €/t, likely due to strong demand for derivative production.</p>
                     </div>
                     <div>
                         <h3 style="color: var(--color-primary-dark-blue);">Cheese</h3>
                          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.61 <span class="kpi-unit">€/kg</span></div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.53 <span class="kpi-unit">€/kg</span></div>
                                 <div class="text-gray-600 mt-1">Cheddar</div>
-                                <div class="kpi-change negative-change">-0.5% (LW), +18% (Y-1)</div>
+                                <div class="kpi-change negative-change">-0.8% (LW)</div>
                             </div>
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.86 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Gouda</div>
-                                <div class="kpi-change positive-change">+0.1% (LW), +11% (Y-1)</div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~4.86 <span class="kpi-unit">€/kg</span></div>
+                                <div class="text-gray-600 mt-1">Gouda (Est.)</div>
+                                <div class="kpi-change neutral-change">Stable (Market Report)</div>
                             </div>
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">6.40 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Emmental</div>
-                                <div class="kpi-change positive-change">+2.3% (LW), +11% (Y-1)</div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~6.40 <span class="kpi-unit">€/kg</span></div>
+                                <div class="text-gray-600 mt-1">Emmental (Est.)</div>
+                                <div class="kpi-change neutral-change">Stable (Market Report)</div>
                             </div>
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.77 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Edam</div>
-                                <div class="kpi-change positive-change">+1.1% (LW), +10% (Y-1)</div>
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~4.77 <span class="kpi-unit">€/kg</span></div>
+                                <div class="text-gray-600 mt-1">Edam (Est.)</div>
+                                <div class="kpi-change neutral-change">Stable (Market Report)</div>
                             </div>
                         </div>
-                        <p style="color: var(--color-text-medium);">Emmentaler prices saw a significant weekly increase due to very good demand and improving availability. Demand for Schnittkäse (cut cheese) from Southern Europe is very high due to holiday season. The market for cut cheese is balanced, though chaotic customs disputes and a slightly weaker USD exchange rate cause some uncertainty for third-country exports.</p>
+                        <p style="color: var(--color-text-medium);">Allgäuer Emmental, Emmental, and semi-hard cheeses were continued at the previous week's prices. Sales for both cheese types are very good. The Schnittkäse (cut cheese) market remains balanced, with demand matching available supply. Cheese stocks show normal age structure and inventory levels. Good volumes continue to flow to holiday regions, and the food service sector saw increased orders due to good weather. The end of holidays in some German states is partially noticeable in catering. Retail trade is drawing off goods normally due to the holiday season. The third-country market remains inconsistent, primarily due to the strong Euro, leading to ongoing price discussions.</p>
                     </div>
                 </div>
             </div>
@@ -242,91 +247,84 @@
         <section id="supply-demand" class="mb-16">
             <div class="stat-card">
                 <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Supply & Demand Dynamics</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">The European dairy market's dynamics in July 2025 are shaped by seasonal shifts in milk collection, persistent supply constraints, and evolving demand patterns.</p>
+                <p class="mb-8" style="color: var(--color-text-medium);">The European dairy market's dynamics in August 2025 are shaped by a slowed seasonal decline in milk collection, global trade, and evolving demand patterns. Overall EU milk collected (Jan-Jun 2025) shows a slight increase of +0.6% compared to the same period in 2024.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
                         <h3 style="color: var(--color-primary-dark-blue);">Supply Trends</h3>
                         <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Cooler summer weather in some German regions is slowing the typical seasonal decline in milk volumes.</li>
-                            <li>Heatwaves in other parts of the EU could impact overall milk production.</li>
-                            <li>Potential for a "second milk peak" later in the year due to last year's Bluetongue disease outbreak shifting calving periods.</li>
-                            <li>Overall EU milk collected Jan-May 2025 is <strong>-0.8%</strong> compared to Jan-May 2024.</li>
-                            <li>EU production of Condensed Milk is down <strong>-11.6%</strong> (Jan-May 2025 vs 2024).</li>
+                            <li>The seasonal decline in milk deliveries has **slowed** somewhat (0.1% less milk delivered than previous week, but 2.2% above last year's level).</li>
+                            <li>**Jan-Jun 2025 EU milk collected:** **+0.6%** compared to Jan-Jun 2024 (leap year adjusted: -0.04%).</li>
+                            <li>**Germany (DE):** Jan-Jun 2025 milk collected: **-2.5%** YoY.</li>
+                            <li>**France (FR):** Jan-Jun 2025 milk collected: **-0.8%** YoY.</li>
+                            <li>**Italy (IT):** Jan-Jun 2025 milk collected: **+0.1%** YoY.</li>
+                            <li>**Netherlands (NL):** Jan-Jun 2025 milk collected: **-1.7%** YoY.</li>
+                            <li>**Ireland (IE):** Jan-Jun 2025 milk collected: **+7.0%** YoY.</li>
+                            <li>EU productions (Jan-May 2025 vs Jan-May 2024):
+                                <ul>
+                                    <li>Raw Milk: **-0.7%**</li>
+                                    <li>Butter: **+1.1%**</li>
+                                    <li>SMP: **-3.0%**</li>
+                                    <li>WMP: **+2.4%**</li>
+                                    <li>Cream: **-2.4%**</li>
+                                    <li>Condensed Milk: **-11.6%**</li>
+                                    <li>Drinking Milk: **-2.3%**</li>
+                                    <li>Fermented Milk: **+0.5%**</li>
+                                    <li>Cheese: **+0.5%**</li>
+                                </ul>
+                            </li>
                         </ul>
                         <div class="chart-container mx-auto h-80 md:h-96 max-w-xl">
-                            <canvas id="productionOutlookChart"></canvas>
+                            <canvas id="productionChangeChart"></canvas>
                         </div>
-                         <p class="mt-4" style="color: var(--color-text-medium);">The chart above illustrates the production changes for key EU dairy products (Jan-May 2025 vs 2024).</p>
+                         <p class="mt-4" style="color: var(--color-text-medium);">This chart illustrates the year-on-year production changes for key EU dairy products (Jan-May 2025 vs 2024).</p>
                     </div>
                     <div>
                         <h3 style="color: var(--color-primary-dark-blue);">Demand Trends</h3>
                          <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Global dairy import demand, particularly from China, shows cautious recovery (forecasted <strong>+2.5%</strong> for Jan-Mar 2025).</li>
-                            <li>EU domestic consumption for butter and cream remains strong.</li>
-                            <li>Demand for dairy ingredients in the food manufacturing sector is stable, with increased activity expected from confectionery due to lower cocoa prices.</li>
-                            <li>High demand for Schnittkäse from Southern Europe due to holiday season.</li>
+                            <li>Good demand for **packed butter** due to the holiday season.</li>
+                            <li>**Food service** sector saw increased orders due to good weather.</li>
+                            <li>**Confectionery industry** expected to show increased activity due to falling cocoa prices, potentially boosting demand for milk powders.</li>
+                            <li>High demand for **Schnittkäse** (cut cheese) from Southern European holiday regions.</li>
+                            <li>Third-country export market remains **inconsistent** due to the strong Euro.</li>
                         </ul>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">2.5%</div>
-                                <div class="text-gray-600 mt-1">China Dairy Import Recovery (Jan-Mar 2025 Fcst.)</div>
-                            </div>
-                             <div class="kpi-card">
                                 <div class="kpi-value" style="color: var(--color-primary-dark-blue);">Stable</div>
                                 <div class="text-gray-600 mt-1">EU Butter/Cream Demand</div>
+                            </div>
+                             <div class="kpi-card">
+                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">High</div>
+                                <div class="text-gray-600 mt-1">Schnittkäse Demand (S. Europe)</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <h3 style="color: var(--color-primary-dark-blue); border-bottom-color: var(--color-primary-lime-green);">Market Implications:</h3>
-                <p class="mb-4" style="color: var(--color-text-medium);">The slower decline in milk volumes in some regions, potentially leading to a second peak, could influence supply dynamics later in the year. Heatwaves in other areas will need close monitoring for their impact on overall milk supply. Strong domestic demand for certain products like butter and cheese, coupled with cautious global recovery, will shape processor strategies. The increased activity from the confectionery industry due to lower cocoa prices could provide additional demand for milk powders.</p>
-            </div>
-        </section>
-
-        <section id="organic-milk" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Organic Milk Market Snapshot</h2>
-                <p class="mb-6" style="color: var(--color-text-medium);">The organic milk sector maintains its premium position with stable demand, particularly in Northern and Western Europe.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Market Position</h3>
-                        <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Organic production accounts for approximately <strong>3.5%</strong> of total EU milk deliveries.</li>
-                            <li>Prices maintain a significant premium over conventional milk.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Demand & Outlook</h3>
-                        <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Demand is <strong>stable</strong>, especially in Northern and Western Europe.</li>
-                            <li>Input cost relief is supporting farm profitability in the organic sector.</li>
-                        </ul>
-                    </div>
-                </div>
+                <p class="mb-4" style="color: var(--color-text-medium);">The slowed seasonal decline and slight year-on-year increase in EU milk collection provide a robust supply foundation. Strong internal demand for butter and cheese, especially from holiday regions and food service, is supporting prices. However, the strong Euro continues to be a hurdle for exports to non-EU countries, leading to price discussions and an inconsistent market in this segment. The return of buyers post-holidays might stimulate milk powder markets.</p>
             </div>
         </section>
 
         <section id="feed-market" class="mb-16">
             <div class="stat-card">
                 <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Feed Market Impact on EU Dairy</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">Feed and energy costs remain crucial factors for dairy farm profitability. While generally stable, recent trends show mixed movements.</p>
+                <p class="mb-8" style="color: var(--color-text-medium);">Feed and energy costs remain crucial factors for dairy farm profitability. August data shows a general easing in these costs compared to earlier in the summer.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Key Input Cost Trends (Week 29 / 20.07.2025):</h3>
+                        <h3 style="color: var(--color-primary-dark-blue);">Key Input Cost Trends (Week 33 / 17.08.2025):</h3>
                         <ul class="bullet-list list-inside space-y-3" style="color: var(--color-text-medium);">
-                            <li>Feed costs: <strong>-0.9%</strong> (compared to average of previous 4 weeks).</li>
-                            <li>Energy costs: <strong>+1.4%</strong> (compared to average of previous 4 weeks).</li>
-                            <li>Europe Brent Spot Price (Oil): <strong>71.0 USD/Barrel</strong> (20.07.25).</li>
+                            <li>Feed costs: **-0.2%** (compared to average of previous 4 weeks).</li>
+                            <li>Energy costs: **-3.0%** (compared to average of previous 4 weeks).</li>
+                            <li>Europe Brent Spot Price (Oil): **67.4 USD/Barrel** (17.08.25).</li>
                         </ul>
                         <div class="chart-container mx-auto h-96 md:h-[450px] max-w-xl">
                             <canvas id="feedPricesChart"></canvas>
                         </div>
-                        <p class="text-xs text-gray-500 mt-2 text-center">Note: Chart data for feed prices are illustrative estimates based on the provided percentage changes.</p>
+                        <p class="text-xs text-gray-500 mt-2 text-center">Note: Chart data for feed and energy costs reflect week-on-week changes.</p>
                     </div>
                     <div>
                         <h4 style="color: var(--color-primary-dark-blue);">Commentary:</h4>
-                        <p style="color: var(--color-text-medium);">The slight decrease in feed costs offers some relief to dairy farmers, supporting margins. However, the increase in energy costs indicates ongoing volatility in agricultural inputs. The overall market conditions for feed are generally quiet due to the holiday season. The slight decrease in the USD exchange rate has not yet provided additional export impulses for third countries, which could impact demand for certain dairy products.</p>
+                        <p style="color: var(--color-text-medium);">The slight decrease in feed costs and a more significant drop in energy costs offer relief to dairy farmers, potentially improving farm margins. This positive trend for input costs provides a more favorable environment heading into the autumn. The market for feed-grade skimmed milk powder has also calmed down compared to previous weeks.</p>
                     </div>
                 </div>
             </div>
@@ -340,23 +338,25 @@
                     <div>
                         <h3 style="color: var(--color-primary-dark-blue);">FX Rates (EUR)</h3>
                         <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>EUR/USD Exchange Rate: <strong>1.1699</strong> (Last Update: 23.07.25).</li>
-                            <li>The Euro has maintained relative <strong>stability</strong> against major currencies through July 2025.</li>
-                            <li>A stronger euro could weigh on EU export competitiveness, while a weaker euro supports exports.</li>
+                            <li>EUR/USD Exchange Rate: **1.1682** (Last Update: 20.08.25).</li>
+                            <li>The strong Euro makes it challenging for European exporters to sell goods to third countries, leading to price discussions.</li>
                         </ul>
                     </div>
                     <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Trade & Customs</h3>
+                        <h3 style="color: var(--color-primary-dark-blue);">Trade & Demand</h3>
                         <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Chaotic customs disputes are causing some uncertainty in the market.</li>
-                            <li>The slightly decreased USD exchange rate has not yet provided additional impulses for exports to third countries.</li>
+                            <li>Overall market conditions are generally **quiet** due to the holiday period.</li>
+                            <li>First buyers are returning from holidays, potentially leading to a slight revival in demand for skimmed milk powder.</li>
+                            <li>No whole milk powder is expected from the Algeria tender out of the EU.</li>
                         </ul>
                     </div>
                     <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Economic Outlook</h3>
+                        <h3 style="color: var(--color-primary-dark-blue);">Global Outlook</h3>
                         <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Overall market conditions are generally quiet due to the holiday period.</li>
-                            <li>Demand uncertainty remains in key export markets, notably China, influenced by global economic growth.</li>
+                            <li>**NZ milk production (Jun-May 2024/25):** **+2.3%** YoY.</li>
+                            <li>**US milk production (Jan-May 2025):** **+0.3%** YoY.</li>
+                            <li>**Australian milk production (Jul-May 2024/25):** **-0.4%** YoY.</li>
+                            <li>Global dairy trade auction (19 Aug 2025): average price **-$3,676 USD/MT**, **-0.3%** from previous.</li>
                         </ul>
                     </div>
                 </div>
@@ -366,14 +366,14 @@
         <section id="outlook" class="mb-16">
             <div class="stat-card">
                 <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Summary & Outlook</h2>
-                <p class="mb-6" style="color: var(--color-text-medium);">EU dairy markets in July 2025 are characterized by firm raw milk and butter prices, seasonal shifts in production, and ongoing adjustments in powder and cheese markets. Input cost relief continues to support farm profitability, but structural challenges and global trade dynamics necessitate cautious optimism.</p>
+                <p class="mb-6" style="color: var(--color-text-medium);">EU dairy markets in August 2025 are characterized by a slowed seasonal decline in raw milk, firm butter prices, and mixed signals in the powder and cheese sectors. Reduced input costs offer support to farm profitability, but the strong Euro continues to challenge export competitiveness. The end of the holiday season is expected to bring a slight revival in market activity.</p>
                 <h3 style="color: var(--color-primary-dark-blue);">Key Factors to Monitor:</h3>
                 <ul class="bullet-list grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3" style="color: var(--color-text-medium);">
-                    <li>Impact of cooler summer weather in some regions versus heatwaves in others on milk volumes.</li>
-                    <li>Evolution of global dairy demand, particularly China's import appetite.</li>
-                    <li>Resolution or persistence of customs disputes and their impact on exports.</li>
-                    <li>Continued monitoring of input costs (feed, energy) and new tariff impacts.</li>
-                    <li>Overall balance of production and demand, especially as holiday season concludes.</li>
+                    <li>Evolution of milk supply as the seasonal decline slows and potential for a "second milk peak" from last year's Bluetongue impact.</li>
+                    <li>The strength of the Euro and its influence on third-country exports and global competitiveness.</li>
+                    <li>Demand recovery in milk powder markets as buyers return from holidays.</li>
+                    <li>Price developments in block butter as buyers observe the market.</li>
+                    <li>Ongoing trends in feed and energy costs.</li>
                 </ul>
                 <p class="mt-8 text-sm text-gray-600 italic">This analysis provides market observations for informational purposes only. It does not constitute investment or trading advice. Decisions should be based on independent research and professional consultation. All data presented is publicly available from the European Commission and CLAL Milk Market Observatory, and other market commentaries.</p>
             </div>
@@ -388,7 +388,7 @@
                     <p>butterkaeseboerse.de (Market Report)</p>
                 </div>
             </div>
-            <p class="text-sm text-gray-500 mt-8">&copy; July 2025 - European Dairy Market Analysis Infographic. For illustrative purposes.</p>
+            <p class="text-sm text-gray-500 mt-8">&copy; August 2025 - European Dairy Market Analysis Infographic. For illustrative purposes.</p>
         </footer>
 
     </main>
@@ -469,10 +469,10 @@
     new Chart(commodityPriceCtx, {
         type: 'bar',
         data: {
-            labels: [processLabel('Butter'), processLabel('SMP'), processLabel('WMP'), processLabel('Whey Powder')],
+            labels: [processLabel('Butter'), processLabel('SMP'), processLabel('WMP'), processLabel('Whey Powder (Est.)')],
             datasets: [{
                 label: 'Price (EUR/kg)',
-                data: [7.34, 2.38, 4.27, 0.94], /* Data from eu-dairy-commodity-prices_en.pdf */
+                data: [7.23, 2.39, 4.18, 0.97], /* Data from dashboard-dairy_en.pdf and marktbericht-kw_34.pdf */
                 backgroundColor: [primaryLimeGreen, primaryDarkBlue, primaryLightBlue, secondaryOrange],
                 borderColor: [primaryLimeGreen, primaryDarkBlue, primaryLightBlue, secondaryOrange],
                 borderWidth: 1
@@ -481,15 +481,15 @@
         options: { ...commonChartOptions, indexAxis: 'y' }
     });
 
-    // Production Outlook Chart (Cheese, Butter, SMP, WMP) - Using actual Jan-May 2025 vs 2024 production changes from dashboard-dairy_en.pdf
-    const productionOutlookCtx = document.getElementById('productionOutlookChart').getContext('2d');
-    new Chart(productionOutlookCtx, {
+    // Production Change Chart (Jan-May 2025 vs 2024)
+    const productionChangeCtx = document.getElementById('productionChangeChart').getContext('2d');
+    new Chart(productionChangeCtx, {
         type: 'bar',
         data: {
             labels: [processLabel('Raw Milk'), processLabel('Butter'), processLabel('SMP'), processLabel('WMP'), processLabel('Cream'), processLabel('Condensed'), processLabel('Drinking Milk'), processLabel('Fermented'), processLabel('Cheese')],
             datasets: [{
                 label: 'Jan-May 2025 vs 2024 Production Change (%)',
-                data: [-0.8, 1.1, -3.0, 2.4, -2.4, -11.6, -2.3, 0.5, 0.5], /* Data from dashboard-dairy_en.pdf */
+                data: [-0.7, 1.1, -3.0, 2.4, -2.4, -11.6, -2.3, 0.5, 0.5], /* Data from dashboard-dairy_en.pdf */
                 backgroundColor: [
                     secondaryOrange, primaryLimeGreen, secondaryOrange, primaryLimeGreen, secondaryOrange,
                     secondaryOrange, secondaryOrange, primaryLimeGreen, primaryLimeGreen
@@ -507,7 +507,7 @@
         }
     });
     
-    // Feed Prices Chart (Illustrative based on "eased compared to 2024" commentary)
+    // Feed Prices Chart (Week 33 / 17.08.2025)
     const feedPricesCtx = document.getElementById('feedPricesChart').getContext('2d');
     new Chart(feedPricesCtx, {
         type: 'bar',
@@ -515,9 +515,9 @@
             labels: [processLabel('Feed Costs (4-Wk Change)'), processLabel('Energy Costs (4-Wk Change)')],
             datasets: [{
                 label: '% Change',
-                data: [-0.9, 1.4], /* Data from dashboard-dairy_en.pdf */
-                backgroundColor: [primaryLimeGreen, secondaryOrange],
-                borderColor: [primaryLimeGreen, secondaryOrange],
+                data: [-0.2, -3.0], /* Data from dashboard-dairy_en.pdf */
+                backgroundColor: [primaryLimeGreen, primaryLimeGreen], /* Both positive change */
+                borderColor: [primaryLimeGreen, primaryLimeGreen],
                 borderWidth: 1
             }]
         },
