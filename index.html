@@ -3,527 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>European Dairies: August 2025 Analysis</title>
+    <title>BMi Market Update Presentation</title>
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Load React and Babel for in-browser JSX compilation -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
-        /* Define New Color Palette */
-        :root {
-            --color-primary-dark-blue: #01305C;
-            --color-primary-lime-green: #AFCB38;
-            --color-primary-light-blue: #009FE3;
-            --color-secondary-medium-blue: #005CA9;
-            --color-secondary-orange: #F07E26;
-            --color-secondary-yellow: #FFDE13;
-            --color-neutral-background: #FFFFFF; /* White */
-            --color-text-dark: #333;
-            --color-text-medium: #4a5568;
-            --color-text-light: #718096;
+        /* Define custom fonts, prioritizing the specified ones with fallbacks */
+        @font-face {
+            font-family: 'Arial Rounded MT Bold';
+            src: local('Arial Rounded MT Bold'), local('Arial Rounded MT');
         }
-
+        @font-face {
+            font-family: 'Arial Nova Light';
+            src: local('Arial Nova Light'), local('Arial Nova');
+            font-weight: 300;
+        }
+        
+        /* Ensure the body uses a clean font for general text */
         body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: var(--color-neutral-background);
-            color: var(--color-text-dark);
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
-        }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
-        .stat-card {
-            background-color: white;
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-
-        h1, h2, h3 {
-            font-weight: 600;
-        }
-        h1 { font-size: 2.25rem; line-height: 2.5rem; color: var(--color-primary-dark-blue); }
-        h2 { font-size: 1.875rem; line-height: 2.25rem; color: var(--color-primary-light-blue); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--color-primary-lime-green); }
-        h3 { font-size: 1.25rem; line-height: 1.75rem; color: var(--color-primary-dark-blue); margin-bottom: 0.75rem; }
-        p, li {
-            font-size: 1rem;
-            line-height: 1.625;
-            color: var(--color-text-medium);
-        }
-        .key-stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--color-primary-dark-blue);
-        }
-        .key-stat-label {
-            font-size: 0.875rem;
-            color: var(--color-text-light);
-        }
-        .kpi-card {
-            background-color: var(--color-neutral-background);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        .kpi-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--color-primary-dark-blue);
-        }
-        .kpi-unit {
-            font-size: 1rem;
-            color: var(--color-text-dark);
-        }
-        .kpi-change {
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-        .positive-change {
-            color: var(--color-primary-lime-green);
-        }
-        .negative-change {
-            color: #e53e3e; /* Red for negative change */
-        }
-        .neutral-change {
-            color: var(--color-text-light);
-        }
-        .bullet-list li {
-            position: relative;
-            padding-left: 1.5em;
-            margin-bottom: 0.5em;
-        }
-        .bullet-list li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: var(--color-primary-light-blue); /* Light blue for bullets */
-            font-weight: bold;
-        }
-        .company-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--color-primary-dark-blue);
-            margin-bottom: 1rem;
-        }
-        /* Explicit styling for strong tags to ensure bolding */
-        strong {
-            font-weight: 700 !important; /* Use !important to override any potential conflicts */
-            color: var(--color-primary-dark-blue); /* Make bold text clearly visible */
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body>
 
-    <header class="bg-white py-8 shadow-lg">
-        <div class="container mx-auto px-6 text-center">
-            <div class="company-name">Bayerische Milchindustrie eG</div>
-            <h1 class="text-4xl font-bold" style="color: var(--color-primary-dark-blue);">European Dairies: August 2025 Analysis</h1>
-            <p class="text-xl text-gray-600 mt-2">Market Updates</p>
-        </div>
-    </header>
+    <div id="root" class="min-h-screen p-4 flex flex-col items-center">
+        <!-- React App will render here -->
+    </div>
 
-    <main class="container mx-auto px-6 py-12">
-        
-        <section id="executive-summary" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Executive Summary & Key Highlights</h2>
-                <p class="mb-6 text-lg" style="color: var(--color-text-medium);">The European dairy market in August 2025 continues to be influenced by seasonal factors, global trade dynamics, and specific product-category performance. Overall market conditions are generally stable, with some notable shifts.</p>
-                <h3 style="color: var(--color-primary-dark-blue);">Key Market Observations (Week 33 / 17-20.08.2025):</h3>
-                <ul class="bullet-list list-inside space-y-3" style="color: var(--color-text-medium);">
-                    <li><strong>EU Milk Deliveries:</strong> The seasonal decline in milk supply has slowed slightly. EU milk collected for Jan-Jun 2025 is up 0.6% YoY.</li>
-                    <li><strong>Raw Milk Prices:</strong> The Weighted EU Average for raw milk in June 2025 was 52.9 €/100kg. Italian spot prices (Lodi) were 58.8 €/100kg as of August 17.</li>
-                    <li><strong>Product Category Performance:</strong> Butter prices are firm, with packed butter showing good demand. Powder markets are mixed; SMP stable, WMP slightly down. Cheese markets (Emmental, Schnittkäse) show good demand.</li>
-                    <li><strong>Input Costs:</strong> Feed costs are slightly down (-0.2%), while energy costs are more significantly down (-3.0%) compared to the average of the previous 4 weeks (Week 33).</li>
-                    <li><strong>FX Rates:</strong> The Euro has maintained relative stability against the USD (EUR/USD 1.1682 as of 20.08.25).</li>
-                </ul>
-            </div>
-        </section>
+    <script type="text/babel">
+        const { useState, useEffect } = React;
 
-        <section id="raw-milk-market" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">EU Raw Milk Market Overview</h2>
-                <p class="mb-6" style="color: var(--color-text-medium);">The raw milk market in the European Union in August 2025 shows a slowed seasonal decline in supply, contributing to firm prices. Overall production trends indicate slight growth year-on-year for the first half of 2025.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="kpi-card">
-                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">52.9 <span class="kpi-unit">€/100kg</span></div>
-                        <div class="text-gray-600 mt-1">Weighted EU Avg. (Jun 2025)</div>
-                        <div class="kpi-change negative-change">-0.3% MoM</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">58.8 <span class="kpi-unit">€/100kg</span></div>
-                        <div class="text-gray-600 mt-1">IT Lodi Spot Price (17 Aug)</div>
-                        <div class="kpi-change positive-change">Up from July</div>
-                    </div>
-                    <div class="kpi-card">
-                        <div class="kpi-value" style="color: var(--color-primary-dark-blue);">+0.6%</div>
-                        <div class="text-gray-600 mt-1">Jan-Jun 2025 EU Milk Collected YoY</div>
-                        <div class="kpi-change positive-change">Slight Growth</div>
-                    </div>
+        // --- 1. BRAND GUIDELINE CONSTANTS ---
+        const COLORS = {
+            darkBlue: '#01305C',      // Primary backgrounds, headers
+            mediumBlue: '#005CA9',    // Accent elements
+            lightBlue: '#009FE3',     // Accent elements (Requested color)
+            green: '#AFCB38',         // Accent band/highlights
+            orange: '#F07E26',        // Accent/chart color
+        };
+
+        const CONTACT = {
+            address: 'E.ON-Allee 1, 84036 Landshut, Germany',
+            phone: '+49 871 6850',
+            email: 'bmi@bmi-eg.com',
+            website: 'www.bmi-eg.com',
+        };
+
+        // BMi Slide Content (Updated with the latest data and lightBlue color on slide 5)
+        const SLIDES = [
+          {
+            type: 'title',
+            title: 'Market Developments in the EU Dairy Industry',
+            subtitle: 'October Market Update', 
+            date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+            author: 'Your BMi Market Team',
+          },
+          {
+            type: 'content',
+            heading: 'Current Market Situation: Supply and Pricing',
+            accentColor: COLORS.mediumBlue,
+            content: [
+              'Sustained high raw milk supply in Germany and the EU, significantly above the previous year\'s level.',
+              'The high raw material flow continues to **pressure prices** for many dairy products.',
+              'Price corrections for farm-gate prices are expected in the near future.',
+              'Competition in the food retail sector continues to stimulate sales of private-label butter.',
+              'Cut cheese records price decreases despite stable domestic demand.',
+            ],
+          },
+          {
+            type: 'data',
+            heading: 'EU Production: Volume Year-over-Year (Jan-Aug 2025 vs. 2024)',
+            accentColor: COLORS.green,
+            data: [
+              { product: 'Raw Milk', change: '+7%' },
+              { product: 'Butter', change: '+3.5%' },
+              { product: 'Cheese', change: '+1.0%' },
+              { product: 'S.M.P.', change: '+2%' },
+              { product: 'Condensed Milk', change: '-10.7%' },
+            ],
+            note: 'Source: EUROSTAT, DG AGRI Dashboard (as of end Oct 2025)',
+          },
+          {
+            type: 'content',
+            heading: 'EU Trade Outlook: Exports and Imports (Jan-May 2025)',
+            accentColor: COLORS.lightBlue,
+            content: [
+              '**Overall Trend:** Exports to non-EU countries are stagnating or declining, while imports, especially for butter and butter oil, are rising.',
+              '**WMP Impact:** Whole Milk Powder (WMP) exports saw a sharp drop of -21% compared to the previous year.',
+              '**Positive Growth:** Cheese and Whey Powder exports showed modest growth of +2%.',
+              '**Consumption Milk:** Exports of consumption milk and condensed milk decreased by -8%.',
+            ],
+          },
+          {
+            type: 'content',
+            heading: 'German Supply and Pricing Trends (Latest Weeks)',
+            accentColor: COLORS.lightBlue, // Using light blue as requested
+            content: [
+              '**Raw Milk Supply:** Domestic delivery is currently stagnating but remains significantly above the previous year\'s level.',
+              '**Price Correction:** Current product price developments indicate an **expected correction** in farm-gate pay prices.',
+              '**Fluid Raw Materials:** Supply is stable and well-absorbed; manufacturers with free drying capacity are actively buying Skim Milk Concentrate.',
+              '**Market Focus:** The focus in Milk Powder markets is shifting to 2026, with current buying interest remaining reserved for the remainder of 2025.',
+            ],
+          },
+          {
+            type: 'content',
+            heading: 'Product Deep Dive: Butter and Cut Cheese',
+            accentColor: COLORS.green,
+            content: [
+              '**Packaged Butter:** High retail sales are driven by discounter price competition (new lows seen at €1.39 for 250g).',
+              '**Block Butter:** The 25kg market shows signs of **stabilization**; prices appear to have bottomed out, attracting dealer activity.',
+              '**Cut Cheese:** Continued price decreases across the board despite positive sales development in German retail and stable Foodservice demand.',
+              '**Export:** German cheese is regaining competitiveness in export markets due to current price drops, though buyers remain cautious.',
+            ],
+          },
+          {
+            type: 'closing',
+          },
+        ];
+
+        // --- 2. LAYOUT COMPONENTS ---
+
+        const formatContent = (text) => {
+            return { __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') };
+        };
+
+        const Footer = () => (
+            <div 
+                className="absolute bottom-0 left-0 w-full p-4 text-xs font-light text-gray-300" 
+                style={{ backgroundColor: COLORS.darkBlue }}
+            >
+                <div className="flex justify-between items-center max-w-7xl mx-auto w-full px-4">
+                    <span className="text-white">
+                        Bayerische Milchindustrie eG • {CONTACT.address}
+                    </span>
+                    <span className="text-white">
+                        {CONTACT.website} | Page
+                    </span>
                 </div>
-                <p style="color: var(--color-text-medium);">The seasonal decline in milk deliveries has slowed, with milk supply exceeding last year's level by 2.2% (ZMB Quick Report). Prices in the liquid market have firmed up, with higher prices for industrial cream and skimmed milk concentrate. Whey concentrate continues to be traded at high prices, indicating strong demand from derivative production.</p>
             </div>
-        </section>
+        );
 
-        <section id="key-dairy-products" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Key Dairy Product Prices (Week 33 / 17-20.08.2025)</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">The EU dairy product market in August shows continued strong performance for butter and mixed trends for powders and cheeses.</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Butter & Milk Powders</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">7.23 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Butter</div>
-                                <div class="kpi-change positive-change">+0.4% (LW)</div>
-                            </div>
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">2.39 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">SMP</div>
-                                <div class="kpi-change neutral-change">+0.0% (LW)</div>
-                            </div>
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.18 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">WMP</div>
-                                <div class="kpi-change negative-change">-2.1% (LW)</div>
-                            </div>
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~0.97 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Whey Powder (Est.)</div>
-                                <div class="kpi-change positive-change">Slightly firm (Market Report)</div>
-                            </div>
-                        </div>
-                        <div class="chart-container mx-auto h-80 md:h-96 max-w-xl">
-                            <canvas id="commodityPriceChart"></canvas>
-                        </div>
-                        <p style="color: var(--color-text-medium);">Packed butter shows good demand due to the holiday season, with expected increases in trade orders post-holidays. 25kg block butter saw a slight price increase, but buyers are observing price developments. Food-grade whole milk powder was slightly reduced in a quiet market. Skimmed milk powder (food grade) saw slight reductions in the lower range, with some market revival due to buyers returning from holidays. The strong Euro exchange rate complicates sales for European exporters. Feed-grade skimmed milk powder demand has calmed, while food-grade whey powder has firmed up. The high whey concentrate price is notable for feed-grade whey powder, with a significant increase of 50 €/t, likely due to strong demand for derivative production.</p>
-                    </div>
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Cheese</h3>
-                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">4.53 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Cheddar</div>
-                                <div class="kpi-change negative-change">-0.8% (LW)</div>
-                            </div>
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~4.86 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Gouda (Est.)</div>
-                                <div class="kpi-change neutral-change">Stable (Market Report)</div>
-                            </div>
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~6.40 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Emmental (Est.)</div>
-                                <div class="kpi-change neutral-change">Stable (Market Report)</div>
-                            </div>
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">~4.77 <span class="kpi-unit">€/kg</span></div>
-                                <div class="text-gray-600 mt-1">Edam (Est.)</div>
-                                <div class="kpi-change neutral-change">Stable (Market Report)</div>
-                            </div>
-                        </div>
-                        <p style="color: var(--color-text-medium);">Allgäuer Emmental, Emmental, and semi-hard cheeses were continued at the previous week's prices. Sales for both cheese types are very good. The Schnittkäse (cut cheese) market remains balanced, with demand matching available supply. Cheese stocks show normal age structure and inventory levels. Good volumes continue to flow to holiday regions, and the food service sector saw increased orders due to good weather. The end of holidays in some German states is partially noticeable in catering. Retail trade is drawing off goods normally due to the holiday season. The third-country market remains inconsistent, primarily due to the strong Euro, leading to ongoing price discussions.</p>
-                    </div>
+        const TitleSlide = ({ title, subtitle, date, author }) => (
+            <div 
+                className="flex flex-col items-center justify-center h-full text-center p-12" 
+                style={{ backgroundColor: COLORS.darkBlue }}
+            >
+                <div className="text-white text-3xl font-extrabold mb-8 p-3 border-2 rounded tracking-widest" style={{ borderColor: COLORS.green, color: COLORS.green }}>
+                    BMi
                 </div>
-            </div>
-        </section>
-
-        <section id="supply-demand" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Supply & Demand Dynamics</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">The European dairy market's dynamics in August 2025 are shaped by a slowed seasonal decline in milk collection, global trade, and evolving demand patterns. Overall EU milk collected (Jan-Jun 2025) shows a slight increase of +0.6% compared to the same period in 2024.</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Supply Trends</h3>
-                        <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>The seasonal decline in milk deliveries has **slowed** somewhat (0.1% less milk delivered than previous week, but 2.2% above last year's level).</li>
-                            <li>**Jan-Jun 2025 EU milk collected:** **+0.6%** compared to Jan-Jun 2024 (leap year adjusted: -0.04%).</li>
-                            <li>**Germany (DE):** Jan-Jun 2025 milk collected: **-2.5%** YoY.</li>
-                            <li>**France (FR):** Jan-Jun 2025 milk collected: **-0.8%** YoY.</li>
-                            <li>**Italy (IT):** Jan-Jun 2025 milk collected: **+0.1%** YoY.</li>
-                            <li>**Netherlands (NL):** Jan-Jun 2025 milk collected: **-1.7%** YoY.</li>
-                            <li>**Ireland (IE):** Jan-Jun 2025 milk collected: **+7.0%** YoY.</li>
-                            <li>EU productions (Jan-May 2025 vs Jan-May 2024):
-                                <ul>
-                                    <li>Raw Milk: **-0.7%**</li>
-                                    <li>Butter: **+1.1%**</li>
-                                    <li>SMP: **-3.0%**</li>
-                                    <li>WMP: **+2.4%**</li>
-                                    <li>Cream: **-2.4%**</li>
-                                    <li>Condensed Milk: **-11.6%**</li>
-                                    <li>Drinking Milk: **-2.3%**</li>
-                                    <li>Fermented Milk: **+0.5%**</li>
-                                    <li>Cheese: **+0.5%**</li>
-                                </ul>
+                <h1 
+                    className="text-5xl font-extrabold mb-4" 
+                    style={{ color: COLORS.green, fontFamily: "'Arial Rounded MT Bold', sans-serif" }}
+                >
+                    {title}
+                </h1>
+                
+                <h2 className="text-3xl font-light text-gray-200 mb-10">{subtitle}</h2>
+                
+                <div className="text-xl font-medium text-white pt-8 border-t border-gray-600">
+                    <p>{date}</p>
+                    <p className="mt-2 text-lg text-gray-400">{author}</p>
+                </div>
+            </div>
+        );
+
+        const ContentSlide = ({ heading, content, accentColor }) => (
+            <div className="h-full bg-white flex flex-col">
+                <div className="h-4 w-full" style={{ backgroundColor: accentColor }}></div>
+                
+                <div className="flex flex-col p-12 flex-grow max-w-7xl mx-auto w-full">
+                    <h2 
+                        className="text-3xl font-extrabold mb-8 pb-3 border-b-2" 
+                        style={{ color: COLORS.darkBlue, fontFamily: "'Arial Rounded MT Bold', sans-serif", borderColor: accentColor }}
+                    >
+                        {heading}
+                    </h2>
+                    
+                    <ul className="space-y-4 text-xl font-light text-gray-700 list-disc pl-5">
+                        {content.map((item, index) => (
+                            <li 
+                                key={index} 
+                                className="pl-2" 
+                                style={{ fontFamily: "'Arial Nova Light', sans-serif" }}
+                                dangerouslySetInnerHTML={formatContent(item)} 
+                            >
                             </li>
-                        </ul>
-                        <div class="chart-container mx-auto h-80 md:h-96 max-w-xl">
-                            <canvas id="productionChangeChart"></canvas>
-                        </div>
-                         <p class="mt-4" style="color: var(--color-text-medium);">This chart illustrates the year-on-year production changes for key EU dairy products (Jan-May 2025 vs 2024).</p>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        );
+
+        const DataSlide = ({ heading, data, note, accentColor }) => (
+            <div className="h-full bg-white flex flex-col">
+                <div className="h-4 w-full" style={{ backgroundColor: accentColor }}></div>
+                
+                <div className="flex flex-col p-12 flex-grow max-w-7xl mx-auto w-full">
+                    <h2 
+                        className="text-3xl font-extrabold mb-8 pb-3 border-b-2" 
+                        style={{ color: COLORS.darkBlue, fontFamily: "'Arial Rounded MT Bold', sans-serif", borderColor: accentColor }}
+                    >
+                        {heading}
+                    </h2>
+                    
+                    <div className="bg-gray-50 p-6 rounded-lg shadow-inner">
+                        <table className="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr style={{ backgroundColor: COLORS.mediumBlue }}>
+                                    <th className="px-6 py-3 text-left text-sm font-medium text-white uppercase tracking-wider rounded-tl-lg">
+                                        Product
+                                    </th>
+                                    <th className="px-6 py-3 text-right text-sm font-medium text-white uppercase tracking-wider rounded-tr-lg">
+                                        Change (YOY)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-gray-200">
+                                {data.map((item, index) => (
+                                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-lg font-medium text-gray-900" style={{ fontFamily: "'Arial Nova Light', sans-serif" }}>
+                                            {item.product}
+                                        </td>
+                                        <td className={`px-6 py-4 whitespace-nowrap text-right text-xl font-bold ${item.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                                            {item.change}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
                     </div>
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Demand Trends</h3>
-                         <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Good demand for **packed butter** due to the holiday season.</li>
-                            <li>**Food service** sector saw increased orders due to good weather.</li>
-                            <li>**Confectionery industry** expected to show increased activity due to falling cocoa prices, potentially boosting demand for milk powders.</li>
-                            <li>High demand for **Schnittkäse** (cut cheese) from Southern European holiday regions.</li>
-                            <li>Third-country export market remains **inconsistent** due to the strong Euro.</li>
-                        </ul>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">Stable</div>
-                                <div class="text-gray-600 mt-1">EU Butter/Cream Demand</div>
+                    
+                    <p className="mt-6 text-sm italic text-gray-500">{note}</p>
+                </div>
+            </div>
+        );
+
+        const ClosingSlide = () => (
+            <div 
+                className="flex flex-col items-center justify-center h-full text-center p-12" 
+                style={{ backgroundColor: COLORS.darkBlue }}
+            >
+                <h1 
+                    className="text-6xl font-extrabold tracking-wider mb-10" 
+                    style={{ color: COLORS.lightBlue, fontFamily: "'Arial Rounded MT Bold', sans-serif" }} // Using light blue as requested
+                >
+                    THANK YOU FOR YOUR ATTENTION
+                </h1>
+                
+                <div className="text-xl text-gray-200 space-y-2 mt-8">
+                    <p className="font-semibold text-white">Bayerische Milchindustrie eG</p>
+                    <p>{CONTACT.address}</p>
+                    <p>Phone: {CONTACT.phone}</p>
+                    <p>Email: {CONTACT.email}</p>
+                </div>
+            </div>
+        );
+
+
+        // --- 3. MAIN APP COMPONENT ---
+
+        const App = () => {
+            const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+            const currentSlide = SLIDES[currentSlideIndex];
+
+            const nextSlide = () => {
+                setCurrentSlideIndex((prev) => Math.min(prev + 1, SLIDES.length - 1));
+            };
+
+            const prevSlide = () => {
+                setCurrentSlideIndex((prev) => Math.max(prev - 1, 0));
+            };
+            
+            const renderSlide = (slide) => {
+                switch (slide.type) {
+                    case 'title':
+                        return <TitleSlide {...slide} />;
+                    case 'content':
+                        return <ContentSlide {...slide} />;
+                    case 'data':
+                        return <DataSlide {...slide} />;
+                    case 'closing':
+                        return <ClosingSlide />;
+                    default:
+                        return (
+                            <div className="flex items-center justify-center h-full text-red-500">
+                                Error: Unknown Slide Type.
                             </div>
-                             <div class="kpi-card">
-                                <div class="kpi-value" style="color: var(--color-primary-dark-blue);">High</div>
-                                <div class="text-gray-600 mt-1">Schnittkäse Demand (S. Europe)</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <h3 style="color: var(--color-primary-dark-blue); border-bottom-color: var(--color-primary-lime-green);">Market Implications:</h3>
-                <p class="mb-4" style="color: var(--color-text-medium);">The slowed seasonal decline and slight year-on-year increase in EU milk collection provide a robust supply foundation. Strong internal demand for butter and cheese, especially from holiday regions and food service, is supporting prices. However, the strong Euro continues to be a hurdle for exports to non-EU countries, leading to price discussions and an inconsistent market in this segment. The return of buyers post-holidays might stimulate milk powder markets.</p>
-            </div>
-        </section>
-
-        <section id="feed-market" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Feed Market Impact on EU Dairy</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">Feed and energy costs remain crucial factors for dairy farm profitability. August data shows a general easing in these costs compared to earlier in the summer.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Key Input Cost Trends (Week 33 / 17.08.2025):</h3>
-                        <ul class="bullet-list list-inside space-y-3" style="color: var(--color-text-medium);">
-                            <li>Feed costs: **-0.2%** (compared to average of previous 4 weeks).</li>
-                            <li>Energy costs: **-3.0%** (compared to average of previous 4 weeks).</li>
-                            <li>Europe Brent Spot Price (Oil): **67.4 USD/Barrel** (17.08.25).</li>
-                        </ul>
-                        <div class="chart-container mx-auto h-96 md:h-[450px] max-w-xl">
-                            <canvas id="feedPricesChart"></canvas>
-                        </div>
-                        <p class="text-xs text-gray-500 mt-2 text-center">Note: Chart data for feed and energy costs reflect week-on-week changes.</p>
-                    </div>
-                    <div>
-                        <h4 style="color: var(--color-primary-dark-blue);">Commentary:</h4>
-                        <p style="color: var(--color-text-medium);">The slight decrease in feed costs and a more significant drop in energy costs offer relief to dairy farmers, potentially improving farm margins. This positive trend for input costs provides a more favorable environment heading into the autumn. The market for feed-grade skimmed milk powder has also calmed down compared to previous weeks.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="geopolitical-macroeconomic" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Geopolitical & Macroeconomic Factors</h2>
-                <p class="mb-8" style="color: var(--color-text-medium);">The EU dairy market's competitiveness and stability are influenced by global trade dynamics, economic conditions, and currency movements.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">FX Rates (EUR)</h3>
-                        <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>EUR/USD Exchange Rate: **1.1682** (Last Update: 20.08.25).</li>
-                            <li>The strong Euro makes it challenging for European exporters to sell goods to third countries, leading to price discussions.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Trade & Demand</h3>
-                        <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>Overall market conditions are generally **quiet** due to the holiday period.</li>
-                            <li>First buyers are returning from holidays, potentially leading to a slight revival in demand for skimmed milk powder.</li>
-                            <li>No whole milk powder is expected from the Algeria tender out of the EU.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 style="color: var(--color-primary-dark-blue);">Global Outlook</h3>
-                        <ul class="bullet-list list-inside space-y-2" style="color: var(--color-text-medium);">
-                            <li>**NZ milk production (Jun-May 2024/25):** **+2.3%** YoY.</li>
-                            <li>**US milk production (Jan-May 2025):** **+0.3%** YoY.</li>
-                            <li>**Australian milk production (Jul-May 2024/25):** **-0.4%** YoY.</li>
-                            <li>Global dairy trade auction (19 Aug 2025): average price **-$3,676 USD/MT**, **-0.3%** from previous.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="outlook" class="mb-16">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Summary & Outlook</h2>
-                <p class="mb-6" style="color: var(--color-text-medium);">EU dairy markets in August 2025 are characterized by a slowed seasonal decline in raw milk, firm butter prices, and mixed signals in the powder and cheese sectors. Reduced input costs offer support to farm profitability, but the strong Euro continues to challenge export competitiveness. The end of the holiday season is expected to bring a slight revival in market activity.</p>
-                <h3 style="color: var(--color-primary-dark-blue);">Key Factors to Monitor:</h3>
-                <ul class="bullet-list grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3" style="color: var(--color-text-medium);">
-                    <li>Evolution of milk supply as the seasonal decline slows and potential for a "second milk peak" from last year's Bluetongue impact.</li>
-                    <li>The strength of the Euro and its influence on third-country exports and global competitiveness.</li>
-                    <li>Demand recovery in milk powder markets as buyers return from holidays.</li>
-                    <li>Price developments in block butter as buyers observe the market.</li>
-                    <li>Ongoing trends in feed and energy costs.</li>
-                </ul>
-                <p class="mt-8 text-sm text-gray-600 italic">This analysis provides market observations for informational purposes only. It does not constitute investment or trading advice. Decisions should be based on independent research and professional consultation. All data presented is publicly available from the European Commission and CLAL Milk Market Observatory, and other market commentaries.</p>
-            </div>
-        </section>
-
-        <footer class="py-8 text-center">
-            <div class="stat-card">
-                <h2 style="color: var(--color-primary-light-blue); border-bottom-color: var(--color-primary-lime-green);">Sources</h2>
-                <div class="text-left text-xs text-gray-600 space-y-1 px-4 max-h-60 overflow-y-auto">
-                    <p>European Commission Milk Market Observatory (Dashboard, Milk Market Situation, EU prices of dairy commodities)</p>
-                    <p>CLAL Milk Market Observatory</p>
-                    <p>butterkaeseboerse.de (Market Report)</p>
-                </div>
-            </div>
-            <p class="text-sm text-gray-500 mt-8">&copy; August 2025 - European Dairy Market Analysis Infographic. For illustrative purposes.</p>
-        </footer>
-
-    </main>
-
-<script>
-    /* New Color Palette Variables for Chart.js */
-    const primaryDarkBlue = '#01305C';
-    const primaryLimeGreen = '#AFCB38';
-    const primaryLightBlue = '#009FE3';
-    const secondaryMediumBlue = '#005CA9';
-    const secondaryOrange = '#F07E26';
-    const secondaryYellow = '#FFDE13';
-    const textMedium = '#4a5568'; /* Reusing for chart text */
-    const textLight = '#718096'; /* Reusing for chart text */
-
-
-    function processLabel(label, maxLength = 16) {
-        if (label.length <= maxLength) {
-            return label;
-        }
-        const words = label.split(' ');
-        const lines = [];
-        let currentLine = '';
-        for (const word of words) {
-            if ((currentLine + word).length > maxLength && currentLine.length > 0) {
-                lines.push(currentLine.trim());
-                currentLine = word + ' ';
-            } else {
-                currentLine += word + ' ';
-            }
-        }
-        lines.push(currentLine.trim());
-        return lines;
-    }
-
-    const tooltipTitleCallback = function(tooltipItems) {
-        const item = tooltipItems[0];
-        let label = item.chart.data.labels[item.dataIndex];
-        if (Array.isArray(label)) {
-            return label.join(' ');
-        } else {
-            return label;
-        }
-    };
-
-    const commonChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                labels: {
-                    color: textMedium,
-                    font: { family: 'Montserrat' }
+                        );
                 }
-            },
-            tooltip: {
-                callbacks: {
-                    title: tooltipTitleCallback
-                },
-                titleFont: { family: 'Montserrat' },
-                bodyFont: { family: 'Montserrat' }
-            }
-        },
-        scales: {
-            x: {
-                ticks: { color: textMedium, font: { family: 'Montserrat' } },
-                grid: { display: false }
-            },
-            y: {
-                ticks: { color: textMedium, font: { family: 'Montserrat' } },
-                grid: { color: '#e0e0e0', borderDash: [2, 5] }
-            }
-        }
-    };
-    
-    // Commodity Price Chart (Butter, SMP, WMP, Whey Powder)
-    const commodityPriceCtx = document.getElementById('commodityPriceChart').getContext('2d');
-    new Chart(commodityPriceCtx, {
-        type: 'bar',
-        data: {
-            labels: [processLabel('Butter'), processLabel('SMP'), processLabel('WMP'), processLabel('Whey Powder (Est.)')],
-            datasets: [{
-                label: 'Price (EUR/kg)',
-                data: [7.23, 2.39, 4.18, 0.97], /* Data from dashboard-dairy_en.pdf and marktbericht-kw_34.pdf */
-                backgroundColor: [primaryLimeGreen, primaryDarkBlue, primaryLightBlue, secondaryOrange],
-                borderColor: [primaryLimeGreen, primaryDarkBlue, primaryLightBlue, secondaryOrange],
-                borderWidth: 1
-            }]
-        },
-        options: { ...commonChartOptions, indexAxis: 'y' }
-    });
+            };
 
-    // Production Change Chart (Jan-May 2025 vs 2024)
-    const productionChangeCtx = document.getElementById('productionChangeChart').getContext('2d');
-    new Chart(productionChangeCtx, {
-        type: 'bar',
-        data: {
-            labels: [processLabel('Raw Milk'), processLabel('Butter'), processLabel('SMP'), processLabel('WMP'), processLabel('Cream'), processLabel('Condensed'), processLabel('Drinking Milk'), processLabel('Fermented'), processLabel('Cheese')],
-            datasets: [{
-                label: 'Jan-May 2025 vs 2024 Production Change (%)',
-                data: [-0.7, 1.1, -3.0, 2.4, -2.4, -11.6, -2.3, 0.5, 0.5], /* Data from dashboard-dairy_en.pdf */
-                backgroundColor: [
-                    secondaryOrange, primaryLimeGreen, secondaryOrange, primaryLimeGreen, secondaryOrange,
-                    secondaryOrange, secondaryOrange, primaryLimeGreen, primaryLimeGreen
-                ],
-            }]
-        },
-        options: { ...commonChartOptions, 
-            scales: {
-                ...commonChartOptions.scales,
-                y: {
-                    ...commonChartOptions.scales.y,
-                    title: { display: true, text: '% Change', color: textMedium, font: { family: 'Montserrat' }}
-                }
-            }
-        }
-    });
-    
-    // Feed Prices Chart (Week 33 / 17.08.2025)
-    const feedPricesCtx = document.getElementById('feedPricesChart').getContext('2d');
-    new Chart(feedPricesCtx, {
-        type: 'bar',
-        data: {
-            labels: [processLabel('Feed Costs (4-Wk Change)'), processLabel('Energy Costs (4-Wk Change)')],
-            datasets: [{
-                label: '% Change',
-                data: [-0.2, -3.0], /* Data from dashboard-dairy_en.pdf */
-                backgroundColor: [primaryLimeGreen, primaryLimeGreen], /* Both positive change */
-                borderColor: [primaryLimeGreen, primaryLimeGreen],
-                borderWidth: 1
-            }]
-        },
-        options: { ...commonChartOptions, indexAxis: 'y' }
-    });
+            return (
+                <div 
+                    className="flex flex-col items-center w-full" 
+                    style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                    {/* Presentation Container */}
+                    <div className="w-full max-w-5xl h-[600px] border-8 shadow-2xl relative overflow-hidden bg-white" style={{ borderColor: COLORS.darkBlue }}>
+                        {renderSlide(currentSlide)}
+                        {/* Footer is inside the main slide container for relative positioning */}
+                        <Footer /> 
+                    </div>
 
-</script>
+                    {/* Navigation Controls */}
+                    <div className="mt-8 flex space-x-4">
+                        <button
+                            onClick={prevSlide}
+                            disabled={currentSlideIndex === 0}
+                            className={`px-6 py-3 font-semibold rounded-lg transition duration-150 ${
+                                currentSlideIndex === 0
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-white text-gray-700 shadow hover:shadow-lg hover:bg-gray-50'
+                            }`}
+                        >
+                            &larr; Previous
+                        </button>
+                        
+                        <div className="flex items-center text-lg font-medium" style={{ color: COLORS.darkBlue }}>
+                            Slide {currentSlideIndex + 1} of {SLIDES.length}
+                        </div>
+                        
+                        <button
+                            onClick={nextSlide}
+                            disabled={currentSlideIndex === SLIDES.length - 1}
+                            className={`px-6 py-3 font-semibold rounded-lg transition duration-150 ${
+                                currentSlideIndex === SLIDES.length - 1
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'text-white shadow hover:shadow-lg'
+                            }`}
+                            style={{ backgroundColor: COLORS.darkBlue }}
+                        >
+                            Next &rarr;
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the App component into the root element
+        const rootElement = document.getElementById('root');
+        ReactDOM.createRoot(rootElement).render(<App />);
+    </script>
 </body>
 </html>
