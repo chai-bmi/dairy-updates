@@ -12,6 +12,7 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <style>
         /* Define custom fonts, prioritizing the specified ones with fallbacks */
+        /* Assuming 'Arial Rounded MT Bold' and 'Arial Nova Light' are system fonts or similar web-safe fallbacks */
         @font-face {
             font-family: 'Arial Rounded MT Bold';
             src: local('Arial Rounded MT Bold'), local('Arial Rounded MT');
@@ -22,7 +23,7 @@
             font-weight: 300;
         }
         
-        /* Ensure the body uses a clean font for general text */
+        /* Ensure the body uses a clean font for general text, defaulting to Inter */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
@@ -36,7 +37,7 @@
     </div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState } = React;
 
         // --- 1. BRAND GUIDELINE CONSTANTS ---
         const COLORS = {
@@ -44,7 +45,7 @@
             mediumBlue: '#005CA9',    // Accent elements
             lightBlue: '#009FE3',     // Accent elements (Requested color)
             green: '#AFCB38',         // Accent band/highlights
-            orange: '#F07E26',        // Accent/chart color
+            orange: '#F07E26',        // Accent/chart color (unused but kept for reference)
         };
 
         const CONTACT = {
@@ -132,7 +133,7 @@
             return { __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') };
         };
 
-        // FIX: The Footer component now accepts props for dynamic content
+        // Footer component now correctly uses props
         const Footer = ({ currentSlideIndex, totalSlides }) => (
             <div 
                 className="absolute bottom-0 left-0 w-full p-4 text-xs font-light text-gray-300" 
@@ -143,7 +144,6 @@
                         Bayerische Milchindustrie eG • {CONTACT.address}
                     </span>
                     <span className="text-white">
-                        {/* Use passed props instead of relying on a global variable */}
                         {CONTACT.website} | Page {currentSlideIndex + 1} of {totalSlides}
                     </span>
                 </div>
@@ -267,129 +267,10 @@
             </div>
         );
 
-        // --- GEMINI API FUNCTIONS AND COMPONENTS ---
-
-        // Function for making the API call with exponential backoff
-        const fetchGeminiResponse = async (prompt, type, tone) => {
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const maxRetries = 5;
-            let delay = 1000;
-
-            let systemPrompt = "";
-
-            if (type === 'summary') {
-                systemPrompt = "You are a Senior Market Analyst for a major European dairy cooperative. Analyze the provided market update bullet points and synthesize them into a single, concise, and professional executive summary paragraph of less than 75 words. The tone must be clear, analytical, and action-oriented. Do not use markdown formatting (like bolding or list headers).";
-            } else if (type === 'draft') {
-                systemPrompt = `You are an internal communications specialist for a dairy company. Draft a professional internal memo or email (maximum 150 words) based on the provided market update. The memo must include a suggested Subject: line and a Greeting (e.g., "Team,") followed by the body formatted with clear line breaks. Adopt a ${tone} tone. The memo should be concise and actionable, highlighting the key takeaway from the data.`;
-            } else {
-                return "Invalid AI request type.";
-            }
-
-            const payload = {
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-            };
-
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.status === 429) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        delay *= 2;
-                        continue;
-                    }
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Error generating content. Please try again.";
-                    return text;
-
-                } catch (error) {
-                    console.error("Fetch attempt failed:", error);
-                    if (i === maxRetries - 1) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
-                }
-            }
-            return "Failed to generate content after multiple retries.";
-        };
-
-        // Modal Component for displaying the AI-generated output
-        const AIOutputModal = ({ isOpen, onClose, title, content, isLoading }) => {
-            if (!isOpen) return null;
-
-            return (
-                <div 
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
-                    onClick={onClose} // Close on backdrop click
-                >
-                    <div 
-                        className="bg-white p-6 rounded-xl shadow-2xl max-w-2xl w-full transform transition-all duration-300 scale-100"
-                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
-                    >
-                        <div className="flex justify-between items-start border-b pb-3 mb-4" style={{ borderColor: COLORS.mediumBlue }}>
-                            <h3 className="text-2xl font-bold" style={{ color: COLORS.darkBlue }}>
-                                {title}
-                            </h3>
-                            <button 
-                                onClick={onClose} 
-                                className="text-gray-400 hover:text-gray-700 transition"
-                                aria-label="Close"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                        
-                        {isLoading ? (
-                            <div className="flex flex-col items-center justify-center h-40">
-                                <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: COLORS.mediumBlue, borderTopColor: 'transparent' }}></div>
-                                <p className="mt-4 text-gray-600">Analyzing market data...</p>
-                            </div>
-                        ) : (
-                            <div className="bg-gray-100 p-4 rounded-lg overflow-y-auto max-h-96">
-                                <p className="text-gray-800 leading-relaxed font-mono whitespace-pre-wrap text-sm">
-                                    {content || "Failed to generate content. The slide may not contain summary-friendly data."}
-                                </p>
-                            </div>
-                        )}
-
-                        {!isLoading && (
-                            <button 
-                                onClick={onClose}
-                                className="mt-6 w-full py-2 rounded-lg text-white font-semibold transition hover:opacity-90"
-                                style={{ backgroundColor: COLORS.darkBlue }}
-                            >
-                                Close
-                            </button>
-                        )}
-                    </div>
-                </div>
-            );
-        };
-
-
         // --- 3. MAIN APP COMPONENT ---
 
         const App = () => {
             const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-            const [aiOutput, setAiOutput] = useState(null);
-            const [aiTitle, setAiTitle] = useState("AI Analyst Output");
-            const [isLoading, setIsLoading] = useState(false);
-            const [isModalOpen, setIsModalOpen] = useState(false);
-            const [selectedTone, setSelectedTone] = useState('Formal'); // New state for Draft Communication
             
             const currentSlide = SLIDES[currentSlideIndex];
 
@@ -419,45 +300,6 @@
                         );
                 }
             };
-            
-            const handleAIGeneration = async (type) => {
-                setIsLoading(true);
-                setIsModalOpen(true);
-                setAiOutput(null); // Clear previous output
-                
-                let promptContent = "";
-                let titlePrefix = "";
-
-                if (currentSlide.type === 'content') {
-                    titlePrefix = currentSlide.heading;
-                    promptContent = currentSlide.heading + ": " + currentSlide.content.join('; ');
-                } else if (currentSlide.type === 'data') {
-                    titlePrefix = currentSlide.heading;
-                    const dataString = currentSlide.data.map(d => `${d.product} changed by ${d.change}`).join('; ');
-                    promptContent = currentSlide.heading + ": " + dataString;
-                } else {
-                    setAiTitle("Cannot Analyze");
-                    setAiOutput("This slide type (Title or Closing) does not contain key data or content points for AI analysis.");
-                    setIsLoading(false);
-                    return;
-                }
-
-                if (type === 'summary') {
-                    setAiTitle("Executive Summary: " + titlePrefix);
-                } else if (type === 'draft') {
-                    setAiTitle(`Communication Draft (${selectedTone} Tone): ` + titlePrefix);
-                }
-
-                try {
-                    const output = await fetchGeminiResponse(promptContent, type, selectedTone);
-                    setAiOutput(output);
-                } catch (error) {
-                    setAiOutput("An error occurred while connecting to the AI service. Please check your connection.");
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
 
             return (
                 <div 
@@ -468,11 +310,10 @@
                     <div className="w-full max-w-5xl h-[600px] border-8 shadow-2xl relative overflow-hidden bg-white" style={{ borderColor: COLORS.darkBlue }}>
                         {renderSlide(currentSlide)}
                         {/* Footer is inside the main slide container for relative positioning */}
-                        {/* FIX: Pass currentSlideIndex and totalSlides as props */}
                         <Footer currentSlideIndex={currentSlideIndex} totalSlides={SLIDES.length} /> 
                     </div>
 
-                    {/* Navigation and AI Controls */}
+                    {/* Navigation Controls */}
                     <div className="mt-8 flex space-x-4 items-center flex-wrap justify-center">
                         <button
                             onClick={prevSlide}
@@ -502,52 +343,7 @@
                         >
                             Next &rarr;
                         </button>
-
-                        {/* AI Feature Controls */}
-                        {(currentSlide.type === 'content' || currentSlide.type === 'data') && (
-                            <div className="flex items-center space-x-3 ml-8 mt-4 md:mt-0">
-                                {/* Gemini AI Feature 1: Summary */}
-                                <button
-                                    onClick={() => handleAIGeneration('summary')}
-                                    disabled={isLoading}
-                                    className="px-4 py-3 font-bold rounded-lg transition duration-150 text-white shadow-xl hover:shadow-2xl flex items-center space-x-2 text-sm"
-                                    style={{ backgroundColor: COLORS.orange }}
-                                >
-                                    <span>Generate Summary ✨</span>
-                                </button>
-
-                                {/* Tone Selector */}
-                                <select
-                                    value={selectedTone}
-                                    onChange={(e) => setSelectedTone(e.target.value)}
-                                    className="p-3 border border-gray-300 rounded-lg text-gray-700 shadow-inner appearance-none"
-                                >
-                                    <option value="Formal">Formal</option>
-                                    <option value="Urgent">Urgent</option>
-                                    <option value="Optimistic">Optimistic</option>
-                                </select>
-                                
-                                {/* Gemini AI Feature 2: Draft Communication */}
-                                <button
-                                    onClick={() => handleAIGeneration('draft')}
-                                    disabled={isLoading}
-                                    className="px-4 py-3 font-bold rounded-lg transition duration-150 text-white shadow-xl hover:shadow-2xl flex items-center space-x-2 text-sm"
-                                    style={{ backgroundColor: COLORS.mediumBlue }}
-                                >
-                                    <span>Draft Communication ✨</span>
-                                </button>
-                            </div>
-                        )}
                     </div>
-                    
-                    {/* AI Output Modal */}
-                    <AIOutputModal 
-                        isOpen={isModalOpen}
-                        onClose={() => setIsModalOpen(false)}
-                        title={aiTitle}
-                        content={aiOutput}
-                        isLoading={isLoading}
-                    />
                 </div>
             );
         };
