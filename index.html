@@ -265,11 +265,119 @@
             </div>
         );
 
+        // --- GEMINI API FUNCTIONS AND COMPONENTS ---
+
+        // Function for making the API call with exponential backoff
+        const fetchGeminiSummary = async (prompt) => {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const maxRetries = 5;
+            let delay = 1000;
+
+            const systemPrompt = "You are a Senior Market Analyst for a major European dairy cooperative. Analyze the provided market update bullet points and synthesize them into a single, concise, and professional executive summary paragraph of less than 75 words. The tone must be clear, analytical, and action-oriented. Do not use markdown formatting (like bolding or list headers).";
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (response.status === 429) {
+                        // Too Many Requests, implement backoff
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2;
+                        continue;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Error generating summary. Please try again.";
+                    return text;
+
+                } catch (error) {
+                    console.error("Fetch attempt failed:", error);
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+            return "Failed to generate summary after multiple retries.";
+        };
+
+        // Modal Component for displaying the AI-generated summary
+        const SummaryModal = ({ isOpen, onClose, title, content, isLoading }) => {
+            if (!isOpen) return null;
+
+            return (
+                <div 
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                    onClick={onClose} // Close on backdrop click
+                >
+                    <div 
+                        className="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-300 scale-100"
+                        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
+                    >
+                        <div className="flex justify-between items-start border-b pb-3 mb-4" style={{ borderColor: COLORS.mediumBlue }}>
+                            <h3 className="text-2xl font-bold" style={{ color: COLORS.darkBlue }}>
+                                {title}
+                            </h3>
+                            <button 
+                                onClick={onClose} 
+                                className="text-gray-400 hover:text-gray-700 transition"
+                                aria-label="Close"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        {isLoading ? (
+                            <div className="flex flex-col items-center justify-center h-24">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: COLORS.mediumBlue, borderTopColor: 'transparent' }}></div>
+                                <p className="mt-4 text-gray-600">Analyzing market data to generate summary...</p>
+                            </div>
+                        ) : (
+                            <p className="text-gray-800 leading-relaxed font-light whitespace-pre-wrap">
+                                {content || "Failed to generate content. The slide may not contain summary-friendly data."}
+                            </p>
+                        )}
+
+                        {!isLoading && (
+                            <button 
+                                onClick={onClose}
+                                className="mt-6 w-full py-2 rounded-lg text-white font-semibold transition hover:opacity-90"
+                                style={{ backgroundColor: COLORS.darkBlue }}
+                            >
+                                Close
+                            </button>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
 
         // --- 3. MAIN APP COMPONENT ---
 
         const App = () => {
             const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+            const [summaryText, setSummaryText] = useState(null);
+            const [isLoading, setIsLoading] = useState(false);
+            const [isModalOpen, setIsModalOpen] = useState(false);
+            
             const currentSlide = SLIDES[currentSlideIndex];
 
             const nextSlide = () => {
@@ -298,6 +406,40 @@
                         );
                 }
             };
+            
+            const handleGenerateSummary = async () => {
+                setIsLoading(true);
+                setIsModalOpen(true);
+                setSummaryText(null); // Clear previous summary
+                
+                // Construct the prompt based on the current slide's content
+                let promptContent = "";
+                let summaryTitle = "";
+
+                if (currentSlide.type === 'content') {
+                    summaryTitle = "Executive Summary: " + currentSlide.heading;
+                    promptContent = currentSlide.heading + ": " + currentSlide.content.join('; ');
+                } else if (currentSlide.type === 'data') {
+                    summaryTitle = "Key Data Synthesis: " + currentSlide.heading;
+                    const dataString = currentSlide.data.map(d => `${d.product} changed by ${d.change}`).join('; ');
+                    promptContent = currentSlide.heading + ": " + dataString;
+                } else {
+                    summaryTitle = "Cannot Summarize";
+                    setSummaryText("This slide type (Title or Closing) does not contain key data or content points for summarization.");
+                    setIsLoading(false);
+                    return;
+                }
+
+                try {
+                    const summary = await fetchGeminiSummary(promptContent);
+                    setSummaryText(summary);
+                } catch (error) {
+                    setSummaryText("An error occurred while connecting to the AI service. Please check your connection.");
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+
 
             return (
                 <div 
@@ -312,7 +454,7 @@
                     </div>
 
                     {/* Navigation Controls */}
-                    <div className="mt-8 flex space-x-4">
+                    <div className="mt-8 flex space-x-4 items-center">
                         <button
                             onClick={prevSlide}
                             disabled={currentSlideIndex === 0}
@@ -341,7 +483,28 @@
                         >
                             Next &rarr;
                         </button>
+
+                        {/* Gemini AI Feature Button */}
+                        {(currentSlide.type === 'content' || currentSlide.type === 'data') && (
+                            <button
+                                onClick={handleGenerateSummary}
+                                disabled={isLoading}
+                                className="px-6 py-3 ml-8 font-bold rounded-lg transition duration-150 text-white shadow-xl hover:shadow-2xl flex items-center space-x-2"
+                                style={{ backgroundColor: COLORS.orange }}
+                            >
+                                <span>Generate Summary ✨</span>
+                            </button>
+                        )}
                     </div>
+                    
+                    {/* Summary Modal */}
+                    <SummaryModal 
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        title={summaryText ? (currentSlide.type === 'content' ? "Executive Summary" : "Key Data Synthesis") : "AI Analyst"}
+                        content={summaryText}
+                        isLoading={isLoading}
+                    />
                 </div>
             );
         };
