@@ -54,7 +54,7 @@
             website: 'www.bmi-eg.com',
         };
 
-        // BMi Slide Content (Updated with the latest data and lightBlue color on slide 5)
+        // BMi Slide Content
         const SLIDES = [
           {
             type: 'title',
@@ -132,7 +132,8 @@
             return { __html: text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') };
         };
 
-        const Footer = () => (
+        // FIX: The Footer component now accepts props for dynamic content
+        const Footer = ({ currentSlideIndex, totalSlides }) => (
             <div 
                 className="absolute bottom-0 left-0 w-full p-4 text-xs font-light text-gray-300" 
                 style={{ backgroundColor: COLORS.darkBlue }}
@@ -142,7 +143,8 @@
                         Bayerische Milchindustrie eG • {CONTACT.address}
                     </span>
                     <span className="text-white">
-                        {CONTACT.website} | Page
+                        {/* Use passed props instead of relying on a global variable */}
+                        {CONTACT.website} | Page {currentSlideIndex + 1} of {totalSlides}
                     </span>
                 </div>
             </div>
@@ -268,13 +270,21 @@
         // --- GEMINI API FUNCTIONS AND COMPONENTS ---
 
         // Function for making the API call with exponential backoff
-        const fetchGeminiSummary = async (prompt) => {
+        const fetchGeminiResponse = async (prompt, type, tone) => {
             const apiKey = "";
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const maxRetries = 5;
             let delay = 1000;
 
-            const systemPrompt = "You are a Senior Market Analyst for a major European dairy cooperative. Analyze the provided market update bullet points and synthesize them into a single, concise, and professional executive summary paragraph of less than 75 words. The tone must be clear, analytical, and action-oriented. Do not use markdown formatting (like bolding or list headers).";
+            let systemPrompt = "";
+
+            if (type === 'summary') {
+                systemPrompt = "You are a Senior Market Analyst for a major European dairy cooperative. Analyze the provided market update bullet points and synthesize them into a single, concise, and professional executive summary paragraph of less than 75 words. The tone must be clear, analytical, and action-oriented. Do not use markdown formatting (like bolding or list headers).";
+            } else if (type === 'draft') {
+                systemPrompt = `You are an internal communications specialist for a dairy company. Draft a professional internal memo or email (maximum 150 words) based on the provided market update. The memo must include a suggested Subject: line and a Greeting (e.g., "Team,") followed by the body formatted with clear line breaks. Adopt a ${tone} tone. The memo should be concise and actionable, highlighting the key takeaway from the data.`;
+            } else {
+                return "Invalid AI request type.";
+            }
 
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }],
@@ -292,7 +302,6 @@
                     });
 
                     if (response.status === 429) {
-                        // Too Many Requests, implement backoff
                         await new Promise(resolve => setTimeout(resolve, delay));
                         delay *= 2;
                         continue;
@@ -303,7 +312,7 @@
                     }
 
                     const result = await response.json();
-                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Error generating summary. Please try again.";
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "Error generating content. Please try again.";
                     return text;
 
                 } catch (error) {
@@ -313,20 +322,20 @@
                     delay *= 2;
                 }
             }
-            return "Failed to generate summary after multiple retries.";
+            return "Failed to generate content after multiple retries.";
         };
 
-        // Modal Component for displaying the AI-generated summary
-        const SummaryModal = ({ isOpen, onClose, title, content, isLoading }) => {
+        // Modal Component for displaying the AI-generated output
+        const AIOutputModal = ({ isOpen, onClose, title, content, isLoading }) => {
             if (!isOpen) return null;
 
             return (
                 <div 
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
                     onClick={onClose} // Close on backdrop click
                 >
                     <div 
-                        className="bg-white p-6 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-300 scale-100"
+                        className="bg-white p-6 rounded-xl shadow-2xl max-w-2xl w-full transform transition-all duration-300 scale-100"
                         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
                     >
                         <div className="flex justify-between items-start border-b pb-3 mb-4" style={{ borderColor: COLORS.mediumBlue }}>
@@ -345,14 +354,16 @@
                         </div>
                         
                         {isLoading ? (
-                            <div className="flex flex-col items-center justify-center h-24">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2" style={{ borderColor: COLORS.mediumBlue, borderTopColor: 'transparent' }}></div>
-                                <p className="mt-4 text-gray-600">Analyzing market data to generate summary...</p>
+                            <div className="flex flex-col items-center justify-center h-40">
+                                <div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{ borderColor: COLORS.mediumBlue, borderTopColor: 'transparent' }}></div>
+                                <p className="mt-4 text-gray-600">Analyzing market data...</p>
                             </div>
                         ) : (
-                            <p className="text-gray-800 leading-relaxed font-light whitespace-pre-wrap">
-                                {content || "Failed to generate content. The slide may not contain summary-friendly data."}
-                            </p>
+                            <div className="bg-gray-100 p-4 rounded-lg overflow-y-auto max-h-96">
+                                <p className="text-gray-800 leading-relaxed font-mono whitespace-pre-wrap text-sm">
+                                    {content || "Failed to generate content. The slide may not contain summary-friendly data."}
+                                </p>
+                            </div>
                         )}
 
                         {!isLoading && (
@@ -374,9 +385,11 @@
 
         const App = () => {
             const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-            const [summaryText, setSummaryText] = useState(null);
+            const [aiOutput, setAiOutput] = useState(null);
+            const [aiTitle, setAiTitle] = useState("AI Analyst Output");
             const [isLoading, setIsLoading] = useState(false);
             const [isModalOpen, setIsModalOpen] = useState(false);
+            const [selectedTone, setSelectedTone] = useState('Formal'); // New state for Draft Communication
             
             const currentSlide = SLIDES[currentSlideIndex];
 
@@ -407,34 +420,39 @@
                 }
             };
             
-            const handleGenerateSummary = async () => {
+            const handleAIGeneration = async (type) => {
                 setIsLoading(true);
                 setIsModalOpen(true);
-                setSummaryText(null); // Clear previous summary
+                setAiOutput(null); // Clear previous output
                 
-                // Construct the prompt based on the current slide's content
                 let promptContent = "";
-                let summaryTitle = "";
+                let titlePrefix = "";
 
                 if (currentSlide.type === 'content') {
-                    summaryTitle = "Executive Summary: " + currentSlide.heading;
+                    titlePrefix = currentSlide.heading;
                     promptContent = currentSlide.heading + ": " + currentSlide.content.join('; ');
                 } else if (currentSlide.type === 'data') {
-                    summaryTitle = "Key Data Synthesis: " + currentSlide.heading;
+                    titlePrefix = currentSlide.heading;
                     const dataString = currentSlide.data.map(d => `${d.product} changed by ${d.change}`).join('; ');
                     promptContent = currentSlide.heading + ": " + dataString;
                 } else {
-                    summaryTitle = "Cannot Summarize";
-                    setSummaryText("This slide type (Title or Closing) does not contain key data or content points for summarization.");
+                    setAiTitle("Cannot Analyze");
+                    setAiOutput("This slide type (Title or Closing) does not contain key data or content points for AI analysis.");
                     setIsLoading(false);
                     return;
                 }
 
+                if (type === 'summary') {
+                    setAiTitle("Executive Summary: " + titlePrefix);
+                } else if (type === 'draft') {
+                    setAiTitle(`Communication Draft (${selectedTone} Tone): ` + titlePrefix);
+                }
+
                 try {
-                    const summary = await fetchGeminiSummary(promptContent);
-                    setSummaryText(summary);
+                    const output = await fetchGeminiResponse(promptContent, type, selectedTone);
+                    setAiOutput(output);
                 } catch (error) {
-                    setSummaryText("An error occurred while connecting to the AI service. Please check your connection.");
+                    setAiOutput("An error occurred while connecting to the AI service. Please check your connection.");
                 } finally {
                     setIsLoading(false);
                 }
@@ -450,11 +468,12 @@
                     <div className="w-full max-w-5xl h-[600px] border-8 shadow-2xl relative overflow-hidden bg-white" style={{ borderColor: COLORS.darkBlue }}>
                         {renderSlide(currentSlide)}
                         {/* Footer is inside the main slide container for relative positioning */}
-                        <Footer /> 
+                        {/* FIX: Pass currentSlideIndex and totalSlides as props */}
+                        <Footer currentSlideIndex={currentSlideIndex} totalSlides={SLIDES.length} /> 
                     </div>
 
-                    {/* Navigation Controls */}
-                    <div className="mt-8 flex space-x-4 items-center">
+                    {/* Navigation and AI Controls */}
+                    <div className="mt-8 flex space-x-4 items-center flex-wrap justify-center">
                         <button
                             onClick={prevSlide}
                             disabled={currentSlideIndex === 0}
@@ -467,7 +486,7 @@
                             &larr; Previous
                         </button>
                         
-                        <div className="flex items-center text-lg font-medium" style={{ color: COLORS.darkBlue }}>
+                        <div className="flex items-center text-lg font-medium mx-4" style={{ color: COLORS.darkBlue }}>
                             Slide {currentSlideIndex + 1} of {SLIDES.length}
                         </div>
                         
@@ -484,25 +503,49 @@
                             Next &rarr;
                         </button>
 
-                        {/* Gemini AI Feature Button */}
+                        {/* AI Feature Controls */}
                         {(currentSlide.type === 'content' || currentSlide.type === 'data') && (
-                            <button
-                                onClick={handleGenerateSummary}
-                                disabled={isLoading}
-                                className="px-6 py-3 ml-8 font-bold rounded-lg transition duration-150 text-white shadow-xl hover:shadow-2xl flex items-center space-x-2"
-                                style={{ backgroundColor: COLORS.orange }}
-                            >
-                                <span>Generate Summary ✨</span>
-                            </button>
+                            <div className="flex items-center space-x-3 ml-8 mt-4 md:mt-0">
+                                {/* Gemini AI Feature 1: Summary */}
+                                <button
+                                    onClick={() => handleAIGeneration('summary')}
+                                    disabled={isLoading}
+                                    className="px-4 py-3 font-bold rounded-lg transition duration-150 text-white shadow-xl hover:shadow-2xl flex items-center space-x-2 text-sm"
+                                    style={{ backgroundColor: COLORS.orange }}
+                                >
+                                    <span>Generate Summary ✨</span>
+                                </button>
+
+                                {/* Tone Selector */}
+                                <select
+                                    value={selectedTone}
+                                    onChange={(e) => setSelectedTone(e.target.value)}
+                                    className="p-3 border border-gray-300 rounded-lg text-gray-700 shadow-inner appearance-none"
+                                >
+                                    <option value="Formal">Formal</option>
+                                    <option value="Urgent">Urgent</option>
+                                    <option value="Optimistic">Optimistic</option>
+                                </select>
+                                
+                                {/* Gemini AI Feature 2: Draft Communication */}
+                                <button
+                                    onClick={() => handleAIGeneration('draft')}
+                                    disabled={isLoading}
+                                    className="px-4 py-3 font-bold rounded-lg transition duration-150 text-white shadow-xl hover:shadow-2xl flex items-center space-x-2 text-sm"
+                                    style={{ backgroundColor: COLORS.mediumBlue }}
+                                >
+                                    <span>Draft Communication ✨</span>
+                                </button>
+                            </div>
                         )}
                     </div>
                     
-                    {/* Summary Modal */}
-                    <SummaryModal 
+                    {/* AI Output Modal */}
+                    <AIOutputModal 
                         isOpen={isModalOpen}
                         onClose={() => setIsModalOpen(false)}
-                        title={summaryText ? (currentSlide.type === 'content' ? "Executive Summary" : "Key Data Synthesis") : "AI Analyst"}
-                        content={summaryText}
+                        title={aiTitle}
+                        content={aiOutput}
                         isLoading={isLoading}
                     />
                 </div>
