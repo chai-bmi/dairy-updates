@@ -1,256 +1,1084 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EU Dairy Market Analysis - February 2026</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --brand-deep: #1e3a8a;
-            --brand-vibrant: #3b82f6;
-            --brand-accent: #6366f1;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-        }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            height: 320px;
-        }
-        .card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border: 1px solid #e2e8f0;
-        }
-        .metric-card {
-            border-left: 4px solid var(--brand-vibrant);
-        }
-        .status-badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 9999px;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>European Dairies: March 2026 Analysis | BMi</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap');
+
+  :root {
+    --dark-blue: #01305C;
+    --blue: #005CA9;
+    --green: #AFCB38;
+    --light-blue: #009FE3;
+    --yellow: #FFDE13;
+    --orange: #F07E26;
+    --black: #000000;
+    --white: #FFFFFF;
+    --bg: #f4f6f9;
+    --card-bg: #ffffff;
+    --text: #1a2a3a;
+    --text-light: #5a7090;
+    --border: #dde4ef;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    background: var(--dark-blue);
+    color: white;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-stripe {
+    height: 6px;
+    background: linear-gradient(90deg, var(--green) 0%, var(--light-blue) 50%, var(--green) 100%);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 48px 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+  .logo-block {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .logo-text { line-height: 1.3; }
+  .logo-text .company { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.08em; color: var(--green); text-transform: uppercase; }
+  .logo-text .tagline { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.06em; }
+  .header-title { text-align: right; }
+  .header-title h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: 0.02em; line-height: 1; color: white; }
+  .header-title .subtitle { font-size: 13px; color: var(--green); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; margin-top: 4px; }
+  .header-title .date-badge { display: inline-block; background: var(--blue); border-radius: 4px; padding: 3px 12px; font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 8px; letter-spacing: 0.06em; }
+
+  /* ── NAV TABS ── */
+  .nav-tabs {
+    background: var(--dark-blue);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding: 0 48px;
+    display: flex;
+    gap: 4px;
+    max-width: 1280px;
+    margin: 0 auto;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--green); }
+  .nav-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+  /* ── LAYOUT ── */
+  .main-wrapper { max-width: 1280px; margin: 0 auto; padding: 32px 48px 64px; }
+
+  /* ── SECTION ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--dark-blue);
+    letter-spacing: 0.02em;
+  }
+  .section-label span { color: var(--green); }
+  .section-divider { flex: 1; height: 2px; background: linear-gradient(90deg, var(--border) 0%, transparent 100%); }
+
+  /* ── CARDS GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+  .grid-1 { margin-bottom: 20px; }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(1,48,92,0.06);
+  }
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .card-title.accent { border-bottom-color: var(--green); }
+
+  /* ── KPI TILES ── */
+  .kpi-tile {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--blue);
+    box-shadow: 0 2px 8px rgba(1,48,92,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .kpi-tile.green { border-left-color: var(--green); }
+  .kpi-tile.orange { border-left-color: var(--orange); }
+  .kpi-tile.light-blue { border-left-color: var(--light-blue); }
+  .kpi-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-light); }
+  .kpi-value { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; color: var(--dark-blue); line-height: 1; }
+  .kpi-unit { font-size: 13px; color: var(--text-light); font-weight: 400; }
+  .kpi-change { font-size: 13px; font-weight: 700; }
+  .up { color: #1db87a; }
+  .down { color: #e0344e; }
+  .flat { color: var(--text-light); }
+
+  /* ── PRICE TABLE ── */
+  .price-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .price-table th {
+    background: var(--dark-blue); color: white;
+    padding: 10px 14px; text-align: left;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .price-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .price-table tr:last-child td { border-bottom: none; }
+  .price-table tr:hover td { background: #f0f4fa; }
+  .price-table .product-name { font-weight: 600; color: var(--dark-blue); }
+  .price-table .val { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; }
+
+  /* ── COMMENTARY BLOCK ── */
+  .commentary {
+    background: linear-gradient(135deg, #eaf1fb 0%, #f0f6ea 100%);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--text);
+  }
+  .commentary strong { color: var(--dark-blue); }
+  .commentary.highlight { border-left-color: var(--green); background: linear-gradient(135deg, #f3f9e0 0%, #e8f5fc 100%); }
+  .commentary.warning { border-left-color: var(--orange); background: linear-gradient(135deg, #fff4ea 0%, #fff9f0 100%); }
+
+  /* ── CHART WRAPPER ── */
+  .chart-wrap { position: relative; height: 280px; }
+  .chart-wrap.tall { height: 340px; }
+
+  /* ── SIGNAL BAR ── */
+  .signal-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .signal {
+    flex: 1;
+    min-width: 160px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .signal-icon { font-size: 22px; }
+  .signal-text { font-size: 12px; font-weight: 600; color: var(--text-light); line-height: 1.4; }
+  .signal-text strong { display: block; font-size: 14px; color: var(--dark-blue); }
+
+  /* ── FOOTER ── */
+  .footer-disclaimer {
+    background: var(--dark-blue);
+    color: rgba(255,255,255,0.65);
+    padding: 20px 48px;
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+  }
+  .footer-disclaimer strong { color: var(--green); }
+  .footer-logo-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .badge-green { background: #e6f4d0; color: #5a8a00; }
+  .badge-red { background: #fde8ec; color: #c0002a; }
+  .badge-blue { background: #daeeff; color: var(--dark-blue); }
+  .badge-orange { background: #fff0e0; color: #b05000; }
+
+  /* ── WORLD TABLE ── */
+  .world-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .world-table th { background: var(--blue); color: white; padding: 9px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; }
+  .world-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  .world-table tr:hover td { background: #f5f8ff; }
+
+  /* ── HIGHLIGHT ROW ── */
+  .highlight-row { background: linear-gradient(90deg, #f0f6ea, white) !important; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .header-inner { flex-direction: column; text-align: center; gap: 16px; padding: 20px 20px; }
+    .header-title { text-align: center; }
+    .main-wrapper { padding: 20px 16px 40px; }
+    .nav-tabs { padding: 0 16px; }
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+</style>
 </head>
-<body class="p-4 md:p-10">
+<body>
 
-    <div class="max-w-7xl mx-auto space-y-8">
-        
-        <!-- Header -->
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-6">
-            <div>
-                <h1 class="text-3xl font-extrabold tracking-tight text-slate-900">EU Dairy Market Report</h1>
-                <p class="text-slate-500 font-medium mt-1">Market Situation and Price Determination • February 2026</p>
-            </div>
-            <div class="flex gap-2">
-                <div class="bg-blue-50 border border-blue-200 px-4 py-2 rounded-lg">
-                    <span class="block text-[10px] text-blue-600 font-bold uppercase tracking-tight">Price Basis</span>
-                    <span class="text-blue-900 font-bold">EUR / KG (Net)</span>
-                </div>
-            </div>
-        </header>
+<!-- ══ HEADER ══ -->
+<div class="header">
+  <div class="header-stripe"></div>
+  <div class="header-inner" style="max-width:1280px;margin:0 auto;">
+    <div class="logo-block">
+      <div class="logo-text">
+        <div class="company">Bayerische Milchindustrie eG</div>
+        <div class="tagline">Dairy Ingredients · Germany</div>
+      </div>
+    </div>
+    <div class="header-title">
+      <h1>European Dairies</h1>
+      <div class="subtitle">Market Updates</div>
+      <div class="date-badge">March 2026 Analysis &nbsp;·&nbsp; Published 26 March 2026</div>
+    </div>
+  </div>
+  <!-- Nav Tabs inside header background -->
+  <div style="background:rgba(0,0,0,0.2); border-top:1px solid rgba(255,255,255,0.08);">
+    <div class="nav-tabs" style="max-width:1280px;margin:0 auto;">
+      <button class="nav-tab active" onclick="showSection('overview')">Overview</button>
+      <button class="nav-tab" onclick="showSection('supply')">Supply & Milk Pool</button>
+      <button class="nav-tab" onclick="showSection('prices')">EU & World Prices</button>
+      <button class="nav-tab" onclick="showSection('whey')">Whey & SWP Focus</button>
+      <button class="nav-tab" onclick="showSection('trade')">Global Trade</button>
+      <button class="nav-tab" onclick="showSection('feed')">Feed & Energy</button>
+      <button class="nav-tab" onclick="showSection('fx')">FX Markets</button>
+    </div>
+  </div>
+</div>
 
-        <!-- Market Narrative -->
-        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-4">
-                <div class="card p-6 bg-white">
-                    <h2 class="text-xl font-bold text-slate-800 mb-3 flex items-center">
-                        <span class="bg-blue-600 w-2 h-6 rounded-full mr-3"></span>
-                        Executive Market Commentary
-                    </h2>
-                    <div class="space-y-4 text-slate-600 leading-relaxed text-sm">
-                        <p>
-                            The EU dairy market is currently characterized by high milk intake volumes meeting robust demand for processed goods. While raw milk collection shows a year-on-year increase of approximately <strong>1.8%</strong>, processing facilities across Europe are operating at maximum capacity. This high utilization has led to a stabilization of prices for finished goods, despite the abundance of raw material.
-                        </p>
-                        <p>
-                            In the powder sector, <strong>Skim Milk Powder (SMP)</strong> is experiencing a clear <strong>strengthening</strong> trend. Manufacturers report a surge in inquiries, with many securing new contracts at higher price levels. Feed-grade powder is following this trajectory, driven by scarcity in available offers. For <strong>Whole Milk Powder (WMP)</strong>, the market has become more uniform as the lowest price offers have largely been withdrawn.
-                        </p>
-                        <p>
-                            The cheese sector remains a primary pillar of stability. <strong>Schnittkäse (Sliced Cheese)</strong> demand is described as "continuously high" across retail and export channels. Ripening cellars for varieties like Cheddar and Emmentaler are reported to be at critical lows, with many producers unable to fulfill additional orders beyond existing commitments.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card p-6 bg-slate-900 text-white">
-                <h3 class="text-lg font-bold mb-4 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Critical Indicators
-                </h3>
-                <ul class="space-y-4 text-sm text-slate-300">
-                    <li class="flex gap-3">
-                        <span class="text-blue-400 font-bold">A.</span>
-                        <span><strong>Processing Limits:</strong> European processing capacities are fully utilized; surplus milk is increasingly directed toward commodity production.</span>
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="text-blue-400 font-bold">B.</span>
-                        <span><strong>Stock Depletion:</strong> High export volumes have kept cheese stocks low, providing a price floor despite seasonal milk peaks.</span>
-                    </li>
-                    <li class="flex gap-3">
-                        <span class="text-blue-400 font-bold">C.</span>
-                        <span><strong>Butter Stability:</strong> Block butter is stabilizing following a period of volatility, supported by recovering cream prices.</span>
-                    </li>
-                </ul>
-            </div>
-        </section>
+<!-- ══ MAIN ══ -->
+<div class="main-wrapper">
 
-        <!-- KPI Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- SMP -->
-            <div class="card p-6 metric-card">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Skim Milk Powder</p>
-                        <p class="text-3xl font-bold text-slate-800">2.25</p>
-                        <p class="text-xs text-slate-500 mt-1">Food Grade (Avg)</p>
-                    </div>
-                    <div class="p-2 bg-green-50 rounded-lg">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center gap-2">
-                    <span class="status-badge bg-green-100 text-green-700">Strengthening</span>
-                </div>
-            </div>
+<!-- ════ OVERVIEW ════ -->
+<div id="overview" class="section active">
 
-            <!-- WMP -->
-            <div class="card p-6 metric-card" style="border-left-color: #60a5fa;">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Whole Milk Powder</p>
-                        <p class="text-3xl font-bold text-slate-800">3.03</p>
-                        <p class="text-xs text-slate-500 mt-1">Spray Dried</p>
-                    </div>
-                    <div class="p-2 bg-blue-50 rounded-lg">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l5-5 5 5m-5-5v12"></path></svg>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center gap-2">
-                    <span class="status-badge bg-blue-100 text-blue-700">Strengthening</span>
-                </div>
-            </div>
+  <div class="section-header">
+    <span class="section-label">Executive <span>Overview</span></span>
+    <div class="section-divider"></div>
+    <span style="font-size:11px;color:var(--text-light);white-space:nowrap;">Week 12 · 25 March 2026</span>
+  </div>
 
-            <!-- Whey -->
-            <div class="card p-6 metric-card" style="border-left-color: #6366f1;">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Whey Powder</p>
-                        <p class="text-3xl font-bold text-slate-800">0.90</p>
-                        <p class="text-xs text-slate-500 mt-1">Food Grade</p>
-                    </div>
-                    <div class="p-2 bg-indigo-50 rounded-lg">
-                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center gap-2">
-                    <span class="status-badge bg-indigo-100 text-indigo-700">Stable</span>
-                </div>
-            </div>
+  <div class="commentary">
+    <strong>Market Summary:</strong> The European dairy market enters Q2 2026 with a distinctly supply-heavy tone. EU raw milk deliveries rose <strong>+4.7% year-on-year</strong> in January — reaching a new historical record for full-year 2025 at 148.5 million tonnes. Processing capacities are running at high utilisation, pressing spot raw material prices lower. Against this supply backdrop, finished product markets are showing a notable divergence: <strong>Skim Milk Powder (SMP)</strong> is surging (+7.0% vs. 4-week average), driven by strong export demand — particularly from Mexico, which recorded SMP imports up +47% in 2025. <strong>Butter</strong> remains elevated near €4.37/kg, supported by seasonal Easter demand and tight fat supply. <strong>Sweet Whey Powder (SWP)</strong> has reached new all-time highs, while WPC 80 demand is described as exceptionally strong at premium prices. Geopolitical uncertainty surrounding the Iran conflict is pushing energy and fertiliser costs higher, adding a cost-side risk to the otherwise positive demand picture.
+  </div>
 
-            <!-- Butter -->
-            <div class="card p-6 metric-card" style="border-left-color: #eab308;">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">EU Butter Avg</p>
-                        <p class="text-3xl font-bold text-slate-800">4.10</p>
-                        <p class="text-xs text-slate-500 mt-1">Ex-Works</p>
-                    </div>
-                    <div class="p-2 bg-red-50 rounded-lg">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"></path></svg>
-                    </div>
-                </div>
-                <div class="mt-4 flex items-center gap-2">
-                    <span class="status-badge bg-red-100 text-red-700">Stabilizing</span>
-                </div>
-            </div>
-        </section>
+  <!-- KPI Bar -->
+  <div class="grid-4">
+    <div class="kpi-tile">
+      <div class="kpi-label">EU Raw Milk</div>
+      <div class="kpi-value">45.2 <span class="kpi-unit">€/100kg</span></div>
+      <div class="kpi-change down">▼ −5.8% vs. last month</div>
+    </div>
+    <div class="kpi-tile green">
+      <div class="kpi-label">EU Butter (Wk 12)</div>
+      <div class="kpi-value">4.37 <span class="kpi-unit">€/kg</span></div>
+      <div class="kpi-change up">▲ +2.1% vs. 4-wk avg</div>
+    </div>
+    <div class="kpi-tile green">
+      <div class="kpi-label">EU SMP (Wk 12)</div>
+      <div class="kpi-value">2.60 <span class="kpi-unit">€/kg</span></div>
+      <div class="kpi-change up">▲ +7.0% vs. 4-wk avg</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-label">EU WMP (Wk 12)</div>
+      <div class="kpi-value">3.40 <span class="kpi-unit">€/kg</span></div>
+      <div class="kpi-change up">▲ +2.9% vs. 4-wk avg</div>
+    </div>
+  </div>
 
-        <!-- Visualization Section -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div class="card p-6">
-                <div class="mb-6">
-                    <h3 class="text-lg font-bold text-slate-800">Price Benchmark across Commodities</h3>
-                    <p class="text-xs text-slate-500">Current average market quotations in EUR/KG. Powders show significant upward momentum.</p>
-                </div>
-                <div class="chart-container">
-                    <canvas id="commodityChart"></canvas>
-                </div>
-            </div>
+  <div class="grid-4">
+    <div class="kpi-tile light-blue">
+      <div class="kpi-label">EU Whey Powder (Wk 11)</div>
+      <div class="kpi-value">1.154 <span class="kpi-unit">€/kg</span></div>
+      <div class="kpi-change up">▲ All-time highs reported</div>
+    </div>
+    <div class="kpi-tile light-blue">
+      <div class="kpi-label">EUR/USD Rate</div>
+      <div class="kpi-value">1.1561</div>
+      <div class="kpi-change down">▼ Off Feb peak of 1.1868</div>
+    </div>
+    <div class="kpi-tile orange">
+      <div class="kpi-label">Energy Costs</div>
+      <div class="kpi-value">+24.8<span class="kpi-unit">%</span></div>
+      <div class="kpi-change down">▲ vs. 4-wk avg (Week 12)</div>
+    </div>
+    <div class="kpi-tile orange">
+      <div class="kpi-label">Brent Crude Oil</div>
+      <div class="kpi-value">101.0 <span class="kpi-unit">$/bbl</span></div>
+      <div class="kpi-change down">▲ Iran conflict impact</div>
+    </div>
+  </div>
 
-            <div class="card p-6">
-                <div class="mb-6">
-                    <h3 class="text-lg font-bold text-slate-800">EU Production Dynamics (Jan-Nov 2025)</h3>
-                    <p class="text-xs text-slate-500">Volume variation (%) compared to previous year. Cheese production remains a primary outlet.</p>
-                </div>
-                <div class="chart-container">
-                    <canvas id="productionChart"></canvas>
-                </div>
-            </div>
-        </section>
+  <!-- Signal bar -->
+  <div class="signal-bar">
+    <div class="signal">
+      <div class="signal-icon">🥛</div>
+      <div class="signal-text"><strong>EU Milk +4.7% YoY</strong>Record 148.5 Mt in 2025</div>
+    </div>
+    <div class="signal">
+      <div class="signal-icon">📦</div>
+      <div class="signal-text"><strong>SWP at All-Time High</strong>WPC 80 in strong demand</div>
+    </div>
+    <div class="signal">
+      <div class="signal-icon">🧈</div>
+      <div class="signal-text"><strong>Butter Firm at €4.37/kg</strong>Easter demand supporting</div>
+    </div>
+    <div class="signal">
+      <div class="signal-icon">🌍</div>
+      <div class="signal-text"><strong>Iran War Risk</strong>Fertiliser & energy rising</div>
+    </div>
+    <div class="signal">
+      <div class="signal-icon">💱</div>
+      <div class="signal-text"><strong>EUR/USD 1.1572</strong>Strong EUR mutes export competitiveness</div>
+    </div>
+    <div class="signal">
+      <div class="signal-icon">📈</div>
+      <div class="signal-text"><strong>SMP Export Surge</strong>+10% EU exports in 2025</div>
+    </div>
+  </div>
 
-        <footer class="text-center text-slate-400 text-[10px] pb-10 space-y-1">
-            <p>Data Source: ZMB / Kempten Quotations / DG AGRI / Eurostat.</p>
-            <p>© 2026 Dairy Market Analytics. Professional Use Only.</p>
-        </footer>
+  <!-- Overview chart -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">EU Commodity Prices — March 2026 Trend (€/kg)</div>
+      <div class="chart-wrap">
+        <canvas id="overviewPriceChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title accent">EU Production Changes — Jan 2026 vs Jan 2025 (%)</div>
+      <div class="chart-wrap">
+        <canvas id="productionChart"></canvas>
+      </div>
+    </div>
+  </div>
 
+</div><!-- end overview -->
+
+<!-- ════ SUPPLY ════ -->
+<div id="supply" class="section">
+
+  <div class="section-header">
+    <span class="section-label">Supply & <span>Milk Pool</span></span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="commentary">
+    <strong>Milk Supply Fundamentals:</strong> The EU-27 milk pool is expanding at a pace not seen in recent cycles. January 2026 deliveries hit <strong>12.3 million tonnes</strong>, up 4.7% year-on-year. Full-year 2025 reached a <strong>new historical record of 148.5 million tonnes</strong>, with content deliveries (fat + protein) growing even faster at +2.5%, as average fat content rose to 4.29% and protein to 3.53%. The largest absolute gains came from Germany (+7.0%, +0.2 Mt), France (+5.8%), and the Netherlands (+5.8%). Belgium surged +10.9%.
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">EU-27 Milk Deliveries — Jan 2026 Key Countries (1,000 t)</div>
+      <div class="chart-wrap">
+        <canvas id="milkDeliveryChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title accent">Year-on-Year Change — Jan 2026 vs Jan 2025 (%)</div>
+      <div class="chart-wrap">
+        <canvas id="milkYoyChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Milk Content Trends (EU-27 Average)</div>
+      <table class="price-table">
+        <thead><tr><th>Metric</th><th>Jan 2025</th><th>Jan 2026</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td class="product-name">Fat Content (%)</td><td>4.26</td><td class="val">4.29</td><td><span class="badge badge-green">+0.03pp</span></td></tr>
+          <tr><td class="product-name">Protein Content (%)</td><td>3.51</td><td class="val">3.53</td><td><span class="badge badge-green">+0.02pp</span></td></tr>
+          <tr><td class="product-name">Total Content Delivery</td><td>base</td><td class="val">+5.5%</td><td><span class="badge badge-green">↑ YoY</span></td></tr>
+          <tr><td class="product-name">EU Milk Cows (Dec 2025)</td><td>19.222 M</td><td class="val">~19.09 M</td><td><span class="badge badge-red">−0.7%</span></td></tr>
+          <tr><td class="product-name">EU Cow Slaughter (2025)</td><td>6.33 M</td><td class="val">5.95 M</td><td><span class="badge badge-green">−5.9%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">Global Milk Production Comparison — Jan 2026 vs Jan 2025</div>
+      <table class="price-table">
+        <thead><tr><th>Region</th><th>Volume (kt)</th><th>YoY Change</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td class="product-name">EU-27</td><td class="val">12,301</td><td><span class="badge badge-green">+4.7%</span></td></tr>
+          <tr><td class="product-name">United States</td><td class="val">8,986</td><td><span class="badge badge-green">+3.2%</span></td></tr>
+          <tr><td class="product-name">New Zealand (Jan)</td><td class="val">2,432</td><td><span class="badge badge-green">+2.0%</span></td></tr>
+          <tr><td class="product-name">Australia</td><td class="val">740</td><td><span class="badge badge-green">+1.5%</span></td></tr>
+          <tr><td class="product-name">United Kingdom</td><td class="val">1,370</td><td><span class="badge badge-green">+4.1%</span></td></tr>
+          <tr><td class="product-name">Argentina (Jan–Feb)</td><td class="val">—</td><td><span class="badge badge-green">+10.1%</span></td></tr>
+          <tr><td class="product-name">Germany (Jan 2026)</td><td class="val">2,851</td><td><span class="badge badge-green">+7.0%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="commentary warning">
+    <strong>⚠️ Outlook Risk:</strong> The Iran conflict has elevated mineral fertiliser prices (approximately one-third of EU supply originates from Gulf-state producers) and pushed diesel costs higher. Early signals of a potential <strong>El Niño</strong> event for 2026 present a further downside risk to Oceania milk production in the latter part of the year. These factors could moderate the current supply surplus from H2 2026 onwards.
+  </div>
+
+  <div class="card">
+    <div class="card-title accent">EU Farmer Milk Prices — Selected Countries (€/100 kg, Jan 2026)</div>
+    <div class="chart-wrap">
+      <canvas id="farmgateChart"></canvas>
+    </div>
+  </div>
+
+</div><!-- end supply -->
+
+<!-- ════ PRICES ════ -->
+<div id="prices" class="section">
+
+  <div class="section-header">
+    <span class="section-label">EU & World <span>Prices</span></span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="commentary">
+    <strong>Price Dynamics:</strong> EU commodity prices present a bifurcated picture heading into Q2. <strong>SMP has surged +7.0%</strong> vs. the 4-week average to €2.60/kg, making it the standout performer — driven by strong MENA and Latin American demand. Butter is firm at €4.37/kg with Easter pre-buying providing a near-term floor. WMP is recovering at €3.40/kg (+2.9%). Cheddar softened slightly (−1.2%), reflecting adequate supply. <strong>Sweet Whey Powder</strong> hit new historical highs while WPC 80 is commanding premium prices. At the GDT Event 400 (17 March), AMF rose +6.4%, SMP ticked +5.2%, Butter was unchanged, and WMP fell −4.0%.
+  </div>
+
+  <!-- EU Price Table -->
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">EU Weekly Prices — Week 12 (€/kg)</div>
+      <table class="price-table">
+        <thead><tr><th>Product</th><th>€/kg</th><th>€/100kg</th><th>vs. 4-wk avg</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td class="product-name">Butter</td><td class="val up">4.37</td><td>437</td><td><span class="badge badge-green">+2.1%</span></td></tr>
+          <tr class="highlight-row"><td class="product-name">SMP</td><td class="val up">2.60</td><td>260</td><td><span class="badge badge-green">+7.0%</span></td></tr>
+          <tr class="highlight-row"><td class="product-name">WMP</td><td class="val up">3.40</td><td>340</td><td><span class="badge badge-green">+2.9%</span></td></tr>
+          <tr><td class="product-name">Cheddar</td><td class="val down">3.26</td><td>326</td><td><span class="badge badge-red">−1.2%</span></td></tr>
+          <tr class="highlight-row"><td class="product-name">Sweet Whey Powder</td><td class="val up">~1.154</td><td>~115.4</td><td><span class="badge badge-green">All-time high</span></td></tr>
+          <tr><td class="product-name">Raw Milk (Jan 2026)</td><td class="val">0.452</td><td>45.2</td><td><span class="badge badge-red">−5.8% vs. last mo.</span></td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <script>
-        Chart.defaults.font.family = "'Inter', sans-serif";
-        Chart.defaults.color = '#64748b';
+    <div class="card">
+      <div class="card-title accent">World Quotations — 15 March 2026 (USD/t converted to EUR/kg)</div>
+      <table class="price-table">
+        <thead><tr><th>Product</th><th>EU (€/kg)</th><th>Oceania (€/kg)</th><th>USA (€/kg)</th></tr></thead>
+        <tbody>
+          <tr><td class="product-name">Butter</td><td class="val">4.35</td><td>5.78</td><td>3.61</td></tr>
+          <tr><td class="product-name">SMP</td><td class="val">2.42</td><td>2.75</td><td>3.29</td></tr>
+          <tr><td class="product-name">WMP</td><td class="val">3.31</td><td>3.24</td><td>4.42</td></tr>
+          <tr><td class="product-name">Cheddar</td><td class="val">3.26</td><td>4.22</td><td>2.95</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:var(--text-light);margin-top:10px;">* USD/EUR conversion at 1.1572. World prices from DG AGRI / USDA.</p>
+    </div>
+  </div>
 
-        const commCtx = document.getElementById('commodityChart').getContext('2d');
-        new Chart(commCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Butter (Avg)', 'Cheddar', 'WMP', 'SMP', 'Whey (Food)'],
-                datasets: [{
-                    label: 'EUR / KG',
-                    data: [4.10, 3.78, 3.03, 2.25, 0.90],
-                    backgroundColor: ['#eab308', '#1e3a8a', '#3b82f6', '#60a5fa', '#6366f1'],
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
+  <div class="card">
+    <div class="card-title accent">EU Weekly Price Trend — March 2026 (€/kg)</div>
+    <div class="chart-wrap tall">
+      <canvas id="weeklyPriceTrendChart"></canvas>
+    </div>
+  </div>
 
-        const prodCtx = document.getElementById('productionChart').getContext('2d');
-        new Chart(prodCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Raw Milk', 'Cheese', 'Butter', 'SMP', 'Cream'],
-                datasets: [{
-                    label: '% Change YoY',
-                    data: [1.8, 1.7, 1.3, -1.7, -9.5],
-                    backgroundColor: (ctx) => ctx.raw >= 0 ? '#10b981' : '#ef4444',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { color: '#f1f5f9' } }
-                }
-            }
-        });
-    </script>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">GDT Auction Event 400 — 17 March 2026 (USD/MT)</div>
+      <table class="price-table">
+        <thead><tr><th>Product</th><th>USD/MT</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td class="product-name">Anhydrous Milk Fat</td><td class="val">$7,602</td><td><span class="badge badge-green">+6.4%</span></td></tr>
+          <tr><td class="product-name">Butter (GDT)</td><td class="val">$6,868</td><td><span class="badge badge-red">−0.9%</span></td></tr>
+          <tr><td class="product-name">Skim Milk Powder</td><td class="val">$3,409</td><td><span class="badge badge-green">+5.2%</span></td></tr>
+          <tr><td class="product-name">Whole Milk Powder</td><td class="val">$3,709</td><td><span class="badge badge-red">−4.0%</span></td></tr>
+          <tr><td class="product-name">Lactose</td><td class="val">$4,925</td><td><span class="badge badge-blue">+0.1%</span></td></tr>
+          <tr><td class="product-name">GDT All-Products Avg</td><td class="val">$4,330</td><td><span class="badge badge-green">+0.1%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-title">South German Exchange Report — 25 March 2026</div>
+      <div class="commentary highlight" style="font-size:13px;margin-bottom:0;">
+        The Süddeutsche Butter- und Käse-Börse reports stable butter prices in pre-Easter trade with retail volumes above prior year levels. <strong>Block butter appears to have reached a preliminary price peak</strong>, though the forward outlook remains uncertain. Cut cheese demand is excellent for Easter with full order books. Export-oriented block goods are actively traded, and domestic sales are running well. Slotted cheese (Schnittkäse) spot prices for April could still move higher. <strong>May remains uncertain</strong> given tensions around Iran and US trade policy.
+      </div>
+    </div>
+  </div>
+
+</div><!-- end prices -->
+
+<!-- ════ WHEY FOCUS ════ -->
+<div id="whey" class="section">
+
+  <div class="section-header">
+    <span class="section-label">Whey & SWP <span>Focus</span></span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="commentary">
+    <strong>Whey & Whey Proteins — Market Update:</strong> Sweet Whey Powder (SWP) is the standout commodity of the current cycle, having reached <strong>new all-time price highs</strong>. The gap between food-grade and feed-grade SWP is narrowing as both segments firm simultaneously. Most critically for BMi's product portfolio, <strong>WPC 80 is in exceptionally high demand and is achieving premium prices</strong> — a function of tightening athletic nutrition and infant formula demand globally combined with limited high-purity processing capacity across Europe. WPC 35 also benefits from the buoyant SWP floor. Production of whey products in the EU rose +1.8% YoY in January 2026, reflecting the broader milk supply expansion. China's whey powder imports rose +10% in Jan–Nov 2025, with EU's share of the Chinese market steady at approximately 33–35%.
+  </div>
+
+  <div class="grid-3">
+    <div class="kpi-tile green">
+      <div class="kpi-label">EU Sweet Whey Powder (Wk 11)</div>
+      <div class="kpi-value">1.154 <span class="kpi-unit">€/kg</span></div>
+      <div class="kpi-change up">▲ All-time high</div>
+    </div>
+    <div class="kpi-tile green">
+      <div class="kpi-label">WPC 80 Market</div>
+      <div class="kpi-value">Premium</div>
+      <div class="kpi-change up">▲ Very strong demand</div>
+    </div>
+    <div class="kpi-tile light-blue">
+      <div class="kpi-label">China Whey Powder Imports</div>
+      <div class="kpi-value">642 <span class="kpi-unit">kt</span></div>
+      <div class="kpi-change up">▲ +10% YoY (Jan–Nov 2025)</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">EU Sweet Whey Powder — Weekly Price Trend (€/kg)</div>
+      <div class="chart-wrap">
+        <canvas id="wheyChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Whey Market Commentary</div>
+      <table class="price-table">
+        <thead><tr><th>Product</th><th>Price Level</th><th>Trend</th><th>Demand</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td class="product-name">Sweet Whey Powder (SWP)</td><td>€1.154/kg</td><td><span class="badge badge-green">All-time high</span></td><td>Very Strong</td></tr>
+          <tr class="highlight-row"><td class="product-name">WPC 80</td><td>Premium</td><td><span class="badge badge-green">Rising</span></td><td>Exceptional</td></tr>
+          <tr><td class="product-name">WPC 35</td><td>Firm</td><td><span class="badge badge-green">Supported</span></td><td>Good</td></tr>
+          <tr><td class="product-name">WPI</td><td>Premium</td><td><span class="badge badge-blue">Stable-firm</span></td><td>Strong</td></tr>
+          <tr><td class="product-name">Permeate / Feed Whey</td><td>Firm</td><td><span class="badge badge-green">Converging</span></td><td>Moderate</td></tr>
+        </tbody>
+      </table>
+      <div class="commentary highlight" style="margin-top:16px;font-size:13px;">
+        <strong>Key Driver:</strong> The chocolate industry is placing forward demand for H2 2026. Sports nutrition and clinical nutrition continue to absorb WPC 80 and WPI volumes. Capacities at German and Irish processing sites are running at high utilisation.
+      </div>
+    </div>
+  </div>
+
+  <div class="commentary">
+    <strong>Lactose Market:</strong> EU lactose exports fell −18% in Jan–Nov 2025 to 157,867 tonnes, a significant contraction. However, GDT Lactose held firm at $4,925/MT (+0.1%) in the latest auction. China's lactose imports from the EU grew +19% (164 kt), partially offsetting declines elsewhere. This suggests a geographic re-routing of lactose trade flows toward Asia. Demand from the pharmaceutical excipient sector provides a structural floor for quality lactose pricing.
+  </div>
+
+</div><!-- end whey -->
+
+<!-- ════ TRADE ════ -->
+<div id="trade" class="section">
+
+  <div class="section-header">
+    <span class="section-label">Global <span>Trade</span></span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="commentary">
+    <strong>EU Export Performance:</strong> EU dairy exports show a divergent picture by product. SMP export volumes rose +10% in Jan–Nov 2025 to 731,187 tonnes — the standout performer. Cheese exports grew +1% to 1.29 million tonnes, with the UK remaining the dominant destination. Butter exports were essentially flat (−0%). WMP fell −18%. The EU's SMP competitiveness is particularly strong in the current period, with European product considered highly competitive on world markets. Mexico is a key growth destination for SMP (+47% YoY). The UAE is emerging as a significant growth market across multiple categories.
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">EU Dairy Exports — Jan–Nov 2025 (kt)</div>
+      <div class="chart-wrap tall">
+        <canvas id="exportChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title accent">China Dairy Imports — Jan–Nov 2025 vs 2024 (kt)</div>
+      <div class="chart-wrap tall">
+        <canvas id="chinaChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Main Importing Countries — Jan–Nov 2025 compared to 2024</div>
+    <table class="world-table">
+      <thead>
+        <tr><th>Country</th><th>Butter (kt)</th><th>Cheese (kt)</th><th>SMP (kt)</th><th>WMP (kt)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>China</strong></td><td>130 <span class="badge badge-green">+9%</span></td><td>174 <span class="badge badge-green">+13%</span></td><td>193 <span class="badge badge-red">−5%</span></td><td>385 <span class="badge badge-green">+5%</span></td></tr>
+        <tr><td><strong>United Kingdom</strong></td><td>54 <span class="badge badge-red">−7%</span></td><td>433 <span class="badge badge-green">+4%</span></td><td>12 <span class="badge badge-green">+8%</span></td><td>14 <span class="badge badge-red">−1%</span></td></tr>
+        <tr><td><strong>Saudi Arabia</strong></td><td>71 <span class="badge badge-green">+10%</span></td><td>212 <span class="badge badge-green">+2%</span></td><td>40 <span class="badge badge-green">+17%</span></td><td>110 <span class="badge badge-red">−11%</span></td></tr>
+        <tr><td><strong>Mexico</strong></td><td>24 <span class="badge badge-red">−12%</span></td><td>158 <span class="badge badge-red">−15%</span></td><td>257 <span class="badge badge-green">+47%</span></td><td>6 <span class="badge badge-red">−3%</span></td></tr>
+        <tr><td><strong>UAE</strong></td><td>31 <span class="badge badge-blue">+1%</span></td><td>76 <span class="badge badge-green">+7%</span></td><td>120 <span class="badge badge-green">+++</span></td><td>143 <span class="badge badge-green">+44%</span></td></tr>
+        <tr><td><strong>Iraq</strong></td><td>9 <span class="badge badge-red">−3%</span></td><td>137 <span class="badge badge-green">+8%</span></td><td>53 <span class="badge badge-green">+32%</span></td><td>11 <span class="badge badge-green">+9%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="commentary warning">
+    <strong>⚠️ US Trade Policy Risk:</strong> The US tariff environment under the current administration represents a wildcard for global dairy trade flows. Any escalation could redirect US export volumes (particularly SMP and cheese) away from target markets, creating short-term disruption but potentially opening alternative demand for EU suppliers in displaced markets. The Iran conflict remains a persistent driver of MENA supply uncertainty, which structurally supports EU ingredient exports to the region.
+  </div>
+
+</div><!-- end trade -->
+
+<!-- ════ FEED ════ -->
+<div id="feed" class="section">
+
+  <div class="section-header">
+    <span class="section-label">Feed & <span>Energy Markets</span></span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="commentary warning">
+    <strong>Cost Pressure Alert:</strong> Feed and energy costs are rising sharply, posing a meaningful margin risk for EU dairy farmers. Energy costs surged <strong>+24.8%</strong> versus the 4-week average in Week 12 — the most significant cost-side pressure reading in recent quarters. Feed costs rose +2.5%. The Iran conflict is the primary driver, elevating oil prices (Brent at $101/bbl as of 22 March 2026) and restricting fertiliser supply from Gulf-region producers. These cost pressures, if sustained, could moderate the current milk supply expansion from mid-2026.
+  </div>
+
+  <div class="grid-4">
+    <div class="kpi-tile orange">
+      <div class="kpi-label">EU Feed Cost Index (Wk 12)</div>
+      <div class="kpi-value">+2.5<span class="kpi-unit">%</span></div>
+      <div class="kpi-change down">▲ vs. 4-week avg</div>
+    </div>
+    <div class="kpi-tile orange">
+      <div class="kpi-label">EU Energy Cost Index (Wk 12)</div>
+      <div class="kpi-value">+24.8<span class="kpi-unit">%</span></div>
+      <div class="kpi-change down">▲ vs. 4-week avg</div>
+    </div>
+    <div class="kpi-tile orange">
+      <div class="kpi-label">Brent Crude Oil</div>
+      <div class="kpi-value">$101<span class="kpi-unit">/bbl</span></div>
+      <div class="kpi-change down">▲ Iran war premium</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-label">US Milk/Feed Ratio (Jan 2026)</div>
+      <div class="kpi-value">2.09</div>
+      <div class="kpi-change down">▼ vs. 2.43 avg 2025</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">Soybean Meal (South American) — Netherlands (€/t)</div>
+      <div class="chart-wrap">
+        <canvas id="sojaChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title accent">Wheat Price — Netherlands (€/t)</div>
+      <div class="chart-wrap">
+        <canvas id="wheatChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Feed & Input Price Summary (January 2026)</div>
+    <table class="price-table">
+      <thead><tr><th>Input</th><th>Jan 2025</th><th>Dec 2025</th><th>Jan 2026</th><th>YoY Change</th></tr></thead>
+      <tbody>
+        <tr><td class="product-name">Soybean Meal, NL (€/t)</td><td>346.5</td><td>312.0</td><td class="val">313.2</td><td><span class="badge badge-red">−9.6%</span></td></tr>
+        <tr><td class="product-name">Wheat, NL (€/t)</td><td>245.3</td><td>203.4</td><td class="val">203.4</td><td><span class="badge badge-red">−17.1%</span></td></tr>
+        <tr><td class="product-name">US Milk/Feed Ratio</td><td>2.82</td><td>2.26</td><td class="val">2.09</td><td><span class="badge badge-red">−25.9%</span></td></tr>
+        <tr><td class="product-name">Slaughter Cow, Germany (€/kg SG)</td><td>4.68</td><td>5.89</td><td class="val">5.99</td><td><span class="badge badge-green">+28.1%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="commentary">
+    <strong>Analysis:</strong> Soybean meal and wheat prices have fallen significantly year-on-year (−9.6% and −17.1% respectively), providing some relief to dairy farmers on a structural feed cost basis. However, this grain price relief is being offset by the sharp energy cost surge. The US Milk/Feed Ratio at 2.09 (vs. 2.43 average in 2025) signals tightening margins in US dairy farming, which may constrain future US milk production growth. In Europe, slaughter cow prices remain elevated (+28% YoY), reflecting reduced culling pressure and improved farmer sentiment — supportive of the herd stabilisation trend noted in the supply section.
+  </div>
+
+</div><!-- end feed -->
+
+<!-- ════ FX ════ -->
+<div id="fx" class="section">
+
+  <div class="section-header">
+    <span class="section-label">FX <span>Markets</span></span>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="commentary">
+    <strong>EUR/USD — Key Consideration for Dairy Trade:</strong> The EUR/USD rate currently stands at <strong>1.1561</strong> (25 March 2026), having pulled back from the year-to-date peak of approximately <strong>1.1868</strong> reached in mid-February 2026. Importantly, the Euro's appreciation has been a 2025–2026 story: the EUR started 2025 near multi-year lows around <strong>1.02–1.04</strong>, then surged dramatically — climbing nearly 15% — as the US Dollar weakened on the back of tariff uncertainty and macro concerns. This means that while the EUR is off its February highs, it remains significantly stronger than where EU dairy exporters were pricing 12 months ago. The structural impact on EU export competitiveness is therefore meaningful: EU butter at €4.37/kg now translates to approximately $5,050/t, well above the US equivalent of $4,173/t. SMP exports have proven more resilient to FX headwinds due to quality-driven and relationship-based demand from MENA and Latin America. The EUR/JPY cross at ~183 JPY may also weigh on EU exports to Japan.
+  </div>
+
+  <div class="grid-3">
+    <div class="kpi-tile light-blue">
+      <div class="kpi-label">EUR/USD (25 Mar 2026)</div>
+      <div class="kpi-value">1.1561</div>
+      <div class="kpi-change down">▼ Off Feb peak of 1.1868</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-label">EUR/GBP (Feb 2026)</div>
+      <div class="kpi-value">0.8703</div>
+      <div class="kpi-change flat">→ Broadly stable</div>
+    </div>
+    <div class="kpi-tile">
+      <div class="kpi-label">EUR/JPY (Feb 2026)</div>
+      <div class="kpi-value">183.45</div>
+      <div class="kpi-change down">▼ Weak JPY headwind</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title accent">EUR/USD Exchange Rate Trend (2020–2026)</div>
+      <div class="chart-wrap">
+        <canvas id="fxChart"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">FX Impact on EU Dairy Export Competitiveness</div>
+      <table class="price-table">
+        <thead><tr><th>Scenario</th><th>EUR/USD</th><th>EU Butter (USD/t)</th><th>Competitiveness</th></tr></thead>
+        <tbody>
+          <tr><td class="product-name">Current (Mar 2026)</td><td class="val">1.1561</td><td>$5,053</td><td><span class="badge badge-red">Premium to USA</span></td></tr>
+          <tr><td class="product-name">Feb 2026 Peak</td><td>1.1868</td><td>$5,187</td><td><span class="badge badge-red">Most uncompetitive</span></td></tr>
+          <tr><td class="product-name">Early 2025 (Jan)</td><td>~1.03</td><td>$4,500</td><td><span class="badge badge-green">Competitive</span></td></tr>
+        </tbody>
+      </table>
+      <div class="commentary highlight" style="margin-top:16px;font-size:13px;">
+        <strong>Key Context:</strong> EUR/USD started 2025 near 1.02–1.04, then surged ~15% to peak at 1.1868 in February 2026, driven by USD weakness from US tariff uncertainty. The EUR has since eased modestly to ~1.156. EU exporters have experienced a dramatic erosion of USD-market competitiveness over the past 12 months. Any EUR reversal toward 1.10 would meaningfully improve EU dairy's price position globally.
+      </div>
+      <div style="margin-top:16px;">
+        <table class="price-table">
+          <thead><tr><th>Currency Pair</th><th>Jan 2025</th><th>Feb 2026 Peak</th><th>25 Mar 2026</th><th>EUR Move (YoY)</th></tr></thead>
+          <tbody>
+            <tr><td>EUR/USD</td><td>~1.030</td><td>1.1868</td><td class="val">1.1561</td><td><span class="badge badge-green">+12.2% EUR stronger</span></td></tr>
+            <tr><td>EUR/GBP</td><td>0.8307</td><td>~0.870</td><td class="val">~0.865</td><td><span class="badge badge-green">+4.3% EUR stronger</span></td></tr>
+            <tr><td>EUR/JPY</td><td>158.09</td><td>~184</td><td class="val">~183</td><td><span class="badge badge-green">+15.8% EUR stronger</span></td></tr>
+            <tr><td>EUR/NZD</td><td>1.8337</td><td>~1.97</td><td class="val">~1.97</td><td><span class="badge badge-green">+7.4% EUR stronger</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end fx -->
+
+</div><!-- end main-wrapper -->
+
+<!-- ══ FOOTER ══ -->
+<div class="footer-disclaimer">
+  <div class="footer-logo-row">
+    Bayerische Milchindustrie eG &nbsp;|&nbsp; Monthly Market Intelligence
+  </div>
+  <strong>⚠️ Disclaimer:</strong> This market report is compiled exclusively from publicly available sources including DG AGRI (European Commission), EUROSTAT, ZMB/AMI (Dairy World MarktSpiegel), Süddeutsche Butter- und Käse-Börse, Global Dairy Trade (GDT), USDA, U.S. Energy Information Administration, European Central Bank, and Trade Data Monitor. All data and analysis are provided for <strong>informational purposes only</strong>. This report does not constitute, and should not be construed as, investment advice, trading recommendations, or any form of financial guidance. Bayerische Milchindustrie eG accepts no liability for decisions made based on this information. Recipients should conduct their own due diligence and consult qualified advisors before making any commercial decisions.<br><br>
+  Sources: DG AGRI Dashboard (25.03.2026) · ZMB/AMI MarktSpiegel Milch Rohstoffsituation 3/2026 (20.03.2026) · Süddeutsche Butter- und Käse-Börse (25.03.2026) · GDT Event 400 (17.03.2026) · ECB Exchange Rates · EIA Brent Oil Data · BMi Internal Price Compilation
+</div>
+
+<script>
+// ── Section Navigation ──
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  // re-render charts if needed
+  setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+}
+
+const DARK_BLUE = '#01305C';
+const BLUE = '#005CA9';
+const GREEN = '#AFCB38';
+const LIGHT_BLUE = '#009FE3';
+const ORANGE = '#F07E26';
+const YELLOW = '#FFDE13';
+
+Chart.defaults.font.family = "'Barlow', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#5a7090';
+
+// ── 1. Overview Price Chart ──
+new Chart(document.getElementById('overviewPriceChart'), {
+  type: 'line',
+  data: {
+    labels: ['22 Feb', '1 Mar', '8 Mar', '15 Mar', '22 Mar'],
+    datasets: [
+      { label: 'Butter', data: [4.181, 4.30, 4.355, 4.34, 4.37], borderColor: ORANGE, backgroundColor: 'rgba(240,126,38,0.1)', tension: 0.4, borderWidth: 2.5, pointRadius: 4 },
+      { label: 'SMP', data: [2.372, 2.365, 2.42, 2.53, 2.60], borderColor: LIGHT_BLUE, backgroundColor: 'rgba(0,159,227,0.08)', tension: 0.4, borderWidth: 2.5, pointRadius: 4 },
+      { label: 'WMP', data: [3.212, 3.214, 3.316, 3.437, 3.40], borderColor: GREEN, backgroundColor: 'rgba(175,203,56,0.1)', tension: 0.4, borderWidth: 2.5, pointRadius: 4 },
+      { label: 'Whey Powder', data: [1.141, 1.133, 1.220, 1.154, 1.154], borderColor: DARK_BLUE, backgroundColor: 'rgba(1,48,92,0.07)', tension: 0.4, borderWidth: 2.5, pointRadius: 4, borderDash: [4,3] },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => '€'+v.toFixed(2) } }, x: { grid: { display: false } } } }
+});
+
+// ── 2. EU Production Change Chart ──
+new Chart(document.getElementById('productionChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Raw Milk', 'Butter', 'SMP', 'WMP', 'Cream', 'Condensed', 'Drinking', 'Fermented', 'Cheese'],
+    datasets: [{
+      data: [5.0, 8.4, 20.9, -6.7, -3.6, 0.3, -1.2, 1.8, 1.8],
+      backgroundColor: d => d.raw >= 0 ? BLUE : '#e0344e',
+      borderRadius: 4
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => v+'%' } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+});
+
+// ── 3. Milk Delivery Chart ──
+new Chart(document.getElementById('milkDeliveryChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Germany', 'France', 'Netherlands', 'Poland', 'Italy', 'Ireland', 'Belgium', 'Austria'],
+    datasets: [
+      { label: 'Jan 2025', data: [2664, 2021, 1157, 1146, 1132, 167, 370, 289], backgroundColor: 'rgba(1,48,92,0.3)', borderRadius: 3 },
+      { label: 'Jan 2026', data: [2851, 2138, 1225, 1196, null, 175, 410, 315], backgroundColor: BLUE, borderRadius: 3 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => (v/1000).toFixed(1)+'Mt' } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+});
+
+// ── 4. YoY % change chart ──
+new Chart(document.getElementById('milkYoyChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Belgium', 'Austria', 'Germany', 'France', 'Netherlands', 'Ireland', 'Slovenia', 'Sweden', 'Denmark', 'Spain'],
+    datasets: [{
+      data: [10.9, 8.8, 7.0, 5.8, 5.8, 4.2, 5.2, 4.4, 1.4, 1.5],
+      backgroundColor: [GREEN, GREEN, BLUE, BLUE, BLUE, LIGHT_BLUE, LIGHT_BLUE, LIGHT_BLUE, 'rgba(175,203,56,0.5)', 'rgba(175,203,56,0.5)'],
+      borderRadius: 4
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: '#eee' }, ticks: { callback: v => v+'%' } }, y: { grid: { display: false }, ticks: { font: { size: 11 } } } } }
+});
+
+// ── 5. Farmgate price chart ──
+new Chart(document.getElementById('farmgateChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Denmark', 'Italy', 'Spain', 'Austria', 'Germany', 'Poland', 'Czech', 'France', 'Netherlands', 'Ireland', 'UK', 'USA'],
+    datasets: [
+      { label: 'Jan 2025', data: [57.71, 57.11, 48.06, 51.07, 52.67, 52.44, 49.39, 46.89, 49.73, 50.60, 53.17, 51.31], backgroundColor: 'rgba(1,48,92,0.25)', borderRadius: 3 },
+      { label: 'Jan 2026', data: [46.19, 48.57, 52.52, 46.84, 39.43, 43.53, 45.83, 44.80, 34.55, 36.50, 42.21, 32.87], backgroundColor: BLUE, borderRadius: 3 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, scales: { y: { grid: { color: '#eee' }, min: 20, ticks: { callback: v => '€'+v } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+});
+
+// ── 6. Weekly Price Trend ──
+new Chart(document.getElementById('weeklyPriceTrendChart'), {
+  type: 'line',
+  data: {
+    labels: ['22 Feb', '1 Mar', '8 Mar', '15 Mar'],
+    datasets: [
+      { label: 'Butter (€/kg)', data: [4.181, 4.30, 4.355, 4.34], borderColor: ORANGE, backgroundColor: 'rgba(240,126,38,0.08)', tension: 0.4, borderWidth: 3, pointRadius: 5, yAxisID: 'y' },
+      { label: 'SMP (€/kg)', data: [2.372, 2.365, 2.42, 2.53], borderColor: LIGHT_BLUE, backgroundColor: 'rgba(0,159,227,0.08)', tension: 0.4, borderWidth: 3, pointRadius: 5, yAxisID: 'y' },
+      { label: 'WMP (€/kg)', data: [3.212, 3.214, 3.316, 3.437], borderColor: GREEN, backgroundColor: 'rgba(175,203,56,0.1)', tension: 0.4, borderWidth: 3, pointRadius: 5, yAxisID: 'y' },
+      { label: 'Cheddar (€/kg)', data: [3.349, 3.347, 3.482, 3.303], borderColor: DARK_BLUE, backgroundColor: 'rgba(1,48,92,0.05)', tension: 0.4, borderWidth: 2, pointRadius: 5, yAxisID: 'y', borderDash: [4,3] },
+      { label: 'Whey Powder (€/kg)', data: [1.141, 1.133, 1.220, 1.154], borderColor: YELLOW, backgroundColor: 'rgba(255,222,19,0.1)', tension: 0.4, borderWidth: 2.5, pointRadius: 5, yAxisID: 'y2' },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index' }, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14 } } }, scales: { y: { type: 'linear', position: 'left', grid: { color: '#eee' }, ticks: { callback: v => '€'+v.toFixed(2) }, title: { display: true, text: 'Butter/SMP/WMP/Cheddar (€/kg)' } }, y2: { type: 'linear', position: 'right', grid: { drawOnChartArea: false }, ticks: { callback: v => '€'+v.toFixed(2) }, title: { display: true, text: 'Whey Powder (€/kg)' } }, x: { grid: { display: false } } } }
+});
+
+// ── 7. Whey Price Chart ──
+new Chart(document.getElementById('wheyChart'), {
+  type: 'line',
+  data: {
+    labels: ['22 Feb', '1 Mar', '8 Mar', '15 Mar'],
+    datasets: [
+      { label: 'EU Sweet Whey Powder (€/kg)', data: [1.141, 1.133, 1.220, 1.154], borderColor: GREEN, backgroundColor: 'rgba(175,203,56,0.15)', tension: 0.4, borderWidth: 3, pointRadius: 6, fill: true }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { grid: { color: '#eee' }, min: 1.00, ticks: { callback: v => '€'+v.toFixed(3) } }, x: { grid: { display: false } } } }
+});
+
+// ── 8. Export Chart ──
+new Chart(document.getElementById('exportChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Butter', 'Cheese', 'SMP', 'WMP', 'Whey Pwd', 'Caseinates', 'Condensed', 'Lactose'],
+    datasets: [
+      { label: '2024', data: [119, 155, 203, 366, 583, 44, 17, 138], backgroundColor: 'rgba(0,92,169,0.35)', borderRadius: 3 },
+      { label: '2025', data: [130, 174, 193, 385, 642, 37, 14, 164], backgroundColor: BLUE, borderRadius: 3 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } }, title: { display: true, text: 'China Total Dairy Imports (Jan–Nov, kt)', font: { size: 11 } } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => v+'kt' } }, x: { grid: { display: false }, ticks: { font: { size: 11 } } } } }
+});
+
+// ── 9. China Chart ──
+new Chart(document.getElementById('chinaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Butter+Oil', 'Cheese', 'SMP', 'WMP', 'Whey Pwd', 'Caseinate', 'Condensed', 'Lactose'],
+    datasets: [{
+      label: '% Change YoY',
+      data: [9, 13, -5, 5, 10, -16, -15, 19],
+      backgroundColor: d => d.raw >= 0 ? LIGHT_BLUE : '#e0344e',
+      borderRadius: 4
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: true, text: 'China Dairy Imports % Change (Jan–Nov 2025 vs 2024)', font: { size: 11 } } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => v+'%' } }, x: { grid: { display: false }, ticks: { font: { size: 11 } } } } }
+});
+
+// ── 10. Soja chart ──
+new Chart(document.getElementById('sojaChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan 26'],
+    datasets: [
+      { label: '2025', data: [346.5, 339.0, 343.8, 324.0, 305.5, 291.0, 278.0, 304.4, 308.4, 313.6, 338.2, 312.0, null], borderColor: 'rgba(1,48,92,0.4)', tension: 0.4, borderWidth: 2, pointRadius: 3, borderDash: [4,3] },
+      { label: '2026', data: [null,null,null,null,null,null,null,null,null,null,null,null,313.2], borderColor: ORANGE, tension: 0.4, borderWidth: 3, pointRadius: 5 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => '€'+v } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+});
+
+// ── 11. Wheat chart ──
+new Chart(document.getElementById('wheatChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan 26'],
+    datasets: [
+      { label: '2025', data: [245.3, 244.6, 238.8, 232.7, 223.0, 214.4, 209.6, 202.8, 195.2, 199.5, 205.2, 203.4, null], borderColor: 'rgba(1,48,92,0.4)', tension: 0.4, borderWidth: 2, pointRadius: 3, borderDash: [4,3] },
+      { label: '2026', data: [null,null,null,null,null,null,null,null,null,null,null,null,203.4], borderColor: YELLOW, tension: 0.4, borderWidth: 3, pointRadius: 5 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10 } } }, scales: { y: { grid: { color: '#eee' }, ticks: { callback: v => '€'+v } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } } }
+});
+
+// ── 12. FX Chart — corrected with canonical weekly data ──
+new Chart(document.getElementById('fxChart'), {
+  type: 'line',
+  data: {
+    labels: [
+      'Jan 3','Jan 10','Jan 17','Jan 24','Jan 31',
+      'Feb 7','Feb 14','Feb 21','Feb 28',
+      'Mar 7','Mar 14','Mar 21','Mar 28',
+      'Apr 4','Apr 11','Apr 18','Apr 25',
+      'May 2','May 9','May 16','May 23','May 30',
+      'Jun 6','Jun 13','Jun 20','Jun 27',
+      'Jul 4','Jul 11','Jul 18','Jul 25',
+      'Aug 1','Aug 8','Aug 15','Aug 22','Aug 29',
+      'Sep 5','Sep 12','Sep 19','Sep 26',
+      'Oct 3','Oct 10','Oct 17','Oct 24','Oct 31',
+      'Nov 7','Nov 14','Nov 21','Nov 28',
+      'Dec 5','Dec 12','Dec 19','Dec 26',
+      'Jan 2 \'26','Jan 9','Jan 16','Jan 23','Jan 30',
+      'Feb 6','Feb 13','Feb 20','Feb 27',
+      'Mar 6','Mar 13','Mar 20','Mar 25'
+    ],
+    datasets: [{
+      label: 'EUR/USD',
+      data: [
+        1.0309, 1.0255, 1.0276, 1.0504, 1.0362,
+        1.0330, 1.0493, 1.0461, 1.0378,
+        1.0834, 1.0879, 1.0822, 1.0828,
+        1.0961, 1.1362, 1.1396, 1.1365,
+        1.1300, 1.1250, 1.1165, 1.1365, 1.1349,
+        1.1396, 1.1552, 1.1525, 1.1722,
+        1.1781, 1.1690, 1.1627, 1.1743,
+        1.1589, 1.1643, 1.1705, 1.1720, 1.1686,
+        1.1720, 1.1735, 1.1747, 1.1704,
+        1.1744, 1.1621, 1.1655, 1.1631, 1.1539,
+        1.1567, 1.1621, 1.1514, 1.1598,
+        1.1645, 1.1742, 1.1710, 1.1772,
+        1.1721, 1.1637, 1.1599, 1.1831, 1.1851,
+        1.1817, 1.1868, 1.1783, 1.1816,
+        1.1690, 1.1419, 1.1572, 1.1561
+      ],
+      borderColor: BLUE,
+      backgroundColor: ctx => {
+        const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 300);
+        gradient.addColorStop(0, 'rgba(0,92,169,0.18)');
+        gradient.addColorStop(1, 'rgba(0,92,169,0.01)');
+        return gradient;
+      },
+      tension: 0.35,
+      borderWidth: 2.5,
+      pointRadius: 0,
+      pointHoverRadius: 5,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => 'EUR/USD: ' + ctx.parsed.y.toFixed(4) } },
+      annotation: {
+        annotations: {
+          peakLine: {
+            type: 'line', yMin: 1.1868, yMax: 1.1868,
+            borderColor: ORANGE, borderWidth: 1.5, borderDash: [4,3],
+            label: { content: 'Feb peak 1.1868', enabled: true, position: 'end', font: { size: 10 }, color: ORANGE }
+          }
+        }
+      }
+    },
+    scales: {
+      y: {
+        grid: { color: '#eee' },
+        min: 1.00, max: 1.22,
+        ticks: { callback: v => v.toFixed(4) },
+        title: { display: true, text: 'EUR/USD Rate', font: { size: 11 } }
+      },
+      x: {
+        grid: { display: false },
+        ticks: {
+          font: { size: 9 },
+          maxTicksLimit: 14,
+          maxRotation: 45
+        }
+      }
+    }
+  }
+});
+</script>
 </body>
 </html>
