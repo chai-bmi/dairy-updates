@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>European Dairies: August 2026 Analysis | BMi</title>
+<title>European Dairies: September 2026 Analysis | BMi</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
-:root{--navy:#01305C;--blue:#005CA9;--green:#AFCB38;--lblue:#009FE3;--orange:#F07E26;--white:#FFFFFF;--light:#f4f7fb;--mid:#dde6f0;--text:#1a2940;--up:#5aab3a;--dn:#d63e2a;--flat:#888;}
+:root{--navy:#01305C;--blue:#005CA9;--green:#AFCB38;--lblue:#009FE3;--orange:#F07E26;--white:#FFFFFF;--light:#f4f7fb;--mid:#dde6f0;--text:#1a2940;--up:#5aab3a;--dn:#d63e2a;--flat:#888;--red:#c0392b;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--text);font-size:14px;}
 .lang-en .jp,.lang-en .pt{display:none;}
@@ -36,6 +36,7 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
 .section-heading{display:flex;align-items:center;gap:10px;margin-bottom:20px;border-bottom:3px solid var(--green);padding-bottom:10px;}
 .section-heading h2{font-size:19px;font-weight:800;color:var(--navy);}
 .tag{background:var(--green);color:var(--navy);font-size:10px;font-weight:800;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.8px;}
+.tag-red{background:var(--red);color:#fff;font-size:10px;font-weight:800;padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.8px;}
 .kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px;margin-bottom:24px;}
 .kpi-card{background:var(--white);border-radius:8px;padding:16px 14px;border-top:4px solid var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.07);}
 .kpi-card.green-top{border-top-color:var(--green);}
@@ -46,7 +47,7 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
 .kpi-val{font-size:22px;font-weight:800;color:var(--navy);}
 .kpi-val small{font-size:13px;font-weight:600;}
 .kpi-change{font-size:11px;font-weight:700;margin-top:4px;}
-.kpi-change.up{color:var(--up);} .kpi-change.dn{color:var(--dn);} .kpi-change.flat{color:var(--flat);}
+.kpi-change.up{color:var(--up);}.kpi-change.dn{color:var(--dn);}.kpi-change.flat{color:var(--flat);}
 .kpi-ctx{font-size:10px;color:#888;margin-top:2px;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px;}
 @media(max-width:760px){.two-col{grid-template-columns:1fr;}}
@@ -55,7 +56,7 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
 .card-full{background:var(--white);border-radius:8px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.07);margin-bottom:20px;}
 .card-full h3{font-size:12.5px;font-weight:700;color:var(--navy);margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px;}
 .commentary{background:linear-gradient(135deg,#eaf1fb,#f0f8e8);border-left:5px solid var(--blue);border-radius:0 8px 8px 0;padding:16px 18px;margin-bottom:20px;font-size:13px;line-height:1.75;}
-.commentary p{margin-bottom:8px;} .commentary p:last-child{margin-bottom:0;} .commentary strong{color:var(--navy);}
+.commentary p{margin-bottom:8px;}.commentary p:last-child{margin-bottom:0;}.commentary strong{color:var(--navy);}
 .commentary.highlight{border-left-color:var(--green);background:linear-gradient(135deg,#f0f8e8,#fffde8);}
 .commentary.amber{border-left-color:var(--orange);background:linear-gradient(135deg,#fff7ee,#fdf3e8);}
 .commentary.danger{border-left-color:var(--dn);background:linear-gradient(135deg,#fef0f0,#fff5f5);}
@@ -68,21 +69,18 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
 .price-table td.right{text-align:right;font-weight:700;}
 .price-table td.label{font-weight:700;color:var(--navy);}
 .badge{display:inline-block;padding:2px 7px;border-radius:12px;font-size:10px;font-weight:700;}
-.badge.up{background:#e8f7e0;color:var(--up);} .badge.dn{background:#fdecea;color:var(--dn);} .badge.flat{background:#f0f0f0;color:#666;}
+.badge.up{background:#e8f7e0;color:var(--up);}.badge.dn{background:#fdecea;color:var(--dn);}.badge.flat{background:#f0f0f0;color:#666;}
 .hl-row{background:#fffbe8 !important;}
 .trend-up::before{content:"▲ ";color:var(--up);}
 .trend-dn::before{content:"▼ ";color:var(--dn);}
 .trend-flat::before{content:"→ ";color:var(--flat);}
 .alert-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
 .alert-item{background:var(--white);border-radius:6px;padding:10px 14px;border-left:4px solid var(--blue);flex:1;min-width:200px;font-size:12px;box-shadow:0 1px 5px rgba(0,0,0,.06);}
-.alert-item.green{border-left-color:var(--green);} .alert-item.orange{border-left-color:var(--orange);} .alert-item.red{border-left-color:var(--dn);}
+.alert-item.green{border-left-color:var(--green);}.alert-item.orange{border-left-color:var(--orange);}.alert-item.red{border-left-color:var(--dn);}
 .alert-item strong{display:block;font-size:11px;text-transform:uppercase;color:var(--navy);margin-bottom:2px;}
 .chart-wrap{position:relative;height:240px;}
-.chart-wrap.tall{height:290px;} .chart-wrap.short{height:180px;}
+.chart-wrap.tall{height:290px;}.chart-wrap.short{height:180px;}
 .source-note{font-size:10px;color:#888;margin-top:8px;font-style:italic;}
-.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
-.summary-item{display:flex;justify-content:space-between;padding:6px 8px;background:var(--light);border-radius:4px;font-size:12px;}
-.summary-item span:first-child{color:#555;} .summary-item span:last-child{font-weight:700;color:var(--navy);}
 .disclaimer{background:var(--navy);color:#a0b8d0;font-size:11px;line-height:1.7;padding:20px 28px;text-align:center;margin-top:20px;}
 .disclaimer strong{color:var(--white);}
 .site-footer{background:#0a1e35;color:#607a96;font-size:11px;padding:14px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
@@ -91,8 +89,6 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
 </style>
 </head>
 <body class="lang-en">
-
-<!-- HEADER -->
 <header class="site-header">
   <div class="header-inner">
     <div>
@@ -102,15 +98,15 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
       <div class="brand-sub pt">Ingredientes Lácteos — Alemanha</div>
     </div>
     <div class="header-center">
-      <div class="report-title en">European Dairies: August 2026 Analysis</div>
-      <div class="report-title jp">欧州酪農市場：2026年8月分析</div>
-      <div class="report-title pt">Mercado Lácteo Europeu: Análise de Agosto 2026</div>
+      <div class="report-title en">European Dairies: September 2026 Analysis</div>
+      <div class="report-title jp">欧州酪農市場：2026年9月分析</div>
+      <div class="report-title pt">Mercado Lácteo Europeu: Análise de Setembro 2026</div>
       <div class="report-subtitle en">Market Updates</div>
       <div class="report-subtitle jp">マーケットアップデート</div>
       <div class="report-subtitle pt">Atualização de Mercado</div>
-      <div class="report-date en">Report Date: 21 August 2026 | KW 34 / 2026</div>
-      <div class="report-date jp">レポート日付：2026年8月21日 | KW34</div>
-      <div class="report-date pt">Data do Relatório: 21 de Agosto de 2026 | KW 34</div>
+      <div class="report-date en">Report Date: 23 September 2026 | KW 38-39 / 2026</div>
+      <div class="report-date jp">レポート日付：2026年9月23日 | KW38-39</div>
+      <div class="report-date pt">Data do Relatório: 23 de Setembro de 2026 | KW 38-39</div>
     </div>
     <div class="lang-switcher">
       <button class="lbtn active" id="btn-en" onclick="setLang('en')">EN</button>
@@ -143,190 +139,189 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
   </nav>
 </header>
 
-<!-- ① EXECUTIVE OVERVIEW -->
 <section id="tab-overview" class="section active">
   <div class="section-heading">
     <h2><span class="en">Executive Overview</span><span class="jp">エグゼクティブ概要</span><span class="pt">Visão Executiva</span></h2>
-    <span class="tag en">August 2026</span><span class="tag jp">2026年8月</span><span class="tag pt">Agosto 2026</span>
+    <span class="tag en">September 2026</span><span class="tag jp">2026年9月</span><span class="tag pt">Setembro 2026</span>
+    <span class="tag-red en">⚡ Energy Surge</span><span class="tag-red jp">⚡ エネルギー急騰</span><span class="tag-red pt">⚡ Alta de Energia</span>
   </div>
-
   <div class="kpi-grid">
     <div class="kpi-card navy-top">
-      <div class="kpi-label en">EU Raw Milk (Jun 2026)</div><div class="kpi-label jp">EU原料乳（6月）</div><div class="kpi-label pt">Leite Cru UE (Jun 2026)</div>
-      <div class="kpi-val">0.419 <small>€/kg</small></div>
-      <div class="kpi-change dn">▼ −1.5% MoM</div>
-      <div class="kpi-ctx">Jun 2026 | DG AGRI</div>
+      <div class="kpi-label en">EU Raw Milk (Jul 2026)</div><div class="kpi-label jp">EU原料乳（7月）</div><div class="kpi-label pt">Leite Cru UE (Jul 2026)</div>
+      <div class="kpi-val">0.420 <small>€/kg</small></div>
+      <div class="kpi-change up">▲ +0.5% MoM</div>
+      <div class="kpi-ctx">Jul 2026 | DG AGRI</div>
     </div>
     <div class="kpi-card green-top">
-      <div class="kpi-label en">EU SMP (wk 33)</div><div class="kpi-label jp">EU SMP（第33週）</div><div class="kpi-label pt">SMP UE (sem. 33)</div>
-      <div class="kpi-val">2.88 <small>€/kg</small></div>
-      <div class="kpi-change up">▲ +3.4% vs 4-wk avg</div>
-      <div class="kpi-ctx">Wk 33 | DG AGRI</div>
+      <div class="kpi-label en">EU SMP (wk 38)</div><div class="kpi-label jp">EU SMP（第38週）</div><div class="kpi-label pt">SMP UE (sem. 38)</div>
+      <div class="kpi-val">3.09 <small>€/kg</small></div>
+      <div class="kpi-change up">▲ +2.3% vs 4-wk avg</div>
+      <div class="kpi-ctx">Wk 38 | DG AGRI</div>
     </div>
     <div class="kpi-card green-top">
-      <div class="kpi-label en">EU WMP (wk 33)</div><div class="kpi-label jp">EU WMP（第33週）</div><div class="kpi-label pt">WMP UE (sem. 33)</div>
-      <div class="kpi-val">3.56 <small>€/kg</small></div>
-      <div class="kpi-change up">▲ +5.9% vs 4-wk avg</div>
-      <div class="kpi-ctx">Wk 33 | DG AGRI</div>
+      <div class="kpi-label en">EU WMP (wk 38)</div><div class="kpi-label jp">EU WMP（第38週）</div><div class="kpi-label pt">WMP UE (sem. 38)</div>
+      <div class="kpi-val">3.77 <small>€/kg</small></div>
+      <div class="kpi-change up">▲ +2.0% vs 4-wk avg</div>
+      <div class="kpi-ctx">Wk 38 | DG AGRI</div>
+    </div>
+    <div class="kpi-card green-top">
+      <div class="kpi-label en">EU Butter (wk 38)</div><div class="kpi-label jp">EUバター（第38週）</div><div class="kpi-label pt">Manteiga UE (sem. 38)</div>
+      <div class="kpi-val">4.16 <small>€/kg</small></div>
+      <div class="kpi-change up">▲ +1.1% vs 4-wk avg</div>
+      <div class="kpi-ctx">Wk 38 | DG AGRI</div>
     </div>
     <div class="kpi-card red-top">
-      <div class="kpi-label en">EU Butter (wk 33)</div><div class="kpi-label jp">EUバター（第33週）</div><div class="kpi-label pt">Manteiga UE (sem. 33)</div>
-      <div class="kpi-val">3.98 <small>€/kg</small></div>
-      <div class="kpi-change dn">▼ −0.6% vs 4-wk avg</div>
-      <div class="kpi-ctx">Wk 33 | DG AGRI</div>
-    </div>
-    <div class="kpi-card green-top">
-      <div class="kpi-label en">EU Cheddar (wk 33)</div><div class="kpi-label jp">EUチェダー（第33週）</div><div class="kpi-label pt">Cheddar UE (sem. 33)</div>
-      <div class="kpi-val">3.35 <small>€/kg</small></div>
-      <div class="kpi-change up">▲ +0.6% vs 4-wk avg</div>
-      <div class="kpi-ctx">Wk 33 | DG AGRI</div>
+      <div class="kpi-label en">EU Cheddar (wk 38)</div><div class="kpi-label jp">EUチェダー（第38週）</div><div class="kpi-label pt">Cheddar UE (sem. 38)</div>
+      <div class="kpi-val">3.22 <small>€/kg</small></div>
+      <div class="kpi-change dn">▼ −1.1% vs 4-wk avg</div>
+      <div class="kpi-ctx">Wk 38 | DG AGRI</div>
     </div>
     <div class="kpi-card orange-top">
-      <div class="kpi-label en">Feed Costs (DG AGRI)</div><div class="kpi-label jp">飼料コスト</div><div class="kpi-label pt">Custos de Ração</div>
-      <div class="kpi-val">+4.5 <small>%</small></div>
-      <div class="kpi-change dn">▼ vs 4-wk avg — Rising</div>
-      <div class="kpi-ctx">Wk 33 | DG AGRI / Clal.it</div>
+      <div class="kpi-label en">Brent Crude</div><div class="kpi-label jp">ブレント原油</div><div class="kpi-label pt">Petróleo Brent</div>
+      <div class="kpi-val">130.8 <small>USD/bbl</small></div>
+      <div class="kpi-change dn">Energy costs +14.1%</div>
+      <div class="kpi-ctx">20.09.2026 | EIA / DG AGRI</div>
     </div>
     <div class="kpi-card">
       <div class="kpi-label en">EUR / USD</div><div class="kpi-label jp">ユーロ／米ドル</div><div class="kpi-label pt">EUR / USD</div>
-      <div class="kpi-val">1.1593</div>
-      <div class="kpi-change dn">▼ Jul avg 1.1417</div>
-      <div class="kpi-ctx">19.08.2026 | ECB</div>
+      <div class="kpi-val">1.1463</div>
+      <div class="kpi-change dn">▼ Aug avg 1.1593</div>
+      <div class="kpi-ctx">23.09.2026 | ECB</div>
     </div>
     <div class="kpi-card navy-top">
-      <div class="kpi-label en">EU Milk Collected (H1 2026)</div><div class="kpi-label jp">EU乳取扱量（上半期）</div><div class="kpi-label pt">Leite Coletado UE (1S26)</div>
-      <div class="kpi-val">+3.5 <small>% YoY</small></div>
-      <div class="kpi-change dn">▼ Jun only +1.8%</div>
-      <div class="kpi-ctx">H1 2026 | ZMB/Eurostat</div>
+      <div class="kpi-label en">EU Milk Jan–Jul 2026</div><div class="kpi-label jp">EU乳取扱量（1〜7月）</div><div class="kpi-label pt">Leite UE Jan–Jul 2026</div>
+      <div class="kpi-val">+3.4 <small>% YoY</small></div>
+      <div class="kpi-change dn">▼ Jul: +2.4% (decelerating)</div>
+      <div class="kpi-ctx">Jan–Jul 2026 | ZMB/Eurostat</div>
     </div>
   </div>
 
   <div class="alert-strip">
-    <div class="alert-item orange">
-      <strong class="en">🌡️ Heatwave + Drought — Supply Shock Deepening</strong>
-      <strong class="jp">🌡️ 熱波・干ばつ ─ 供給ショックが深刻化</strong>
-      <strong class="pt">🌡️ Onda de Calor + Seca — Choque de Oferta Aprofundando-se</strong>
-      <span class="en">German milk deliveries reduced by heat stress. Fat and protein content declining "almost across the board." Drought is damaging silage and grassland — winter feed outlook significantly worse than last year.</span>
-      <span class="jp">熱ストレスによりドイツの乳取扱量が減少。脂肪・タンパク質含有量が「ほぼ全域で」低下。干ばつがサイレージと草地を損傷 — 冬季飼料見通しは昨年より著しく悪化。</span>
-      <span class="pt">Entregas de leite na Alemanha reduzidas pelo estresse térmico. Teores de gordura e proteína em declínio "quase em toda parte." Seca afeta silagem e pastagens — perspectiva de ração de inverno significativamente pior do que no ano passado.</span>
+    <div class="alert-item red">
+      <strong class="en">⚡ Energy — Major Surge to 130.8 USD/barrel</strong>
+      <strong class="jp">⚡ エネルギー ─ ブレント原油が130.8米ドルへ急騰</strong>
+      <strong class="pt">⚡ Energia — Alta Expressiva para 130,8 USD/barril</strong>
+      <span class="en">Brent crude at 130.8 USD/barrel (20.09.2026), up sharply from 93.3 in August. Energy costs rose +14.1% versus the four-week average (DG AGRI, wk 38). At EUR/USD 1.1463, this translates to ~114 EUR/barrel — a major cost escalation for dairy processing operations.</span>
+      <span class="jp">ブレント原油は2026年9月20日に130.8米ドル/バレルと8月の93.3から急騰。エネルギーコストは4週平均比+14.1%上昇（DG AGRI第38週）。EUR/USD 1.1463換算で約114€/バレルとなり、乳製品製造にとって大きなコスト上昇。</span>
+      <span class="pt">Petróleo Brent a 130,8 USD/barril (20.09.2026), alta acentuada de 93,3 em agosto. Custos de energia subiram +14,1% em relação à média de quatro semanas (DG AGRI, sem. 38). À taxa EUR/USD 1,1463, isso equivale a ~114 EUR/barril — grande escalada de custos para o processamento lácteo.</span>
     </div>
     <div class="alert-item green">
-      <strong class="en">📦 SMP &amp; WMP — Strong Price Recovery</strong>
-      <strong class="jp">📦 SMP・WMP ─ 価格が力強く回復</strong>
-      <strong class="pt">📦 SMP &amp; WMP — Forte Recuperação de Preços</strong>
-      <span class="en">EU SMP at 2.88 €/kg (+3.4% vs 4-wk avg); WMP at 3.56 €/kg (+5.9%). Tighter raw material availability is lifting powder prices from their June lows.</span>
-      <span class="jp">EU SMPは2.88€/kg（4週平均比+3.4%）；WMPは3.56€/kg（+5.9%）。原料乳の逼迫がパウダー価格を6月の安値から押し上げ。</span>
-      <span class="pt">SMP UE a 2,88 €/kg (+3,4% vs média 4 sem.); WMP a 3,56 €/kg (+5,9%). Menor disponibilidade de matéria-prima está elevando preços de pó desde as mínimas de junho.</span>
+      <strong class="en">📦 SMP &amp; WMP — Rally Continues</strong>
+      <strong class="jp">📦 SMP・WMP ─ 上昇が継続</strong>
+      <strong class="pt">📦 SMP &amp; WMP — Rally Continua</strong>
+      <span class="en">SMP at 3.09 €/kg (wk 38), up from 2.88 in August (+7.3%). WMP at 3.77 €/kg, up from 3.56 (+5.9%). World market: EU SMP +4.7%, EU WMP +6.9% versus 15 days prior. Tighter milk availability driving continued price appreciation.</span>
+      <span class="jp">SMP第38週3.09€/kg（8月2.88から+7.3%）。WMP3.77€/kg（3.56から+5.9%）。世界市場：EU SMP前15日比+4.7%、WMP+6.9%。原料乳の逼迫が価格上昇を継続させている。</span>
+      <span class="pt">SMP a 3,09 €/kg (sem. 38), alta frente a 2,88 em agosto (+7,3%). WMP a 3,77 €/kg, frente a 3,56 (+5,9%). Mercado mundial: SMP UE +4,7%, WMP UE +6,9% vs 15 dias antes. Menor disponibilidade de leite impulsiona valorização contínua.</span>
     </div>
-    <div class="alert-item">
-      <strong class="en">🌿 SWP — Prices Rising Again</strong>
-      <strong class="jp">🌿 SWP ─ 価格が再び上昇</strong>
-      <strong class="pt">🌿 SLP — Preços em Alta Novamente</strong>
-      <span class="en">Food and feed grade SWP both showing renewed upward price movement. Less milk processed means less whey generated. Market still mixed but firming, per Süddeutsche Börse 19.08.2026.</span>
-      <span class="jp">食品・飼料グレードのSWPがともに価格の上昇再開。処理される乳量の減少でホエイ生成量も低下。南ドイツ取引所（8/19）は市場は混在も堅調化と報告。</span>
-      <span class="pt">SLP graus alimentício e ração ambos com renovado movimento de alta. Menos leite processado significa menos soro gerado. Mercado ainda misto mas firme, conforme Süddeutsche Börse 19.08.2026.</span>
+    <div class="alert-item green">
+      <strong class="en">🧈 Butter — Recovery Gaining Traction</strong>
+      <strong class="jp">🧈 バター ─ 回復が勢いを増す</strong>
+      <strong class="pt">🧈 Manteiga — Recuperação Ganhando Força</strong>
+      <span class="en">EU Butter wk 38 at 4.16 €/kg (+1.1% vs 4-wk avg), up from 3.98 in August. The Börse confirms a price increase was implemented after recent negotiations. Fresh butter commanding a significant premium over frozen stocks.</span>
+      <span class="jp">EUバター第38週4.16€/kg（4週平均比+1.1%）、8月の3.98から上昇。取引所は最近の交渉後に値上げが実施されたことを確認。フレッシュバターは冷凍在庫に対して大きなプレミアムを示している。</span>
+      <span class="pt">Manteiga UE sem. 38 a 4,16 €/kg (+1,1% vs média 4 sem.), alta de 3,98 em agosto. A Börse confirma aumento de preço implementado após negociações recentes. Manteiga fresca com prêmio significativo sobre estoques congelados.</span>
     </div>
-    <div class="alert-item red">
-      <strong class="en">🧈 Butter — Stocks Weigh Despite Rising Cream</strong>
-      <strong class="jp">🧈 バター ─ クリーム高騰も在庫が重石</strong>
-      <strong class="pt">🧈 Manteiga — Estoques Pressionam Apesar da Alta do Creme</strong>
-      <span class="en">EU Butter at 3.98 €/kg, slightly below 4-week average. Old cold storage stocks remain a headwind. Rising cream prices and lower component yields will eventually tighten supply.</span>
-      <span class="jp">EUバターは3.98€/kgと4週平均をやや下回る。旧冷蔵在庫が重石。クリーム価格の上昇と乳成分低下が最終的にバター供給を引き締める見込み。</span>
-      <span class="pt">Manteiga UE a 3,98 €/kg, ligeiramente abaixo da média de 4 semanas. Estoques antigos de câmara fria persistem como obstáculo. Alta do creme e menor rendimento de componentes deverão apertar oferta.</span>
+    <div class="alert-item orange">
+      <strong class="en">🌿 SWP — Firming; Supply Remains Tight</strong>
+      <strong class="jp">🌿 SWP ─ 強含み；供給は引き続き逼迫</strong>
+      <strong class="pt">🌿 SLP — Firmando; Oferta Permanece Apertada</strong>
+      <span class="en">Food-grade SWP is slightly firmer with the lower price band adjusted upward. Feed-grade trading interest has eased somewhat with prices largely unchanged. Seasonal milk decline and heat stress continue to constrain whey availability.</span>
+      <span class="jp">食品グレードSWPは若干強含みで下限価格帯が上方修正。飼料グレードの取引活動はやや低下し価格はほぼ横ばい。季節的な乳量減少と熱ストレスが引き続きホエイ供給を制約。</span>
+      <span class="pt">SLP grau alimentício ligeiramente mais firme com faixa de preço inferior ajustada para cima. Interesse de negociação de grau ração recuou um pouco com preços em grande parte inalterados. Declínio sazonal do leite e estresse térmico continuam a restringir disponibilidade de soro.</span>
     </div>
   </div>
 
   <div class="card-full">
-    <h3><span class="en">Market Summary — August 2026</span><span class="jp">市場サマリー ─ 2026年8月</span><span class="pt">Resumo de Mercado — Agosto 2026</span></h3>
+    <h3><span class="en">Market Summary — September 2026</span><span class="jp">市場サマリー ─ 2026年9月</span><span class="pt">Resumo de Mercado — Setembro 2026</span></h3>
     <div class="commentary">
-      <p class="en"><strong>August 2026 marks a supply inflection point for the EU dairy market.</strong> After six months of sustained above-average milk deliveries, growth is decelerating sharply. The EU-27 milk pool grew +3.5% in H1 2026, but June already showed a slowdown to just +1.8% — the weakest since January. The ongoing heatwave and drought are amplifying the adjustment: fat and protein content are declining "almost across the board" in Germany (Süddeutsche Börse, 19.08.2026), meaning even stable volumes yield less usable component per kilogram.</p>
-      <p class="jp"><strong>2026年8月は、EU酪農市場の供給変曲点を示しています。</strong>6ヶ月間続いた平均以上の乳取扱量成長が急速に減速しています。EU-27乳プールは2026年上半期に+3.5%成長しましたが、6月には+1.8%まで鈍化し、年初以来最低水準となりました。継続する熱波と干ばつが調整を増幅させており、ドイツでは脂肪とタンパク質の含有率が「ほぼ全域で」低下しており（南ドイツ取引所、2026年8月19日）、安定した量でも1kgあたりの有効成分収率が縮小しています。</p>
-      <p class="pt"><strong>Agosto de 2026 marca um ponto de inflexão na oferta do mercado lácteo europeu.</strong> Após seis meses de entregas acima da média, o crescimento está desacelerando acentuadamente. O pool de leite da UE-27 cresceu +3,5% no 1S26, mas junho já mostrou desaceleração para apenas +1,8% — a mais fraca desde janeiro. A onda de calor e a seca em andamento amplificam o ajuste: teores de gordura e proteína estão em declínio "quase em toda parte" na Alemanha (Süddeutsche Börse, 19.08.2026), o que significa que mesmo volumes estáveis rendem menos componentes por quilograma.</p>
-      <p class="en"><strong>Prices are responding.</strong> SMP and WMP are both strengthening relative to the four-week average — a direct response to tightening raw material availability. Cheese demand is good: the Börse reports sliced cheese selling well across all channels, with southern European tourism destinations ordering heavily for September. Mozzarella faces delivery bottlenecks. Butter remains weighed down by elevated cold storage stocks, though rising cream prices will eventually transmit upward.</p>
-      <p class="jp"><strong>価格は反応しています。</strong>SMPとWMPはともに4週平均比で強含みで推移しており、原料乳逼迫への直接的な反応です。チーズ需要は良好で、取引所はシュニットケーゼが全チャンネルで好調販売を報告し、南欧の観光地が9月向けに大量発注しています。モッツァレラには納入ボトルネックが発生。バターは冷蔵在庫の高水準が引き続き重石となっていますが、クリーム価格の上昇が最終的に波及する見込みです。</p>
-      <p class="pt"><strong>Os preços estão respondendo.</strong> SMP e WMP estão se fortalecendo em relação à média de quatro semanas — resposta direta ao aperto na disponibilidade de matéria-prima. A demanda por queijo está boa: a Börse relata vendas sólidas de queijo fatiado em todos os canais, com destinos turísticos do Sul da Europa fazendo pedidos expressivos para setembro. A mozzarella enfrenta gargalos de entrega. A manteiga ainda sofre com os elevados estoques em câmara fria, embora os preços crescentes do creme se transmitam eventualmente.</p>
-      <p class="en"><strong>The cost environment is tightening.</strong> Feed costs rose +4.5% versus the four-week average (DG AGRI, wk 33), reversing June's −3.2%. Soybean meal in the Netherlands averaged 366.7 EUR/tonne in July 2026 — up +31.9% year-on-year. Drought is damaging silage and grassland cuts, projecting a significantly worse winter feed outlook. German farmgate prices at 39.02 EUR/100 kg in June 2026 are running 26.8% below June 2025 (53.31 EUR/100 kg), creating serious margin pressure for farmers.</p>
-      <p class="jp"><strong>コスト環境は引き締まっています。</strong>飼料コストは第33週（DG AGRI）に4週平均比+4.5%上昇し、6月の−3.2%から反転しました。オランダの大豆ミールは2026年7月に平均366.7EUR/tと前年比+31.9%上昇。干ばつがサイレージと草地を損傷し、冬季飼料見通しの著しい悪化が予測されています。2026年6月のドイツ生産者乳価39.02EUR/100kgは2025年6月（53.31）を26.8%下回り、農家にとって深刻なマージン圧力が生じています。</p>
-      <p class="pt"><strong>O ambiente de custos está se deteriorando.</strong> Os custos de ração subiram +4,5% em relação à média de quatro semanas (DG AGRI, sem. 33), revertendo os −3,2% de junho. O farelo de soja nos Países Baixos teve média de 366,7 EUR/t em julho de 2026 — alta de +31,9% em relação ao ano anterior. A seca está danificando silagem e pastagens, projetando perspectiva de ração de inverno significativamente pior. Os preços na origem na Alemanha em junho de 2026 (39,02 EUR/100 kg) estão 26,8% abaixo de junho de 2025 (53,31 EUR/100 kg), criando pressão severa nas margens dos produtores.</p>
+      <p class="en"><strong>September 2026 sees a broad-based recovery in EU dairy commodity prices, set against an alarming surge in energy costs.</strong> EU SMP, WMP, and butter have all moved higher since August, driven by continued tightening of raw milk availability as the seasonal decline progresses. The EU-27 collected 3.4% more milk in January–July versus the prior year — equivalent to roughly 3 million additional tonnes — but July's growth rate slowed to +2.4%, reflecting the ongoing deceleration from January's +5.0% pace. Milk component content (fat and protein) fell below prior-year levels in July for the first time, compressing effective output per unit of raw milk.</p>
+      <p class="jp"><strong>2026年9月は、EU乳製品コモディティ価格の広範な回復とともに、エネルギーコストの急激な上昇という対照的な状況が展開されています。</strong>原料乳供給の継続的な逼迫を受け、EU SMP・WMP・バターがいずれも8月から上昇しています。EU-27の1〜7月乳取扱量は前年比+3.4%（約300万トン増）でしたが、7月の伸び率は+2.4%まで減速しており、1月の+5.0%からの継続的な鈍化を反映しています。乳成分（脂肪・タンパク質）は7月に初めて前年を下回り、原料乳1単位あたりの有効産出量が縮小しています。</p>
+      <p class="pt"><strong>Setembro de 2026 apresenta recuperação ampla nos preços de commodities lácteas da UE, em meio a uma assustadora alta nos custos de energia.</strong> SMP, WMP e manteiga da UE subiram desde agosto, impulsionados pelo contínuo aperto na disponibilidade de leite cru à medida que o declínio sazonal avança. A UE-27 coletou 3,4% mais leite em janeiro–julho em relação ao ano anterior — equivalente a cerca de 3 milhões de toneladas adicionais — mas a taxa de crescimento de julho desacelerou para +2,4%, refletindo a desaceleração contínua do ritmo de +5,0% de janeiro. O teor de componentes do leite (gordura e proteína) caiu abaixo dos níveis do ano anterior em julho pela primeira vez, comprimindo a produção efetiva por unidade de leite cru.</p>
+      <p class="en"><strong>The energy market is flashing red.</strong> Brent crude reached 130.8 USD/barrel on 20 September 2026, a sharp escalation from 93.3 USD/barrel in August. The DG AGRI composite energy cost index for week 38 registered +14.1% versus the four-week average — an extraordinary surge that significantly raises processing costs for drying, refrigeration, and logistics across the EU dairy industry. At EUR/USD 1.1463, this translates to approximately 114 EUR/barrel. Feed costs also rose (+4.6% vs 4-wk avg), compounding margin pressure on farmers already running farmgate prices well below the prior year.</p>
+      <p class="jp"><strong>エネルギー市場に赤信号が灯っています。</strong>ブレント原油は2026年9月20日に130.8米ドル/バレルに達し、8月の93.3米ドルから急上昇しました。DG AGRI第38週のエネルギーコスト複合指数は4週平均比+14.1%を記録し、EU乳製品業界全体で乾燥・冷蔵・物流のコストを大幅に引き上げる異常な急騰となっています。EUR/USD 1.1463換算で約114€/バレル。飼料コストも上昇（4週平均比+4.6%）し、すでに前年を大きく下回る生産者乳価で苦しむ農家のマージン圧力を複合的に高めています。</p>
+      <p class="pt"><strong>O mercado de energia está em alerta vermelho.</strong> O petróleo Brent atingiu 130,8 USD/barril em 20 de setembro de 2026, escalada acentuada de 93,3 USD/barril em agosto. O índice composto de custos de energia do DG AGRI para a semana 38 registrou +14,1% em relação à média de quatro semanas — uma alta extraordinária que eleva significativamente os custos de processamento de secagem, refrigeração e logística em toda a indústria láctea da UE. À taxa EUR/USD 1,1463, isso equivale a aproximadamente 114 EUR/barril. Os custos de ração também subiram (+4,6% vs média 4 sem.), agravando a pressão nas margens de produtores que já operam com preços ao produtor bem abaixo do ano anterior.</p>
+      <p class="en"><strong>Cheddar diverges.</strong> While most commodities are rallying, Cheddar is the exception — EU average at 3.22 €/kg, down −1.1% vs the four-week average and declining on world markets (EU −4.3%, Oceania −7.1% vs 15 days prior). Supply dynamics and seasonal demand patterns are likely weighing on the hard cheese complex as the summer season tourism boost fades.</p>
+      <p class="jp"><strong>チェダーは逆行。</strong>大半の商品が上昇する中、チェダーは例外で、EU平均は3.22€/kgと4週平均比−1.1%。世界市場でも下落（EU−4.3%、オセアニア−7.1%、前15日比）。夏季観光シーズンの需要ブーストが薄れるにつれて、ハードチーズ市場が重石となっています。</p>
+      <p class="pt"><strong>Cheddar diverge.</strong> Enquanto a maioria das commodities se recupera, o Cheddar é exceção — média UE a 3,22 €/kg, queda de −1,1% vs média de quatro semanas e em declínio nos mercados mundiais (UE −4,3%, Oceânia −7,1% vs 15 dias antes). A dinâmica de oferta e os padrões sazonais de demanda provavelmente pesam sobre o complexo de queijo duro à medida que o impulso turístico de verão desaparece.</p>
     </div>
   </div>
 
   <div class="card-full">
-    <h3><span class="en">Price Snapshot — August vs June 2026 (EU avg, €/100 kg)</span><span class="jp">価格スナップショット ─ 8月 vs 6月（EU平均、€/100 kg）</span><span class="pt">Panorama de Preços — Agosto vs Junho 2026 (média UE, €/100 kg)</span></h3>
+    <h3><span class="en">Price Snapshot — September vs August 2026 (EU avg, €/100 kg)</span><span class="jp">価格スナップショット ─ 9月 vs 8月（EU平均、€/100 kg）</span><span class="pt">Panorama de Preços — Setembro vs Agosto 2026 (média UE, €/100 kg)</span></h3>
     <table class="price-table">
-      <thead>
-        <tr>
-          <th><span class="en">Product</span><span class="jp">品目</span><span class="pt">Produto</span></th>
-          <th class="right"><span class="en">Aug wk 33</span><span class="jp">8月第33週</span><span class="pt">Ago sem. 33</span></th>
-          <th class="right"><span class="en">Jun wk 25</span><span class="jp">6月第25週</span><span class="pt">Jun sem. 25</span></th>
-          <th class="right"><span class="en">Change</span><span class="jp">変化</span><span class="pt">Variação</span></th>
-          <th class="right"><span class="en">vs 4-wk avg</span><span class="jp">4週平均比</span><span class="pt">vs média 4 sem.</span></th>
-        </tr>
-      </thead>
+      <thead><tr>
+        <th><span class="en">Product</span><span class="jp">品目</span><span class="pt">Produto</span></th>
+        <th class="right"><span class="en">Sep wk 38</span><span class="jp">9月第38週</span><span class="pt">Set sem. 38</span></th>
+        <th class="right"><span class="en">Aug wk 33</span><span class="jp">8月第33週</span><span class="pt">Ago sem. 33</span></th>
+        <th class="right"><span class="en">Change</span><span class="jp">変化</span><span class="pt">Variação</span></th>
+        <th class="right"><span class="en">vs 4-wk avg</span><span class="jp">4週平均比</span><span class="pt">vs média 4 sem.</span></th>
+      </tr></thead>
       <tbody>
-        <tr><td class="label"><span class="en">Butter</span><span class="jp">バター</span><span class="pt">Manteiga</span></td><td class="right">398</td><td class="right">386</td><td class="right"><span class="badge up">+3.1%</span></td><td class="right"><span class="badge dn">−0.6%</span></td></tr>
-        <tr class="hl-row"><td class="label">SMP</td><td class="right">288</td><td class="right">273</td><td class="right"><span class="badge up">+5.5%</span></td><td class="right"><span class="badge up">+3.4%</span></td></tr>
-        <tr class="hl-row"><td class="label">WMP</td><td class="right">356</td><td class="right">324</td><td class="right"><span class="badge up">+9.9%</span></td><td class="right"><span class="badge up">+5.9%</span></td></tr>
-        <tr><td class="label"><span class="en">Cheddar</span><span class="jp">チェダー</span><span class="pt">Cheddar</span></td><td class="right">335</td><td class="right">316</td><td class="right"><span class="badge up">+6.0%</span></td><td class="right"><span class="badge up">+0.6%</span></td></tr>
-        <tr><td class="label"><span class="en">EU Raw Milk</span><span class="jp">EU原料乳</span><span class="pt">Leite Cru UE</span></td><td class="right">41.9 <small>(Jun)</small></td><td class="right">42.8 <small>(Apr)</small></td><td class="right"><span class="badge dn">−2.1%</span></td><td class="right">—</td></tr>
+        <tr class="hl-row"><td class="label"><span class="en">Butter</span><span class="jp">バター</span><span class="pt">Manteiga</span></td><td class="right">416</td><td class="right">398</td><td class="right"><span class="badge up">+4.5%</span></td><td class="right"><span class="badge up">+1.1%</span></td></tr>
+        <tr class="hl-row"><td class="label">SMP</td><td class="right">309</td><td class="right">288</td><td class="right"><span class="badge up">+7.3%</span></td><td class="right"><span class="badge up">+2.3%</span></td></tr>
+        <tr class="hl-row"><td class="label">WMP</td><td class="right">377</td><td class="right">356</td><td class="right"><span class="badge up">+5.9%</span></td><td class="right"><span class="badge up">+2.0%</span></td></tr>
+        <tr><td class="label"><span class="en">Cheddar</span><span class="jp">チェダー</span><span class="pt">Cheddar</span></td><td class="right">322</td><td class="right">335</td><td class="right"><span class="badge dn">−3.9%</span></td><td class="right"><span class="badge dn">−1.1%</span></td></tr>
+        <tr><td class="label"><span class="en">EU Raw Milk (Jul prov.)</span><span class="jp">EU原料乳（7月暫定）</span><span class="pt">Leite Cru UE (jul prov.)</span></td><td class="right" colspan="2">42.2 (weighted avg) | 40.7 (SMP+Butter equiv.) | up to Aug 2026</td><td class="right">—</td><td class="right">—</td></tr>
       </tbody>
     </table>
-    <p class="source-note">Source: DG AGRI – Reg. 2017/1185 Art. 11 &amp; 12. Last update 19.08.2026.</p>
+    <p class="source-note">Source: DG AGRI – Reg. 2017/1185 Art. 11 &amp; 12. Last update 23.09.2026.</p>
   </div>
 </section>
 
-<!-- ② SUPPLY -->
 <section id="tab-supply" class="section">
   <div class="section-heading">
     <h2><span class="en">Supply &amp; Milk Pool</span><span class="jp">供給・原料乳プール</span><span class="pt">Oferta &amp; Pool de Leite</span></h2>
-    <span class="tag en">EU-27 · H1 2026 Final | Aug Signals</span>
-    <span class="tag jp">EU-27 · 2026年上半期確報</span>
-    <span class="tag pt">EU-27 · 1S2026 Final | Sinais de Ago</span>
+    <span class="tag en">EU-27 · Jan–Jul 2026</span><span class="tag jp">EU-27 · 2026年1〜7月</span><span class="tag pt">EU-27 · Jan–Jul 2026</span>
   </div>
   <div class="commentary">
-    <p class="en"><strong>EU-27 H1 2026 — growth decelerating month by month:</strong> The EU-27 milk pool expanded +3.5% in H1 2026 (+2.6 million tonnes vs H1 2025). However, the trajectory shows continuous deceleration from +5.0% in January to +1.8% in June. Germany accounted for the largest absolute increase (+1,048 kt). Significant contributions also came from France (+345 kt), Netherlands (+327 kt), Belgium (+201 kt), and Austria (+135 kt). Ireland (−63 kt) and the Baltic states (−56 kt) showed below-prior-year volumes.</p>
-    <p class="jp"><strong>EU-27 2026年上半期 ─ 月を追うごとに成長が鈍化：</strong>EU-27の乳プールは2026年上半期に+3.5%拡大（2025年上半期比+260万トン）。ただし1月の+5.0%から6月には+1.8%まで継続的に減速。ドイツが最大の絶対的増加量+104.8万トンを占め、フランス（+34.5万t）、オランダ（+32.7万t）、ベルギー（+20.1万t）、オーストリア（+13.5万t）が続きました。アイルランド（−6.3万t）とバルト三国（−5.6万t）は前年割れ。</p>
-    <p class="pt"><strong>UE-27 1S2026 — crescimento desacelerando mês a mês:</strong> O pool de leite da UE-27 expandiu +3,5% no 1S2026 (+2,6 milhões de toneladas vs 1S2025). A trajetória mostra desaceleração contínua de +5,0% em janeiro para +1,8% em junho. A Alemanha respondeu pelo maior aumento absoluto (+1.048 kt). Contribuições significativas vieram também da França (+345 kt), Países Baixos (+327 kt), Bélgica (+201 kt) e Áustria (+135 kt). Irlanda (−63 kt) e países bálticos (−56 kt) registraram volumes abaixo do ano anterior.</p>
-    <p class="en"><strong>Milk component content — quality dilution now a material factor:</strong> EU fat content in June was only marginally above prior year, while protein content fell below prior year for the first time since January 2026. The Süddeutsche Börse (19.08.2026) confirms that heat stress is causing "significant declines almost across the board" in Germany — meaning each kilogram of milk yields less usable fat and protein for processing. ZMB/AMI warns that drought is damaging grassland cuts and silage maize, creating a significantly worse winter feed supply outlook than last year. This compounds the supply risk for H2 2026.</p>
-    <p class="jp"><strong>乳成分含有量 ─ 品質希薄化が実質的な要因に：</strong>EU乳脂肪含有率は6月に前年をわずかに上回るのみとなり、乳タンパク質は2026年1月以来初めて前年を下回りました。南ドイツ取引所（2026年8月19日）は、熱ストレスがドイツで「ほぼ全域での著しい低下」をもたらしていることを確認しており、1kgあたりの有効成分収率が縮小しています。ZMB/AMIは干ばつが草地刈り取りとサイレージトウモロコシを損傷し、昨年より著しく悪い冬季飼料見通しになると警告しています。これが2026年下半期の供給リスクを複合的に高めています。</p>
-    <p class="pt"><strong>Teores de componentes do leite — diluição de qualidade agora é fator material:</strong> O teor de gordura da UE em junho ficou apenas marginalmente acima do ano anterior, enquanto o teor de proteína caiu abaixo do ano anterior pela primeira vez desde janeiro de 2026. A Süddeutsche Börse (19.08.2026) confirma que o estresse térmico está causando "quedas significativas quase em toda parte" na Alemanha — o que significa que cada quilograma de leite rende menos gordura e proteína utilizáveis para processamento. A ZMB/AMI alerta que a seca está danificando pastagens e silagem de milho, criando perspectiva de ração de inverno significativamente pior do que no ano passado.</p>
+    <p class="en"><strong>EU-27 Jan–Jul 2026 — 3 million additional tonnes, but growth decelerating:</strong> The EU-27 milk pool reached an estimated 90.9 million tonnes in the first seven months of 2026 — approximately 3.0 million tonnes or +3.4% above the prior year. This is the highest volume recorded in the EU since Brexit. Several member states, including Germany, Belgium, Denmark, and Austria, registered new records for the Jan–Jul period. July's monthly growth rate was +2.4%, a slight uptick from June's +2.0%, but the broader trend from January (+5.0%) shows a clear structural deceleration as the seasonal milk peak passes. Germany remains the largest contributor: over one-third of the total EU increase originated in Germany alone, where output grew +6.4% to 20.2 million tonnes over the seven months.</p>
+    <p class="jp"><strong>EU-27 2026年1〜7月 ─ 300万トン増も、成長は鈍化：</strong>EU-27の乳プールは2026年最初の7ヶ月で推計9,090万トンに達し、前年比約300万トン（+3.4%）増加しました。これはBrexit以降のEUとして過去最高水準です。ドイツ・ベルギー・デンマーク・オーストリアを含む複数の加盟国が1〜7月期として記録を更新しました。7月の月次成長率は+2.4%と6月の+2.0%からやや改善しましたが、1月の+5.0%からの大局的な減速トレンドは明確です。ドイツが最大の貢献国で、EU全体の増加量の1/3以上がドイツ1国によるものです。</p>
+    <p class="pt"><strong>UE-27 Jan–Jul 2026 — 3 milhões de toneladas adicionais, mas crescimento desacelerando:</strong> O pool de leite da UE-27 atingiu estimados 90,9 milhões de toneladas nos primeiros sete meses de 2026 — aproximadamente 3,0 milhões de toneladas ou +3,4% acima do ano anterior. Este é o maior volume registrado na UE desde o Brexit. Vários estados membros, incluindo Alemanha, Bélgica, Dinamarca e Áustria, registraram novos recordes para o período Jan–Jul. A taxa de crescimento mensal de julho foi de +2,4%, leve melhora em relação a +2,0% de junho, mas a tendência mais ampla desde janeiro (+5,0%) mostra desaceleração estrutural clara à medida que o pico sazonal de leite passa.</p>
+    <p class="en"><strong>Milk component content — further decline in July:</strong> Fat content fell to 3.96% in July — the lowest point of 2026 — and for the first time since January, fell below the prior-year level. Protein content also marginally declined below year-ago. While fat supply still grew +1.8% year-on-year in July (the weakest month-on-month growth of the year), protein supply grew +2.4%. In H1 2026, fat deliveries averaged +3.9% and protein +3.9%. The dilution of component content in July, linked to heat stress and seasonal patterns, is reducing the effective raw material yield for processors per kilogram of milk collected.</p>
+    <p class="jp"><strong>乳成分含有量 ─ 7月にさらに低下：</strong>乳脂肪含有率は7月に3.96%まで低下し、2026年の最低点に達するとともに、1月以来初めて前年を下回りました。乳タンパク質含有率も前年をわずかに下回りました。脂肪供給量は前年比+1.8%（今年最低の月次成長）、タンパク質は+2.4%の増加でした。2026年上半期の平均は脂肪+3.9%、タンパク質+3.9%でした。熱ストレスと季節的パターンによる7月の乳成分希薄化は、処理業者にとっての乳量当たりの有効原料収率を低下させています。</p>
+    <p class="pt"><strong>Teores de componentes do leite — novo declínio em julho:</strong> O teor de gordura caiu para 3,96% em julho — o ponto mais baixo de 2026 — e pela primeira vez desde janeiro caiu abaixo do nível do ano anterior. O teor de proteína também recuou marginalmente abaixo do ano anterior. Embora a oferta de gordura ainda tenha crescido +1,8% a/a em julho (o crescimento mensal mais fraco do ano), a oferta de proteína cresceu +2,4%. No 1S2026, as entregas de gordura tiveram média de +3,9% e proteína +3,9%. A diluição dos componentes em julho, ligada ao estresse térmico e padrões sazonais, está reduzindo o rendimento efetivo de matéria-prima para processadores por quilograma de leite coletado.</p>
+    <p class="en"><strong>August and September outlook:</strong> The Süddeutsche Börse (16.09.2026) confirms that the seasonal decline in milk deliveries is continuing, while component content is showing a slight improvement. The dry summer creates expectations of reduced feed availability in coming months, which may further weigh on milk supply. The spot milk market has stabilized, and demand is more stable. Overall, the supply outlook supports the current price recovery across powder categories.</p>
+    <p class="jp"><strong>8月・9月以降の見通し：</strong>南ドイツ取引所（2026年9月16日）は、乳取扱量の季節的な減少が続いていることを確認しつつ、乳成分はわずかながら改善を示していると報告しています。乾燥した夏は今後数ヶ月の飼料供給不足をもたらし、乳量をさらに圧迫する可能性があります。スポットミルク市場は安定し、需要はより安定的。全体として、供給見通しはパウダー各製品の現在の価格回復を下支えしています。</p>
+    <p class="pt"><strong>Perspectiva para agosto e setembro:</strong> A Süddeutsche Börse (16.09.2026) confirma que o declínio sazonal nas entregas de leite está continuando, enquanto o teor de componentes mostra leve melhora. O verão seco cria expectativas de reduzida disponibilidade de ração nos próximos meses, o que pode pesar ainda mais no fornecimento de leite. O mercado de leite spot estabilizou, e a demanda está mais estável. No geral, a perspectiva de oferta apoia a atual recuperação de preços nas categorias de pó.</p>
   </div>
   <div class="two-col">
     <div class="card">
-      <h3><span class="en">EU-27 Milk Delivery — H1 2026 YoY Change by Country (%)</span><span class="jp">EU-27 H1 2026 国別前年比（%）</span><span class="pt">Entrega de Leite UE-27 — Variação a/a 1S2026 por País (%)</span></h3>
-      <div class="chart-wrap tall"><canvas id="cMilkCountry"></canvas></div>
-      <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 8/2026 (21.08.2026). Jan–Jun 2026 vs Jan–Jun 2025.</p>
+      <h3><span class="en">EU-27 Milk Delivery — Monthly YoY Growth Rate Deceleration (%)</span><span class="jp">EU-27乳取扱量 ─ 月次前年比成長率の減速（%）</span><span class="pt">Entrega de Leite UE-27 — Desaceleração Mensal a/a (%)</span></h3>
+      <div class="chart-wrap tall"><canvas id="cMilkDecel"></canvas></div>
+      <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 9/2026 (21.09.2026).</p>
     </div>
     <div class="card">
-      <h3><span class="en">EU-27 Monthly Growth Rate Deceleration (% YoY)</span><span class="jp">EU-27月次成長率の減速（前年比%）</span><span class="pt">Desaceleração da Taxa de Crescimento Mensal UE-27 (% a/a)</span></h3>
-      <div class="chart-wrap tall"><canvas id="cMilkDecel"></canvas></div>
-      <p class="source-note">Source: ZMB/AMI MarktSpiegel 8/2026. Growth slowed from +5.0% (Jan) to +1.8% (Jun) 2026.</p>
+      <h3><span class="en">EU-27 Jan–Jul 2026 — Key Country Contributions (kt vs 2025)</span><span class="jp">EU-27 2026年1〜7月 ─ 主要国の貢献（kt、対2025年比）</span><span class="pt">UE-27 Jan–Jul 2026 — Contribuições de Países-chave (kt vs 2025)</span></h3>
+      <div class="chart-wrap tall"><canvas id="cMilkCountry"></canvas></div>
+      <p class="source-note">Source: ZMB/AMI MarktSpiegel Table 2 (21.09.2026). Jan–Jul 2026 vs Jan–Jul 2025.</p>
     </div>
   </div>
   <div class="card-full">
-    <h3><span class="en">EU Member State Milk Deliveries — H1 2026 vs H1 2025</span><span class="jp">EU加盟国別乳取扱量 ─ 2026年上半期 vs 2025年上半期</span><span class="pt">Entregas de Leite por Estado-Membro da UE — 1S2026 vs 1S2025</span></h3>
+    <h3><span class="en">EU Member State Milk Deliveries — Jan–Jul 2026</span><span class="jp">EU加盟国別乳取扱量 ─ 2026年1〜7月</span><span class="pt">Entregas de Leite por Estado-Membro da UE — Jan–Jul 2026</span></h3>
     <table class="price-table">
       <thead><tr>
-        <th><span class="en">Country</span><span class="jp">国</span><span class="pt">País</span></th>
-        <th class="right">H1 2025 (kt)</th><th class="right">H1 2026 (kt)</th>
-        <th class="right">H1 YoY</th><th class="right"><span class="en">Jun 2026 YoY</span><span class="jp">6月前年比</span><span class="pt">Jun 2026 a/a</span></th>
+        <th>Country</th>
+        <th class="right">Jan–Jul 2025 (kt)</th><th class="right">Jan–Jul 2026 (kt)</th>
+        <th class="right">YoY</th><th class="right">Jul 2026 YoY</th>
       </tr></thead>
       <tbody>
-        <tr><td class="label">🇩🇪 Germany</td><td class="right">16,205</td><td class="right">17,253</td><td class="right"><span class="badge up">+6.5%</span></td><td class="right"><span class="badge up">+5.8%</span></td></tr>
-        <tr><td class="label">🇧🇪 Belgium</td><td class="right">2,232</td><td class="right">2,433</td><td class="right"><span class="badge up">+9.0%</span></td><td class="right"><span class="badge up">+8.5%</span></td></tr>
-        <tr><td class="label">🇫🇷 France</td><td class="right">12,346</td><td class="right">12,691</td><td class="right"><span class="badge up">+2.8%</span></td><td class="right"><span class="badge dn">−0.9%</span></td></tr>
-        <tr><td class="label">🇳🇱 Netherlands</td><td class="right">6,925</td><td class="right">7,252</td><td class="right"><span class="badge up">+4.7%</span></td><td class="right"><span class="badge up">+3.3%</span></td></tr>
-        <tr><td class="label">🇦🇹 Austria</td><td class="right">1,794</td><td class="right">1,929</td><td class="right"><span class="badge up">+7.5%</span></td><td class="right"><span class="badge up">+4.8%</span></td></tr>
-        <tr><td class="label">🇵🇱 Poland</td><td class="right">7,018</td><td class="right">7,198</td><td class="right"><span class="badge up">+2.6%</span></td><td class="right"><span class="badge dn">−0.2%</span></td></tr>
-        <tr><td class="label">🇮🇪 Ireland</td><td class="right">4,790</td><td class="right">4,727</td><td class="right"><span class="badge dn">−1.3%</span></td><td class="right"><span class="badge dn">−3.2%</span></td></tr>
-        <tr><td class="label">🇮🇹 Italy</td><td class="right">6,945</td><td class="right">7,140</td><td class="right"><span class="badge up">+2.8%</span></td><td class="right">n/a</td></tr>
-        <tr style="font-weight:800;background:#e8f0fa;"><td class="label">🇪🇺 EU-27 Total</td><td class="right">75,218</td><td class="right">77,865</td><td class="right"><span class="badge up">+3.5%</span></td><td class="right"><span class="badge up">+1.8%</span></td></tr>
+        <tr><td class="label">🇩🇪 Germany</td><td class="right">18,954</td><td class="right">20,161</td><td class="right"><span class="badge up">+6.4%</span></td><td class="right"><span class="badge up">+5.8%</span></td></tr>
+        <tr><td class="label">🇧🇪 Belgium</td><td class="right">2,603</td><td class="right">2,832</td><td class="right"><span class="badge up">+8.8%</span></td><td class="right"><span class="badge up">+7.9%</span></td></tr>
+        <tr><td class="label">🇫🇷 France</td><td class="right">14,301</td><td class="right">14,641</td><td class="right"><span class="badge up">+2.4%</span></td><td class="right"><span class="badge up">+0.1%</span></td></tr>
+        <tr><td class="label">🇳🇱 Netherlands</td><td class="right">8,084</td><td class="right">8,448</td><td class="right"><span class="badge up">+4.5%</span></td><td class="right"><span class="badge up">+3.1%</span></td></tr>
+        <tr><td class="label">🇦🇹 Austria</td><td class="right">2,084</td><td class="right">2,231</td><td class="right"><span class="badge up">+7.1%</span></td><td class="right"><span class="badge up">+4.2%</span></td></tr>
+        <tr><td class="label">🇵🇱 Poland</td><td class="right">8,197</td><td class="right">8,389</td><td class="right"><span class="badge up">+2.3%</span></td><td class="right"><span class="badge up">+1.0%</span></td></tr>
+        <tr><td class="label">🇮🇪 Ireland</td><td class="right">5,825</td><td class="right">5,738</td><td class="right"><span class="badge dn">−1.5%</span></td><td class="right"><span class="badge dn">−2.2%</span></td></tr>
+        <tr><td class="label">🇩🇰 Denmark</td><td class="right">3,384</td><td class="right">3,459</td><td class="right"><span class="badge up">+2.2%</span></td><td class="right"><span class="badge up">+3.5%</span></td></tr>
+        <tr><td class="label">🇸🇰 Slovakia</td><td class="right">489</td><td class="right">525</td><td class="right"><span class="badge up">+7.4%</span></td><td class="right"><span class="badge up">+12.5%</span></td></tr>
+        <tr><td class="label">🇪🇪 Baltic States</td><td class="right">540</td><td class="right">481</td><td class="right"><span class="badge dn">−11.0%</span></td><td class="right"><span class="badge dn">−11.6%</span></td></tr>
+        <tr style="font-weight:800;background:#e8f0fa;"><td class="label">🇪🇺 EU-27 Total</td><td class="right">87,916</td><td class="right">90,925</td><td class="right"><span class="badge up">+3.4%</span></td><td class="right"><span class="badge up">+2.4%</span></td></tr>
       </tbody>
     </table>
-    <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 8/2026 (21.08.2026). *Preliminary / vorläufig.</p>
+    <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 9/2026, Table 2 (21.09.2026). *Preliminary.</p>
   </div>
   <div class="card-full">
-    <h3><span class="en">Global Milk Supply — Key Exporting Countries (H1 / Latest 2026)</span><span class="jp">グローバル乳供給 ─ 主要輸出国（2026年上半期/最新）</span><span class="pt">Oferta Global de Leite — Principais Países Exportadores (1S/Último 2026)</span></h3>
+    <h3><span class="en">Global Milk Supply — Key Exporting Countries (Latest 2026)</span><span class="jp">グローバル乳供給 ─ 主要輸出国（2026年最新）</span><span class="pt">Oferta Global de Leite — Principais Países Exportadores (2026 Mais Recente)</span></h3>
     <table class="price-table">
       <thead><tr>
         <th><span class="en">Country</span><span class="jp">国</span><span class="pt">País</span></th>
@@ -336,42 +331,42 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
         <th><span class="en">Note</span><span class="jp">注記</span><span class="pt">Nota</span></th>
       </tr></thead>
       <tbody>
-        <tr><td class="label">🇺🇸 USA</td><td class="right">53,886 kt</td><td class="right">Jan–Jun</td><td class="right"><span class="badge up">+2.7%</span></td><td><span class="en">Record cow herd in 33 years; Jun +2.3%</span><span class="jp">33年ぶり記録的乳牛頭数；6月+2.3%</span><span class="pt">Maior rebanho em 33 anos; Jun +2,3%</span></td></tr>
-        <tr><td class="label">🇳🇿 New Zealand</td><td class="right">9,521 kt</td><td class="right">7-month</td><td class="right"><span class="badge up">+5.4%</span></td><td><span class="en">New season +5.8%; El Niño risk</span><span class="jp">新シーズン+5.8%；エルニーニョリスク</span><span class="pt">Nova temporada +5,8%; risco El Niño</span></td></tr>
-        <tr><td class="label">🇦🇺 Australia</td><td class="right">3,856 kt</td><td class="right">Jun</td><td class="right"><span class="badge up">+2.4%</span></td><td><span class="en">H1 expansion; growth stalling in Jun</span><span class="jp">上半期拡大；6月に成長停止</span><span class="pt">Expansão no 1S; crescimento estagnando em jun</span></td></tr>
-        <tr><td class="label">🇦🇷 Argentina</td><td class="right">6,592 kt</td><td class="right">Jul</td><td class="right"><span class="badge up">+4.9%</span></td><td><span class="en">Slowing since Q1; Jul +3.2%</span><span class="jp">Q1から減速；7月+3.2%</span><span class="pt">Desacelerando desde T1; jul +3,2%</span></td></tr>
-        <tr><td class="label">🇺🇾 Uruguay</td><td class="right">1,056 kt</td><td class="right">Jun</td><td class="right"><span class="badge up">+10.3%</span></td><td><span class="en">Strongly expanding; +11.8% in Jun</span><span class="jp">力強い拡大；6月+11.8%</span><span class="pt">Forte expansão; +11,8% em jun</span></td></tr>
-        <tr><td class="label">🇬🇧 UK</td><td class="right">8,359 kt</td><td class="right">Jun</td><td class="right"><span class="badge up">+1.1%</span></td><td><span class="en">Below prior year since May; Jun −2.2%</span><span class="jp">5月以降前年割れ；6月−2.2%</span><span class="pt">Abaixo do ano anterior desde maio; jun −2,2%</span></td></tr>
-        <tr><td class="label">🇯🇵 Japan / Japão</td><td class="right">3,761 kt</td><td class="right">Jun</td><td class="right"><span class="badge dn">−1.4%</span></td><td><span class="en">H1 below prior year; structural decline</span><span class="jp">上半期前年割れ；構造的な減少</span><span class="pt">1S abaixo do ano anterior; declínio estrutural</span></td></tr>
+        <tr><td class="label">🇺🇸 USA</td><td class="right">63,080 kt</td><td class="right">Jan–Jul</td><td class="right"><span class="badge up">+2.7%</span></td><td><span class="en">Cow herd 9.71m — record in 33 years; +2.1% YoY in July</span><span class="jp">乳牛9.71百万頭 ─ 33年ぶりの記録；7月+2.1% YoY</span><span class="pt">Rebanho 9,71m — recorde em 33 anos; +2,1% a/a em julho</span></td></tr>
+        <tr><td class="label">🇳🇿 New Zealand</td><td class="right">10,999 kt</td><td class="right">Jan–Aug</td><td class="right"><span class="badge up">+5.0%</span></td><td><span class="en">New season +3.6%; strong El Niño risk for late 2026</span><span class="jp">新シーズン+3.6%；2026年後半のエルニーニョリスク</span><span class="pt">Nova temporada +3,6%; forte risco de El Niño para o final de 2026</span></td></tr>
+        <tr><td class="label">🇦🇺 Australia</td><td class="right">4,627 kt</td><td class="right">Jan–Jul</td><td class="right"><span class="badge up">+4.2%</span></td><td><span class="en">Continued expansion; revised higher</span><span class="jp">継続的な拡大；上方修正</span><span class="pt">Expansão contínua; revisado para cima</span></td></tr>
+        <tr><td class="label">🇦🇷 Argentina</td><td class="right">7,740 kt</td><td class="right">Jan–Aug</td><td class="right"><span class="badge up">+4.5%</span></td><td><span class="en">Slowing since Q2; still solid</span><span class="jp">Q2以降減速も依然堅調</span><span class="pt">Desacelerando desde T2; ainda sólido</span></td></tr>
+        <tr><td class="label">🇺🇾 Uruguay</td><td class="right">1,276 kt</td><td class="right">Jan–Jul</td><td class="right"><span class="badge up">+10.6%</span></td><td><span class="en">Strongest growth of any major exporter</span><span class="jp">主要輸出国中最高の成長率</span><span class="pt">Maior crescimento entre os principais exportadores</span></td></tr>
+        <tr><td class="label">🇬🇧 UK</td><td class="right">9,673 kt</td><td class="right">Jan–Jul</td><td class="right"><span class="badge up">+0.6%</span></td><td><span class="en">Growth flattening; Jul −2.4% YoY from heat</span><span class="jp">成長が横ばいに；7月は熱波で前年比−2.4%</span><span class="pt">Crescimento estagnando; jul −2,4% a/a pelo calor</span></td></tr>
+        <tr><td class="label">🇯🇵 Japan</td><td class="right">4,375 kt</td><td class="right">Jan–Jul</td><td class="right"><span class="badge dn">−1.2%</span></td><td><span class="en">Structural decline continuing</span><span class="jp">構造的な減少が継続</span><span class="pt">Declínio estrutural continuando</span></td></tr>
+        <tr><td class="label">🇨🇭 Switzerland</td><td class="right">2,063 kt</td><td class="right">Jan–Jul</td><td class="right"><span class="badge up">+3.1%</span></td><td><span class="en">Jul turned negative (−2.9%); heat stress and herd health issues</span><span class="jp">7月はマイナスに転換（−2.9%）；熱ストレスと畜群の健康問題</span><span class="pt">Jul tornou-se negativo (−2,9%); estresse térmico e questões de saúde do rebanho</span></td></tr>
       </tbody>
     </table>
-    <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 8/2026 (21.08.2026). ZMB after national statistics.</p>
+    <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 9/2026, Tables 2–3 (21.09.2026). Various national statistics. *Preliminary.</p>
   </div>
 </section>
 
-<!-- ③ PRICES -->
 <section id="tab-prices" class="section">
   <div class="section-heading">
     <h2><span class="en">EU &amp; World Prices</span><span class="jp">EU・世界価格</span><span class="pt">Preços UE &amp; Mundiais</span></h2>
-    <span class="tag en">Week 33 | 19 Aug 2026</span><span class="tag jp">第33週 | 2026年8月19日</span><span class="tag pt">Semana 33 | 19 Ago 2026</span>
+    <span class="tag en">Week 38 | 23 Sep 2026</span><span class="tag jp">第38週 | 2026年9月23日</span><span class="tag pt">Semana 38 | 23 Set 2026</span>
   </div>
   <div class="commentary highlight">
-    <p class="en"><strong>A clear price recovery is underway for SMP and WMP.</strong> Tighter raw material availability — driven by the heatwave and reduced milk component yield — is lifting powder prices. SMP has gained +5.5% since the June week-25 reading; WMP is up +9.9% over the same period. The EU Milk Equivalent Price (based on SMP and Butter) was assessed at 38.6 €/100 kg for July 2026 — well below the weighted farm milk average of 41.8 €/100 kg, reflecting continued structural pressure on the fat complex. Cheddar and cheese markets are also firming.</p>
-    <p class="jp"><strong>SMPとWMPで明確な価格回復が進行中です。</strong>熱波と乳成分収率低下による原料乳逼迫がパウダー価格を押し上げています。SMPは6月第25週から+5.5%上昇、WMPは同期間に+9.9%上昇。2026年7月のEU乳等価格（SMP・バターベース）は38.6€/100kgで、加重平均農家受取価格41.8€/100kgを大幅に下回り、乳脂肪市場への継続的な構造的圧力を反映しています。チェダーおよびチーズ市場も強含みです。</p>
-    <p class="pt"><strong>Uma clara recuperação de preços está em curso para SMP e WMP.</strong> A menor disponibilidade de matéria-prima — impulsionada pela onda de calor e pela redução no rendimento de componentes do leite — está elevando os preços dos pós. O SMP ganhou +5,5% desde a leitura da semana 25 de junho; o WMP subiu +9,9% no mesmo período. O Preço Equivalente de Leite da UE (baseado em SMP e manteiga) foi avaliado em 38,6 €/100 kg para julho de 2026 — bem abaixo da média ponderada do leite na fazenda de 41,8 €/100 kg, refletindo pressão estrutural contínua sobre o complexo gordura.</p>
+    <p class="en"><strong>Strong price recovery across most dairy commodities, with Cheddar as the notable exception.</strong> EU SMP at 3.09 €/kg is up +7.3% from August's week-33 reading, while WMP at 3.77 €/kg is up +5.9%. Butter at 4.16 €/kg represents a +4.5% recovery. On world markets, EU SMP gained +4.7% in 15 days and EU WMP surged +6.9% — both reflecting tightening raw material supplies driven by the seasonal milk decline and heat-related factors. The weighted EU average raw milk price reached 42.2 €/100 kg (July provisional), with the SMP+Butter equivalent price at 40.7 €/100 kg — still below the average farmgate price, reflecting ongoing structural pressure from the butter correction earlier in 2026.</p>
+    <p class="jp"><strong>チェダーを例外として、ほとんどの乳製品コモディティで強い価格回復が見られます。</strong>EU SMPは第38週に3.09€/kgと8月の第33週から+7.3%上昇、WMPは3.77€/kgと+5.9%上昇。バターは4.16€/kgと+4.5%の回復。世界市場ではEU SMPが15日間で+4.7%、EU WMPは+6.9%急騰しており、いずれも季節的な乳量減少と熱波関連要因による原料乳の逼迫を反映しています。EU加重平均農家受取乳価（7月暫定）は42.2€/100kgに達し、SMP+バター等価格は40.7€/100kgで依然農家受取価格を下回っており、2026年前半のバター下落による継続的な構造的圧力を反映しています。</p>
+    <p class="pt"><strong>Forte recuperação de preços na maioria das commodities lácteas, com o Cheddar como exceção notável.</strong> O SMP da UE a 3,09 €/kg subiu +7,3% da leitura da semana 33 de agosto, enquanto o WMP a 3,77 €/kg subiu +5,9%. A manteiga a 4,16 €/kg representa recuperação de +4,5%. Nos mercados mundiais, o SMP da UE ganhou +4,7% em 15 dias e o WMP da UE disparou +6,9% — ambos refletindo aperto nas matérias-primas impulsionado pelo declínio sazonal do leite e fatores relacionados ao calor.</p>
   </div>
   <div class="two-col">
     <div class="card">
-      <h3><span class="en">EU Weekly Commodity Prices — Jun to Aug 2026 (€/100 kg)</span><span class="jp">EU週次コモディティ価格 ─ 6月〜8月（€/100 kg）</span><span class="pt">Preços Semanais de Commodities UE — Jun a Ago 2026 (€/100 kg)</span></h3>
+      <h3><span class="en">EU Weekly Commodity Prices — Aug to Sep 2026 (€/100 kg)</span><span class="jp">EU週次コモディティ価格 ─ 8〜9月（€/100 kg）</span><span class="pt">Preços Semanais de Commodities UE — Ago a Set 2026 (€/100 kg)</span></h3>
       <div class="chart-wrap tall"><canvas id="cEUWeekly"></canvas></div>
-      <p class="source-note">Source: DG AGRI Reg. 2017/1185. Wk 25 = Jun, Wk 33 = Aug 2026. Intermediate points indicative.</p>
+      <p class="source-note">Source: DG AGRI Reg. 2017/1185. Intermediate wk 35–37 indicative.</p>
     </div>
     <div class="card">
-      <h3><span class="en">World Quotations — Regional Comparison (16 Aug 2026, €/kg)</span><span class="jp">世界相場 ─ 地域別比較（2026年8月16日、€/kg）</span><span class="pt">Cotações Mundiais — Comparação Regional (16 Ago 2026, €/kg)</span></h3>
+      <h3><span class="en">World Quotations — Regional Comparison (13 Sep 2026, €/kg)</span><span class="jp">世界相場 ─ 地域別比較（2026年9月13日、€/kg）</span><span class="pt">Cotações Mundiais — Comparação Regional (13 Set 2026, €/kg)</span></h3>
       <div class="chart-wrap tall"><canvas id="cWorld"></canvas></div>
-      <p class="source-note en">Source: DG AGRI / USDA. Converted at EUR/USD 1.1593 (19.08.2026 ECB).</p>
-      <p class="source-note jp">出典：DG AGRI / USDA。EUR/USD 1.1593で換算。</p>
-      <p class="source-note pt">Fonte: DG AGRI / USDA. Convertido à taxa EUR/USD 1,1593 (19.08.2026 BCE).</p>
+      <p class="source-note en">Converted at EUR/USD 1.1463 (23.09.2026 ECB).</p>
+      <p class="source-note jp">EUR/USD 1.1463（2026年9月23日、ECB）で換算。</p>
+      <p class="source-note pt">Convertido à taxa EUR/USD 1,1463 (23.09.2026 BCE).</p>
     </div>
   </div>
   <div class="card-full">
@@ -379,285 +374,299 @@ body{font-family:'Nunito',Arial,sans-serif;background:var(--light);color:var(--t
     <table class="price-table">
       <thead><tr>
         <th><span class="en">Product</span><span class="jp">品目</span><span class="pt">Produto</span></th>
+        <th class="right"><span class="en">Sep wk 38</span><span class="jp">9月第38週</span><span class="pt">Set sem.38</span></th>
         <th class="right"><span class="en">Aug wk 33</span><span class="jp">8月第33週</span><span class="pt">Ago sem.33</span></th>
         <th class="right"><span class="en">Jun wk 25</span><span class="jp">6月第25週</span><span class="pt">Jun sem.25</span></th>
         <th class="right"><span class="en">vs 4-wk avg</span><span class="jp">4週平均比</span><span class="pt">vs média 4 sem.</span></th>
         <th><span class="en">Direction</span><span class="jp">方向性</span><span class="pt">Direção</span></th>
       </tr></thead>
       <tbody>
-        <tr><td class="label"><span class="en">Butter</span><span class="jp">バター</span><span class="pt">Manteiga</span></td><td class="right">398</td><td class="right">386</td><td class="right"><span class="badge dn">−0.6%</span></td><td><span class="trend-flat en">Stable; stocks cap upside</span><span class="trend-flat jp">安定；在庫が上値を抑制</span><span class="trend-flat pt">Estável; estoques limitam alta</span></td></tr>
-        <tr class="hl-row"><td class="label">SMP</td><td class="right">288</td><td class="right">273</td><td class="right"><span class="badge up">+3.4%</span></td><td><span class="trend-up en">Rising; raw material tight</span><span class="trend-up jp">上昇；原料逼迫</span><span class="trend-up pt">Em alta; matéria-prima escassa</span></td></tr>
-        <tr class="hl-row"><td class="label">WMP</td><td class="right">356</td><td class="right">324</td><td class="right"><span class="badge up">+5.9%</span></td><td><span class="trend-up en">Strong recovery</span><span class="trend-up jp">力強い回復</span><span class="trend-up pt">Forte recuperação</span></td></tr>
-        <tr><td class="label"><span class="en">Cheddar</span><span class="jp">チェダー</span><span class="pt">Cheddar</span></td><td class="right">335</td><td class="right">316</td><td class="right"><span class="badge up">+0.6%</span></td><td><span class="trend-up en">Firming; demand good</span><span class="trend-up jp">強含み；需要良好</span><span class="trend-up pt">Fortalecendo; demanda boa</span></td></tr>
-        <tr><td class="label"><span class="en">EU Raw Milk (Jul prov.)</span><span class="jp">EU原料乳（7月暫定）</span><span class="pt">Leite Cru UE (jul prov.)</span></td><td class="right" colspan="2">41.8 (weighted avg) | 38.6 (SMP+Butter equiv.)</td><td class="right">—</td><td><span class="trend-dn en">Below equiv. price</span><span class="trend-dn jp">等価格以下</span><span class="trend-dn pt">Abaixo do preço equivalente</span></td></tr>
+        <tr class="hl-row"><td class="label"><span class="en">Butter</span><span class="jp">バター</span><span class="pt">Manteiga</span></td><td class="right">416</td><td class="right">398</td><td class="right">386</td><td class="right"><span class="badge up">+1.1%</span></td><td><span class="trend-up en">Recovering; negotiations complete</span><span class="trend-up jp">回復；交渉完了</span><span class="trend-up pt">Recuperando; negociações concluídas</span></td></tr>
+        <tr class="hl-row"><td class="label">SMP</td><td class="right">309</td><td class="right">288</td><td class="right">273</td><td class="right"><span class="badge up">+2.3%</span></td><td><span class="trend-up en">Strong rally; buyers cautious</span><span class="trend-up jp">強い上昇；バイヤーは慎重</span><span class="trend-up pt">Rally forte; compradores cautelosos</span></td></tr>
+        <tr class="hl-row"><td class="label">WMP</td><td class="right">377</td><td class="right">356</td><td class="right">324</td><td class="right"><span class="badge up">+2.0%</span></td><td><span class="trend-up en">Strong recovery; tight supply</span><span class="trend-up jp">力強い回復；供給逼迫</span><span class="trend-up pt">Forte recuperação; oferta apertada</span></td></tr>
+        <tr><td class="label"><span class="en">Cheddar</span><span class="jp">チェダー</span><span class="pt">Cheddar</span></td><td class="right">322</td><td class="right">335</td><td class="right">316</td><td class="right"><span class="badge dn">−1.1%</span></td><td><span class="trend-dn en">Declining; summer demand fading</span><span class="trend-dn jp">下落；夏季需要の低下</span><span class="trend-dn pt">Em queda; demanda de verão recuando</span></td></tr>
       </tbody>
     </table>
-    <p class="source-note">Source: DG AGRI – Reg. 2017/1185. Last update 19.08.2026.</p>
+    <p class="source-note">Source: DG AGRI – Reg. 2017/1185 Art. 11 &amp; 12. Last update 23.09.2026.</p>
   </div>
   <div class="card-full">
-    <h3><span class="en">World Quotations — 16 Aug 2026 (USD/tonne → EUR/kg at 1.1593)</span><span class="jp">世界相場 ─ 2026年8月16日（1.1593換算）</span><span class="pt">Cotações Mundiais — 16 Ago 2026 (USD/t → EUR/kg à taxa 1,1593)</span></h3>
+    <h3><span class="en">World Quotations — 13 Sep 2026 (USD/tonne → EUR/kg at EUR/USD 1.1463)</span><span class="jp">世界相場 ─ 2026年9月13日（1.1463換算）</span><span class="pt">Cotações Mundiais — 13 Set 2026 (USD/t → EUR/kg à taxa 1,1463)</span></h3>
     <table class="price-table">
       <thead><tr>
         <th><span class="en">Product</span><span class="jp">品目</span><span class="pt">Produto</span></th>
         <th class="right">EU (€/kg)</th><th class="right"><span class="en">Oceania</span><span class="jp">オセアニア</span><span class="pt">Oceânia</span></th><th class="right">USA</th>
-        <th class="right">EU 15d</th><th class="right"><span class="en">Oceania 15d</span><span class="jp">オセアニア 15d</span><span class="pt">Oceânia 15d</span></th><th class="right">USA 15d</th>
+        <th class="right">EU 15d</th><th class="right"><span class="en">Oceania 15d</span><span class="jp">オセアニア</span><span class="pt">Oceânia</span></th><th class="right">USA 15d</th>
       </tr></thead>
       <tbody>
-        <tr><td class="label"><span class="en">Butter</span><span class="jp">バター</span><span class="pt">Manteiga</span></td><td class="right">3.920</td><td class="right">4.572</td><td class="right">2.806</td><td class="right"><span class="badge flat">−0.0%</span></td><td class="right"><span class="badge dn">−2.1%</span></td><td class="right"><span class="badge up">+1.9%</span></td></tr>
-        <tr class="hl-row"><td class="label">SMP</td><td class="right">2.788</td><td class="right">2.825</td><td class="right">3.151</td><td class="right"><span class="badge up">+2.3%</span></td><td class="right"><span class="badge flat">−0.4%</span></td><td class="right"><span class="badge up">+13.1%</span></td></tr>
-        <tr class="hl-row"><td class="label">WMP</td><td class="right">3.372</td><td class="right">2.987</td><td class="right">4.022</td><td class="right"><span class="badge up">+2.6%</span></td><td class="right"><span class="badge flat">+0.4%</span></td><td class="right"><span class="badge up">+4.2%</span></td></tr>
-        <tr><td class="label"><span class="en">Cheddar</span><span class="jp">チェダー</span><span class="pt">Cheddar</span></td><td class="right">3.353</td><td class="right">3.342</td><td class="right">3.052</td><td class="right"><span class="badge up">+3.3%</span></td><td class="right"><span class="badge up">+1.0%</span></td><td class="right"><span class="badge up">+2.9%</span></td></tr>
+        <tr class="hl-row"><td class="label"><span class="en">Butter</span><span class="jp">バター</span><span class="pt">Manteiga</span></td><td class="right">4.165</td><td class="right">4.439</td><td class="right">2.656</td><td class="right"><span class="badge up">+1.4%</span></td><td class="right"><span class="badge dn">−1.9%</span></td><td class="right"><span class="badge dn">−5.6%</span></td></tr>
+        <tr class="hl-row"><td class="label">SMP</td><td class="right">3.104</td><td class="right">3.141</td><td class="right">3.712</td><td class="right"><span class="badge up">+4.7%</span></td><td class="right"><span class="badge up">+6.3%</span></td><td class="right"><span class="badge up">+5.6%</span></td></tr>
+        <tr class="hl-row"><td class="label">WMP</td><td class="right">3.874</td><td class="right">3.109</td><td class="right">4.415</td><td class="right"><span class="badge up">+6.9%</span></td><td class="right"><span class="badge up">+0.4%</span></td><td class="right"><span class="badge up">+2.0%</span></td></tr>
+        <tr><td class="label"><span class="en">Cheddar</span><span class="jp">チェダー</span><span class="pt">Cheddar</span></td><td class="right">3.259</td><td class="right">3.131</td><td class="right">2.815</td><td class="right"><span class="badge dn">−4.3%</span></td><td class="right"><span class="badge dn">−7.1%</span></td><td class="right"><span class="badge dn">−3.0%</span></td></tr>
       </tbody>
     </table>
-    <p class="source-note en">Sources: DG AGRI, USDA. Converted at ECB reference rate EUR/USD 1.1593 (19.08.2026).</p>
-    <p class="source-note jp">出典：DG AGRI、USDA。ECB参照レートEUR/USD 1.1593で換算。</p>
-    <p class="source-note pt">Fontes: DG AGRI, USDA. Convertido à taxa de referência do BCE EUR/USD 1,1593 (19.08.2026).</p>
+    <p class="source-note en">Sources: DG AGRI, USDA. Converted at ECB reference rate EUR/USD 1.1463 (23.09.2026).</p>
+    <p class="source-note jp">出典：DG AGRI、USDA。ECB参照レートEUR/USD 1.1463（2026年9月23日）で換算。</p>
+    <p class="source-note pt">Fontes: DG AGRI, USDA. Convertido à taxa de referência BCE EUR/USD 1,1463 (23.09.2026).</p>
   </div>
   <div class="card-full">
-    <h3><span class="en">EU Farmgate Milk Prices — Selected Countries (EUR/100 kg, June 2026)</span><span class="jp">EU生産者乳価 ─ 主要国（EUR/100 kg、2026年6月）</span><span class="pt">Preços ao Produtor de Leite na UE — Países Selecionados (EUR/100 kg, Jun 2026)</span></h3>
+    <h3><span class="en">EU Farmgate Milk Prices — Selected Countries (EUR/100 kg, Jul 2026)</span><span class="jp">EU生産者乳価 ─ 主要国（EUR/100 kg、2026年7月）</span><span class="pt">Preços ao Produtor de Leite na UE — Países Selecionados (EUR/100 kg, Jul 2026)</span></h3>
     <table class="price-table">
       <thead><tr>
         <th><span class="en">Country</span><span class="jp">国</span><span class="pt">País</span></th>
-        <th class="right"><span class="en">Jun 2026</span><span class="jp">2026年6月</span><span class="pt">Jun 2026</span></th>
-        <th class="right"><span class="en">Jun 2025</span><span class="jp">2025年6月</span><span class="pt">Jun 2025</span></th>
+        <th class="right"><span class="en">Jul 2026</span><span class="jp">2026年7月</span><span class="pt">Jul 2026</span></th>
+        <th class="right"><span class="en">Jul 2025</span><span class="jp">2025年7月</span><span class="pt">Jul 2025</span></th>
         <th class="right">YoY</th>
         <th class="right"><span class="en">Jan 2026</span><span class="jp">2026年1月</span><span class="pt">Jan 2026</span></th>
       </tr></thead>
       <tbody>
-        <tr><td class="label">🇩🇪 Germany</td><td class="right">39.02</td><td class="right">53.31</td><td class="right"><span class="badge dn">−26.8%</span></td><td class="right">39.43</td></tr>
-        <tr><td class="label">🇫🇷 France</td><td class="right">42.54</td><td class="right">47.34</td><td class="right"><span class="badge dn">−10.1%</span></td><td class="right">44.86</td></tr>
-        <tr><td class="label">🇳🇱 Netherlands</td><td class="right">35.97</td><td class="right">50.23</td><td class="right"><span class="badge dn">−28.4%</span></td><td class="right">34.55</td></tr>
-        <tr><td class="label">🇦🇹 Austria</td><td class="right">41.68</td><td class="right">52.91</td><td class="right"><span class="badge dn">−21.2%</span></td><td class="right">46.76</td></tr>
-        <tr><td class="label">🇮🇪 Ireland</td><td class="right">36.31</td><td class="right">47.97</td><td class="right"><span class="badge dn">−24.3%</span></td><td class="right">36.51</td></tr>
-        <tr><td class="label">🇮🇹 Italy</td><td class="right">45.58</td><td class="right">58.13</td><td class="right"><span class="badge dn">−21.6%</span></td><td class="right">48.57</td></tr>
-        <tr><td class="label">🇵🇱 Poland</td><td class="right">39.71</td><td class="right">51.24</td><td class="right"><span class="badge dn">−22.5%</span></td><td class="right">43.53</td></tr>
-        <tr><td class="label">🇨🇳 China</td><td class="right">39.08</td><td class="right">36.76</td><td class="right"><span class="badge up">+6.3%</span></td><td class="right">37.36</td></tr>
+        <tr><td class="label">🇩🇪 Germany (4.0% fat)</td><td class="right">39.10</td><td class="right">49.94</td><td class="right"><span class="badge dn">−21.7%</span></td><td class="right">39.43</td></tr>
+        <tr><td class="label">🇫🇷 France (all qualities)</td><td class="right">42.65</td><td class="right">47.60</td><td class="right"><span class="badge dn">−10.4%</span></td><td class="right">44.86</td></tr>
+        <tr><td class="label">🇳🇱 Netherlands</td><td class="right">35.89</td><td class="right">50.24</td><td class="right"><span class="badge dn">−28.6%</span></td><td class="right">34.55</td></tr>
+        <tr><td class="label">🇩🇰 Denmark (4.2% fat)</td><td class="right">46.88</td><td class="right">58.10</td><td class="right"><span class="badge dn">−19.3%</span></td><td class="right">46.05</td></tr>
+        <tr><td class="label">🇮🇪 Ireland</td><td class="right">36.78</td><td class="right">47.32</td><td class="right"><span class="badge dn">−22.3%</span></td><td class="right">36.51</td></tr>
+        <tr><td class="label">🇮🇹 Italy (nat. fat)</td><td class="right">46.20</td><td class="right">58.27</td><td class="right"><span class="badge dn">−20.7%</span></td><td class="right">48.57</td></tr>
+        <tr><td class="label">🇺🇸 USA (all milk)</td><td class="right">39.20</td><td class="right">39.27</td><td class="right"><span class="badge flat">−0.2%</span></td><td class="right">32.87</td></tr>
+        <tr><td class="label">🇬🇧 UK</td><td class="right">39.79</td><td class="right">48.90</td><td class="right"><span class="badge dn">−18.6%</span></td><td class="right">41.73</td></tr>
       </tbody>
     </table>
-    <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 8/2026, Table 1. China in EUR/100 kg (converted from CNY at ECB rates).</p>
+    <p class="source-note">Source: ZMB/AMI MarktSpiegel Rohstoffsituation 9/2026, Table 1 (21.09.2026). EUR/100 kg at natural fat content unless stated.</p>
   </div>
 </section>
 
-<!-- ④ WHEY & SWP -->
 <section id="tab-whey" class="section">
   <div class="section-heading">
     <h2><span class="en">Whey &amp; SWP Focus</span><span class="jp">ホエイ・SWP動向</span><span class="pt">Foco em Soro &amp; SWP</span></h2>
     <span class="tag en">BMi Core Products</span><span class="tag jp">BMiコア製品</span><span class="tag pt">Produtos Centrais BMi</span>
   </div>
   <div class="commentary amber">
-    <p class="en"><strong>Market reversal: SWP prices are rising again.</strong> After the consolidation phase seen through June and early July, both food and feed grade sweet whey powder are showing renewed upward price movement. The Süddeutsche Butter- und Käse-Börse (19.08.2026) reports: food-grade SWP is assessed as "still mixed, but with rising prices"; feed-grade SWP shows "somewhat more active business, and prices are rising." The primary driver is the heatwave-induced raw material constraint: less milk processed means less whey generated, tightening SWP supply at a time when food industry demand remains present.</p>
-    <p class="jp"><strong>市場の逆転：SWP価格が再び上昇しています。</strong>6月から7月初旬の踊り場局面の後、食品・飼料グレードのスイートホエイパウダーがともに価格上昇を再開しています。南ドイツ・バター・チーズ取引所（2026年8月19日）：食品グレードSWPは「まだ混在しているが、価格は上昇中」；飼料グレードSWPは「ビジネスがやや活発化し、価格は上昇中」。主な要因は熱波による原料乳制約で、処理乳量の減少がホエイ生成量を減らし、食品業界の需要が続く中でSWP供給を逼迫させています。</p>
-    <p class="pt"><strong>Reversão de mercado: os preços do SLP estão subindo novamente.</strong> Após a fase de consolidação de junho e início de julho, tanto o grau alimentício quanto o grau ração do soro doce em pó (SLP) mostram renovado movimento de alta. A Süddeutsche Börse (19.08.2026) relata: SLP grau alimentício avaliado como "ainda misto, mas com preços em alta"; SLP grau ração mostra "negócios um pouco mais ativos e preços em alta." O principal driver é a restrição de matéria-prima induzida pela onda de calor: menos leite processado significa menos soro gerado, apertando a oferta de SLP enquanto a demanda da indústria alimentícia permanece presente.</p>
-    <p class="en"><strong>Structural context: lower component yields redirect processing.</strong> The Börse notes that lower fat and protein content means "more raw material is needed per kilogram of cheese produced," and that some dairies are reducing cheese production and redirecting available milk to other higher-value utilisations. This competition for raw material across cheese, powder, and fat processing is a supportive structural factor for SWP going into Q3 and Q4 2026. Mozzarella faces "continuing supply bottlenecks" with high demand — particularly relevant as the southern European tourism season continues.</p>
-    <p class="jp"><strong>構造的背景：乳成分収率の低下が加工用途を転換。</strong>取引所は乳成分含有率の低下により「チーズ製造により多くの原料が必要になる」と指摘し、一部の乳業メーカーがチーズ生産を縮小し、より付加価値の高い用途に転換していると述べています。チーズ・パウダー・脂肪加工業の原料競合は、2026年Q3・Q4に向けてSWPに支持的な構造的要因となります。モッツァレラは「継続的な供給ボトルネック」と高需要に直面しており、南欧観光シーズンが続く中で特に注目されます。</p>
-    <p class="pt"><strong>Contexto estrutural: menores rendimentos de componentes redirecionam o processamento.</strong> A Börse observa que o menor teor de gordura e proteína significa "mais matéria-prima necessária por quilograma de queijo produzido", e que algumas laticínios estão reduzindo a produção de queijo e redirecionando o leite disponível para outras utilizações de maior valor. Esta competição por matéria-prima entre queijo, pó e processamento de gordura é um fator estrutural de suporte para o SLP no T3 e T4 de 2026. A mozzarella enfrenta "contínuos gargalos de abastecimento" com alta demanda — particularmente relevante enquanto a temporada turística do sul da Europa continua.</p>
-    <p class="en"><strong>Note: No specific SWP EUR/kg price quotations are available from the August 2026 source documents.</strong> The Süddeutsche Börse report provides market direction only. Buyers are encouraged to contact BMi directly for current availability and pricing.</p>
-    <p class="jp"><strong>注：2026年8月の原資料から具体的なSWP EUR/kg価格の引用はできません。</strong>南ドイツ取引所レポートは市場の方向性のみを提供しています。最新の在庫状況と価格については直接BMiにお問い合わせください。</p>
-    <p class="pt"><strong>Nota: Não há cotações específicas de SLP em EUR/kg disponíveis nos documentos-fonte de agosto de 2026.</strong> O relatório da Süddeutsche Börse fornece apenas direção de mercado. Os compradores são encorajados a contatar a BMi diretamente para disponibilidade e preços atuais.</p>
+    <p class="en"><strong>SWP food grade — slightly firmer, with upward adjustment at the lower price band.</strong> The Süddeutsche Börse (16.09.2026) reports that sweet whey powder for food use is "slightly firmer" in September. Importantly, the lower end of the price range has been adjusted upward — a clear signal that the market floor is rising. This reflects the continued structural tightening of whey availability as less milk is processed during the seasonal production trough. Food manufacturers are pricing in tighter supply conditions.</p>
+    <p class="jp"><strong>食品グレードSWP ─ 若干強含み、下限価格帯が上方修正。</strong>南ドイツ取引所（2026年9月16日）は9月の食品用スイートホエイパウダーが「若干強含み」と報告。重要なことに、価格帯の下限が上方修正されており、市場の底値が上昇しているという明確なシグナルです。これは季節的な生産低迷期に処理乳量が減少する中でホエイ供給が引き続き構造的に逼迫していることを反映しています。食品メーカーは供給制約の強化を価格に織り込みつつあります。</p>
+    <p class="pt"><strong>SLP grau alimentício — levemente mais firme, com ajuste para cima na faixa de preço inferior.</strong> A Süddeutsche Börse (16.09.2026) relata que o soro doce em pó para uso alimentício está "levemente mais firme" em setembro. Importante notar que a extremidade inferior da faixa de preços foi ajustada para cima — sinal claro de que o piso do mercado está subindo. Isso reflete o aperto estrutural contínuo da disponibilidade de soro, pois menos leite é processado durante o vale de produção sazonal.</p>
+    <p class="en"><strong>SWP feed grade — trading interest easing, prices largely unchanged.</strong> In contrast to food grade, the feed-grade SWP market has seen trading interest retreat somewhat. Prices are broadly unchanged week-on-week. This divergence between food and feed grades is consistent with typical late-Q3 dynamics, when calf season demand subsides before picking up again in Q4. The fundamental supply constraint remains, but near-term feed-grade demand is softer.</p>
+    <p class="jp"><strong>飼料グレードSWP ─ 取引活動が後退、価格はほぼ横ばい。</strong>食品グレードとは対照的に、飼料グレードSWP市場は取引活動がやや後退しています。価格は週次でほぼ変わらずです。この食品・飼料グレード間の乖離は、カーフシーズン後のQ3後半の典型的な動向と一致しており、Q4に向けて再び拡大する前の一時的な小康状態です。基礎的な供給制約は続いていますが、短期的な飼料グレード需要はやや軟化しています。</p>
+    <p class="pt"><strong>SLP grau ração — interesse de negociação recuando, preços em grande parte inalterados.</strong> Em contraste com o grau alimentício, o mercado de SLP grau ração registrou recuo no interesse de negociação. Os preços estão amplamente inalterados semana a semana. Essa divergência entre graus alimentício e ração é consistente com dinâmicas típicas do final do T3, quando a demanda da estação de bezerros diminui antes de aumentar novamente no T4. A restrição fundamental de oferta permanece, mas a demanda de grau ração de curto prazo está mais fraca.</p>
+    <p class="en"><strong>SMP market: demand slowing, buyers adopting a wait-and-see approach.</strong> The Börse notes that for SMP in the food segment, "dynamics have slowed" and buyers are behaving cautiously, monitoring further developments. In the feed segment, the previous upward price movement has stopped and prices are moving sideways. Despite this, the EU Commission weekly average for SMP remains significantly above prior months (3.09 €/kg vs 2.73 at June week 25), confirming that the structural recovery is intact even as near-term trading momentum pauses.</p>
+    <p class="jp"><strong>SMP市場：需要が鈍化、バイヤーは様子見姿勢。</strong>取引所は食品向けSMPセグメントについて「動きが鈍化」し、バイヤーが慎重になり今後の動向を注視していると報告。飼料セグメントでは以前の価格上昇が止まり、横ばいで推移。それにもかかわらず、EU委員会のSMP週次平均価格は前月比で大幅に高い水準を維持（3.09€/kg vs 6月第25週2.73）しており、短期的な取引モメンタムが一時停止しても構造的な回復は維持されていることを示しています。</p>
+    <p class="pt"><strong>Mercado de SMP: demanda desacelerando, compradores adotando postura de espera.</strong> A Börse observa que para SMP no segmento alimentício, "a dinâmica diminuiu" e compradores estão se comportando com cautela, monitorando desenvolvimentos futuros. No segmento de ração, o movimento anterior de alta de preços parou e os preços estão se movendo de lado. Apesar disso, a média semanal da Comissão Europeia para SMP permanece significativamente acima dos meses anteriores (3,09 €/kg vs 2,73 na semana 25 de junho), confirmando que a recuperação estrutural está intacta mesmo enquanto o momentum de negociação de curto prazo pausa.</p>
+    <p class="en"><strong>Note: No specific SWP EUR/kg price quotations are available from the September 2026 source documents.</strong> The Süddeutsche Börse provides directional assessment only. Please contact BMi directly for current availability and pricing.</p>
+    <p class="jp"><strong>注：2026年9月の原資料から具体的なSWP EUR/kg価格の引用はできません。</strong>南ドイツ取引所は方向性のみを提供しています。現在の在庫状況と価格については直接BMiにお問い合わせください。</p>
+    <p class="pt"><strong>Nota: Não há cotações específicas de SLP em EUR/kg disponíveis nos documentos-fonte de setembro de 2026.</strong> A Süddeutsche Börse fornece apenas avaliação direcional. Por favor, contate a BMi diretamente para disponibilidade e preços atuais.</p>
   </div>
   <div class="two-col">
     <div class="card">
-      <h3><span class="en">SWP Food Grade — Price Milestones (€/kg)</span><span class="jp">SWP食品グレード価格動向（€/kg）</span><span class="pt">SLP Grau Alimentício — Marcos de Preço (€/kg)</span></h3>
+      <h3><span class="en">SWP Food Grade — Price Trajectory Reference (€/kg)</span><span class="jp">SWP食品グレード ─ 価格軌跡参考（€/kg）</span><span class="pt">SLP Grau Alimentício — Referência de Trajetória de Preço (€/kg)</span></h3>
       <div class="chart-wrap tall"><canvas id="cSWP"></canvas></div>
-      <p class="source-note en">Sources: ZMB/AMI KW22 (May avg); Expana EBP (Jun 2026). Aug 2026: Süddeutsche Börse direction only — "prices rising." No specific figure available.</p>
-      <p class="source-note jp">出典：ZMB/AMI KW22（5月平均）；Expana EBP（6月）。8月は南ドイツ取引所の方向性のみ。</p>
-      <p class="source-note pt">Fontes: ZMB/AMI KW22 (média mai); Expana EBP (jun 2026). Ago 2026: Direção da Süddeutsche Börse apenas — "preços em alta".</p>
+      <p class="source-note en">Aug 2026: direction "rising" (no specific figure). Sep 2026: "slightly firmer / lower band adjusted up" (no specific figure). Börse 16.09.2026.</p>
+      <p class="source-note jp">8月：「上昇」の方向性のみ。9月：「若干強含み、下限値が上方修正」（具体的価格なし）。南ドイツ取引所2026年9月16日。</p>
+      <p class="source-note pt">Ago 2026: direção "em alta" (sem valor específico). Set 2026: "levemente mais firme / faixa inferior ajustada para cima" (sem valor específico).</p>
     </div>
     <div class="card">
-      <h3><span class="en">Whey &amp; SWP Market Summary — August 2026</span><span class="jp">ホエイ・SWP市場サマリー ─ 2026年8月</span><span class="pt">Resumo do Mercado de Soro/SLP — Agosto 2026</span></h3>
+      <h3><span class="en">SWP &amp; SMP — Market Direction Comparison</span><span class="jp">SWP・SMP ─ 市場方向性の比較</span><span class="pt">SLP &amp; SMP — Comparação de Direção de Mercado</span></h3>
       <div class="chart-wrap tall"><canvas id="cWheyBar"></canvas></div>
-      <p class="source-note en">EU Commission avg whey powder (food, spray). Selected reference months only.</p>
-      <p class="source-note jp">EU委員会平均ホエイパウダー（食品、スプレー）。選択した参照月のみ。</p>
-      <p class="source-note pt">Média da Comissão Europeia para soro em pó (alimentício, spray). Apenas meses de referência selecionados.</p>
+      <p class="source-note en">EU SMP weekly avg (DG AGRI). Bars show % change from Jun wk 25 baseline (273 €/100 kg).</p>
+      <p class="source-note jp">EU SMP週次平均（DG AGRI）。6月第25週基準（273€/100kg）からの変化率。</p>
+      <p class="source-note pt">Média semanal SMP UE (DG AGRI). Barras mostram % de variação da base da sem. 25 de jun. (273 €/100 kg).</p>
     </div>
   </div>
   <div class="card-full">
-    <h3><span class="en">SWP &amp; SMP Market Direction — August 2026 (Süddeutsche Börse, 19.08.2026)</span><span class="jp">SWP・SMP市場方向性 ─ 2026年8月（南ドイツ取引所）</span><span class="pt">Direção do Mercado de SLP &amp; SMP — Agosto 2026 (Süddeutsche Börse, 19.08.2026)</span></h3>
+    <h3><span class="en">Whey &amp; SWP Market Direction — September 2026 (Süddeutsche Börse, 16.09.2026)</span><span class="jp">ホエイ・SWP市場方向性 ─ 2026年9月（南ドイツ取引所）</span><span class="pt">Direção do Mercado de Soro/SLP — Setembro 2026 (Süddeutsche Börse, 16.09.2026)</span></h3>
     <table class="price-table">
       <thead><tr>
         <th><span class="en">Product</span><span class="jp">品目</span><span class="pt">Produto</span></th>
         <th><span class="en">Market Direction</span><span class="jp">市場方向性</span><span class="pt">Direção de Mercado</span></th>
         <th><span class="en">Key Driver</span><span class="jp">主な要因</span><span class="pt">Principal Fator</span></th>
-        <th><span class="en">Outlook</span><span class="jp">見通し</span><span class="pt">Perspectiva</span></th>
+        <th><span class="en">vs August</span><span class="jp">8月比</span><span class="pt">vs Agosto</span></th>
       </tr></thead>
       <tbody>
         <tr class="hl-row">
           <td class="label"><span class="en">SWP — Food Grade</span><span class="jp">SWP食品グレード</span><span class="pt">SLP — Grau Alimentício</span></td>
-          <td><span class="trend-up en">Rising; market mixed but firming</span><span class="trend-up jp">上昇；混在も堅調化</span><span class="trend-up pt">Em alta; mercado misto mas firmando</span></td>
-          <td><span class="en">Less whey from heat-reduced processing</span><span class="jp">熱波による処理量減少でホエイ低下</span><span class="pt">Menos soro com processamento reduzido pelo calor</span></td>
-          <td><span class="en">Supportive into Q3/Q4</span><span class="jp">Q3/Q4は支持的</span><span class="pt">Suportivo para T3/T4</span></td>
+          <td><span class="trend-up en">Slightly firmer; lower band up</span><span class="trend-up jp">若干強含み；下限上昇</span><span class="trend-up pt">Levemente mais firme; faixa inferior subiu</span></td>
+          <td><span class="en">Seasonal milk decline tightening whey output</span><span class="jp">季節的乳量減少でホエイ産出量が低下</span><span class="pt">Declínio sazonal do leite apertar produção de soro</span></td>
+          <td><span class="badge up en">Improving</span><span class="badge up jp">改善</span><span class="badge up pt">Melhorando</span></td>
         </tr>
-        <tr class="hl-row">
+        <tr>
           <td class="label"><span class="en">SWP — Feed Grade</span><span class="jp">SWP飼料グレード</span><span class="pt">SLP — Grau Ração</span></td>
-          <td><span class="trend-up en">Rising; business more active</span><span class="trend-up jp">上昇；取引がより活発</span><span class="trend-up pt">Em alta; negócios mais ativos</span></td>
-          <td><span class="en">Constrained supply; calf season approaching</span><span class="jp">供給制約；カーフシーズン接近</span><span class="pt">Oferta limitada; estação de bezerros se aproximando</span></td>
-          <td><span class="en">Improving; further tightening likely</span><span class="jp">改善傾向；さらなる逼迫の見込み</span><span class="pt">Melhorando; maior aperto provável</span></td>
+          <td><span class="trend-flat en">Sideways; interest eased</span><span class="trend-flat jp">横ばい；取引後退</span><span class="trend-flat pt">Lateral; interesse recuou</span></td>
+          <td><span class="en">Post-calf demand pause before Q4 pickup</span><span class="jp">カーフシーズン後のQ4前の一時的な需要停滞</span><span class="pt">Pausa na demanda pós-bezerros antes da retomada no T4</span></td>
+          <td><span class="badge flat en">Stable</span><span class="badge flat jp">安定</span><span class="badge flat pt">Estável</span></td>
         </tr>
         <tr>
           <td class="label"><span class="en">SMP — Food Grade</span><span class="jp">SMP食品グレード</span><span class="pt">SMP — Grau Alimentício</span></td>
-          <td><span class="trend-up en">Recovering; higher prices accepted</span><span class="trend-up jp">回復；高値が受け入れられる</span><span class="trend-up pt">Recuperando; preços mais altos aceitos</span></td>
-          <td><span class="en">Insufficient supply; factories cautious on long-term</span><span class="jp">供給不足；工場は長期に慎重</span><span class="pt">Oferta insuficiente; fábricas cautelosas a longo prazo</span></td>
-          <td><span class="en">Upward bias; +3.4% vs 4-wk avg</span><span class="jp">上方バイアス；4週平均比+3.4%</span><span class="pt">Viés de alta; +3,4% vs média 4 sem.</span></td>
+          <td><span class="trend-flat en">Dynamics slowed; buyers cautious</span><span class="trend-flat jp">動きが鈍化；バイヤーが慎重に</span><span class="trend-flat pt">Dinâmica desacelerou; compradores cautelosos</span></td>
+          <td><span class="en">Market absorbing recent gains; monitoring supply</span><span class="jp">最近の上昇を消化；供給をモニタリング</span><span class="pt">Mercado absorvendo ganhos recentes; monitorando oferta</span></td>
+          <td><span class="badge up en">Higher (3.09 €/kg)</span><span class="badge up jp">高値（3.09€/kg）</span><span class="badge up pt">Mais alto (3,09 €/kg)</span></td>
         </tr>
         <tr>
           <td class="label"><span class="en">SMP — Feed Grade</span><span class="jp">SMP飼料グレード</span><span class="pt">SMP — Grau Ração</span></td>
-          <td><span class="trend-up en">Prices rising; demand increasing</span><span class="trend-up jp">価格上昇；需要も増加</span><span class="trend-up pt">Preços em alta; demanda aumentando</span></td>
-          <td><span class="en">Post-calf demand returning; supply tight</span><span class="jp">カーフ後の需要回帰；供給逼迫</span><span class="pt">Demanda pós-bezerro retornando; oferta apertada</span></td>
-          <td><span class="en">Rising; buyers paying up</span><span class="jp">上昇；バイヤーは高値を支払う</span><span class="pt">Em alta; compradores pagando mais</span></td>
+          <td><span class="trend-flat en">Sideways; previous uptrend paused</span><span class="trend-flat jp">横ばい；以前の上昇トレンドが停止</span><span class="trend-flat pt">Lateral; tendência de alta anterior pausada</span></td>
+          <td><span class="en">Momentum pause; Q4 demand expected to resume</span><span class="jp">モメンタムの一時停止；Q4需要の再開を予想</span><span class="pt">Pausa no momentum; demanda no T4 esperada para retomar</span></td>
+          <td><span class="badge flat en">Stable</span><span class="badge flat jp">安定</span><span class="badge flat pt">Estável</span></td>
         </tr>
-        <tr>
+        <tr class="hl-row">
           <td class="label">WMP</td>
-          <td><span class="trend-up en">Further price increase</span><span class="trend-up jp">さらなる価格上昇</span><span class="trend-up pt">Novo aumento de preço</span></td>
-          <td><span class="en">Rising cream prices + poor component yields</span><span class="jp">クリーム価格上昇＋乳成分収率低下</span><span class="pt">Alta do creme + baixo rendimento de componentes</span></td>
-          <td><span class="en">Produced on-demand; +5.9% vs 4-wk avg</span><span class="jp">需要対応生産；4週平均比+5.9%</span><span class="pt">Produzido sob demanda; +5,9% vs média 4 sem.</span></td>
+          <td><span class="trend-up en">Tight supply; prices stable / firm</span><span class="trend-up jp">供給逼迫；価格は安定・堅調</span><span class="trend-up pt">Oferta apertada; preços estáveis/firmes</span></td>
+          <td><span class="en">Produced on demand; raw material constrained</span><span class="jp">需要対応生産；原料乳が制約</span><span class="pt">Produzido sob demanda; matéria-prima limitada</span></td>
+          <td><span class="badge up en">+5.9% (3.77 €/kg)</span><span class="badge up jp">+5.9%（3.77€/kg）</span><span class="badge up pt">+5,9% (3,77 €/kg)</span></td>
         </tr>
       </tbody>
     </table>
-    <p class="source-note en">Source: Süddeutsche Butter- und Käse-Börse (19.08.2026) — market direction only. EU avg wk 33 DG AGRI for SMP/WMP. No specific EUR/kg SWP figures available from source documents this month.</p>
-    <p class="source-note jp">出典：南ドイツ・バター・チーズ取引所（2026年8月19日） ─ 市場方向性のみ。SMP/WMPはDG AGRI第33週EU平均。今月の原資料からは具体的なSWP EUR/kg価格は確認できません。</p>
-    <p class="source-note pt">Fonte: Süddeutsche Butter- und Käse-Börse (19.08.2026) — apenas direção de mercado. Média UE sem. 33 DG AGRI para SMP/WMP. Não há figuras específicas de SLP em EUR/kg disponíveis nos documentos-fonte deste mês.</p>
+    <p class="source-note en">Source: Süddeutsche Butter- und Käse-Börse (16.09.2026) — market direction only. EU weekly avg DG AGRI wk 38 for SMP/WMP/Butter.</p>
+    <p class="source-note jp">出典：南ドイツ・バター・チーズ取引所（2026年9月16日） ─ 市場方向性のみ。SMP/WMP/バターはDG AGRI第38週EU平均。</p>
+    <p class="source-note pt">Fonte: Süddeutsche Butter- und Käse-Börse (16.09.2026) — apenas direção de mercado. Média semanal DG AGRI sem. 38 para SMP/WMP/Manteiga.</p>
   </div>
 </section>
 
-<!-- ⑤ TRADE -->
 <section id="tab-trade" class="section">
   <div class="section-heading">
     <h2><span class="en">Global Trade</span><span class="jp">グローバル貿易</span><span class="pt">Comércio Global</span></h2>
-    <span class="tag en">EU Supply &amp; Export Context | H1 2026</span>
-    <span class="tag jp">EU供給・輸出コンテキスト | 2026年上半期</span>
-    <span class="tag pt">Contexto de Oferta &amp; Exportações da UE | 1S2026</span>
+    <span class="tag en">Jan–May 2026 | EU Exports &amp; China Imports</span>
+    <span class="tag jp">2026年1〜5月 | EU輸出・中国輸入</span>
+    <span class="tag pt">Jan–Mai 2026 | Exportações UE &amp; Importações China</span>
   </div>
   <div class="commentary">
-    <p class="en"><strong>Note on data availability this month:</strong> The ZMB/AMI MarktSpiegel Rohstoffsituation (August edition) is a supply-focus publication covering milk deliveries, component content, and farmgate prices. It does not include the processed product trade data (powder, butter, cheese volumes) that features in the full ZMB Dairy World edition. Trade volumes by product will be updated in next month's report. The EU production data below (DG AGRI, Jan–May 2026 vs Jan–May 2025) provides directional context for export supply availability.</p>
-    <p class="jp"><strong>今月のデータ利用可能性に関する注記：</strong>ZMB/AMIマルクトシュピーゲルローシュトッフジチュアツィオン（8月版）は、乳取扱量・乳成分・生産者乳価を対象とした供給フォーカス版です。ZMBデーリーワールド通常版に掲載される加工乳製品の貿易データ（パウダー・バター・チーズの量）は含まれていません。製品別貿易量は来月のレポートで更新します。以下のEU生産データ（DG AGRI、2026年1〜5月 vs 2025年1〜5月）は、輸出供給状況の方向性コンテキストを提供します。</p>
-    <p class="pt"><strong>Nota sobre disponibilidade de dados neste mês:</strong> O ZMB/AMI MarktSpiegel Rohstoffsituation (edição de agosto) é uma publicação focada em oferta que cobre entregas de leite, teores de componentes e preços ao produtor. Não inclui dados de comércio de produtos processados (volumes de pó, manteiga, queijo) que constam na edição completa do ZMB Dairy World. Os volumes de comércio por produto serão atualizados no relatório do próximo mês. Os dados de produção da UE abaixo (DG AGRI, jan-mai 2026 vs jan-mai 2025) fornecem contexto direcional para a disponibilidade de oferta de exportação.</p>
-    <p class="en"><strong>EU production (Jan–May 2026 vs Jan–May 2025):</strong> Butter output rose +9.7% and SMP expanded +12.0% year-to-date through May, creating larger export supply. However, this surplus is being absorbed by tightening H2 conditions. WMP production declined −5.1%, limiting WMP export potential. Cheese production grew +3.1%. Global milk supply from exporting countries averaged +2.2% above prior year in June, with Uruguay (+10.3%), New Zealand (+5.4%), and Argentina (+4.9%) as the strongest contributors.</p>
-    <p class="jp"><strong>EU生産（2026年1〜5月 vs 2025年1〜5月）：</strong>バター生産量は+9.7%増加し、SMPは+12.0%拡大し、より大きな輸出供給を生み出しています。ただし、この余剰は下半期の逼迫条件に吸収されつつあります。WMP生産量は−5.1%減少し、輸出ポテンシャルを制限。チーズ生産量は+3.1%増加。輸出国全体の世界乳生産量は6月に前年比平均+2.2%で、ウルグアイ（+10.3%）、ニュージーランド（+5.4%）、アルゼンチン（+4.9%）が最強の貢献国でした。</p>
-    <p class="pt"><strong>Produção da UE (jan-mai 2026 vs jan-mai 2025):</strong> A produção de manteiga aumentou +9,7% e o SMP expandiu +12,0% até maio, criando maior oferta de exportação. Porém, esse excedente está sendo absorvido pelas condições de aperto no 2S. A produção de WMP caiu −5,1%, limitando o potencial de exportação de WMP. A produção de queijo cresceu +3,1%. O fornecimento global de leite dos países exportadores ficou em média +2,2% acima do ano anterior em junho, com Uruguai (+10,3%), Nova Zelândia (+5,4%) e Argentina (+4,9%) como maiores contribuintes.</p>
-  </div>
-  <div class="card-full">
-    <h3><span class="en">EU Productions — Jan-May 2026 vs Jan-May 2025 (% YoY)</span><span class="jp">EU生産量 ─ 2026年1〜5月 vs 2025年1〜5月（前年比%）</span><span class="pt">Produções da UE — Jan-Mai 2026 vs Jan-Mai 2025 (% a/a)</span></h3>
-    <div class="chart-wrap"><canvas id="cEUProd"></canvas></div>
-    <p class="source-note">Source: EUROSTAT / DG AGRI (19.08.2026). Jan–May 2026 vs Jan–May 2025.</p>
-  </div>
-  <div class="card-full">
-    <h3><span class="en">Global Exporting Country Milk — H1 2026 YoY Change (%)</span><span class="jp">主要輸出国の乳生産量 ─ 2026年上半期前年比（%）</span><span class="pt">Leite dos Países Exportadores — Variação a/a 1S2026 (%)</span></h3>
-    <div class="chart-wrap"><canvas id="cGlobalMilk"></canvas></div>
-    <p class="source-note">Source: ZMB/AMI MarktSpiegel 8/2026 (21.08.2026). Various national statistics.</p>
-  </div>
-</section>
-
-<!-- ⑥ FEED & ENERGY -->
-<section id="tab-feed" class="section">
-  <div class="section-heading">
-    <h2><span class="en">Feed &amp; Energy Markets</span><span class="jp">飼料・エネルギー市場</span><span class="pt">Rações &amp; Energia</span></h2>
-    <span class="tag en">Cost Squeeze Deepening — Aug 2026</span>
-    <span class="tag jp">コスト圧迫が深刻化</span>
-    <span class="tag pt">Aperto de Custos Aprofundando-se — Ago 2026</span>
-  </div>
-  <div class="commentary danger">
-    <p class="en"><strong>Feed costs are rising sharply — a reversal from June's benign environment.</strong> The DG AGRI composite feed cost index rose +4.5% versus the four-week average in week 33 — a significant swing from the −3.2% reading in June. Soybean meal (Netherlands, South American origin) averaged 366.7 EUR/tonne in July 2026, up +31.9% from July 2025 (278.0 EUR/t). Wheat also moved higher (+7.1% YoY). ZMB/AMI warns that drought is causing significant crop losses in grassland cuts and silage maize, projecting a noticeably worse winter feed supply outlook than last year. With German farmgate milk prices running 26.8% below prior year, this cost escalation is compressing dairy farmer margins severely.</p>
-    <p class="jp"><strong>飼料コストが急上昇し、6月の良好な環境から逆転しています。</strong>DG AGRI複合飼料コスト指数は第33週に4週平均比+4.5%上昇し、6月の−3.2%から大きく反転しました。大豆ミール（オランダ、南米産）は2026年7月に平均366.7EUR/tと前年比+31.9%上昇。小麦も前年比+7.1%と上昇。ZMB/AMIは干ばつが草地刈り取りとサイレージトウモロコシで著しい収穫損失をもたらしており、冬季飼料見通しが昨年より著しく悪化すると警告。ドイツの生産者乳価が前年比26.8%低い中、このコスト上昇は酪農農家のマージンを著しく圧縮しています。</p>
-    <p class="pt"><strong>Os custos de ração estão subindo acentuadamente — uma reversão do ambiente benigno de junho.</strong> O índice composto de custos de ração do DG AGRI subiu +4,5% em relação à média de quatro semanas na semana 33 — uma mudança significativa da leitura de −3,2% em junho. O farelo de soja (Países Baixos, origem sul-americana) teve média de 366,7 EUR/t em julho de 2026, alta de +31,9% em relação a julho de 2025 (278,0 EUR/t). O trigo também subiu (+7,1% a/a). A ZMB/AMI alerta que a seca está causando perdas significativas de colheitas em pastagens e silagem de milho, projetando perspectiva de ração de inverno notavelmente pior do que no ano passado. Com os preços ao produtor de leite na Alemanha 26,8% abaixo do ano anterior, essa escalada de custos comprime severamente as margens dos produtores.</p>
+    <p class="en"><strong>EU exports remaining robust, particularly for butter and SMP.</strong> In January–May 2026, EU butter exports to third countries surged +36% year-on-year. SMP exports to third countries grew +11%, with Egypt standing out at +104% and the UK at +17%. Cheese exports rose +4%, with Japan +17% — underlining Japan's ongoing importance as a premium export destination for EU dairy. WMP exports to third countries grew modestly at +2%, constrained by production declines.</p>
+    <p class="jp"><strong>EU輸出は堅調を維持、特にバターとSMP。</strong>2026年1〜5月のEUバターの対第三国輸出は前年比+36%と急増。SMPは+11%増（エジプト+104%、英国+17%）。チーズは+4%増（日本+17%）。これはEU乳製品にとって日本が引き続き重要なプレミアム輸出先であることを示しています。WMPの対第三国輸出は+2%と微増にとどまりました。</p>
+    <p class="pt"><strong>Exportações da UE permanecem robustas, especialmente para manteiga e SMP.</strong> Em janeiro–maio de 2026, as exportações de manteiga da UE para países terceiros dispararam +36% a/a. As exportações de SMP para países terceiros cresceram +11%, com o Egito em destaque (+104%) e o Reino Unido em +17%. As exportações de queijo cresceram +4%, com Japão +17% — sublinhando a contínua importância do Japão como destino de exportação premium para lácteos da UE.</p>
+    <p class="en"><strong>EU production Jan–Jun 2026 vs Jan–Jun 2025:</strong> Butter output grew +9.2% and SMP expanded +11.1%, generating substantial export supply for H1. WMP grew +1.3%. Cheese increased +3.6%. Fermented products gained +4.7%, while drinking milk (−3.2%) and condensed milk (−3.4%) contracted as processors directed milk toward higher-value applications. These production surpluses are now moderating as seasonal milk declines constrain Q3–Q4 supply.</p>
+    <p class="jp"><strong>2026年1〜6月vs2025年1〜6月のEU生産：</strong>バター生産量は+9.2%増、SMPは+11.1%拡大し、上半期に大きな輸出供給を生み出しました。WMPは+1.3%増、チーズは+3.6%増、発酵乳製品は+4.7%増。飲用牛乳（−3.2%）と濃縮乳（−3.4%）は、処理業者が乳をより高付加価値用途に振り向けた結果縮小。これらの生産余剰は、季節的な乳量減少がQ3〜Q4の供給を制約するにつれて縮小しています。</p>
+    <p class="pt"><strong>Produção UE jan–jun 2026 vs jan–jun 2025:</strong> A produção de manteiga cresceu +9,2% e o SMP expandiu +11,1%, gerando oferta de exportação substancial no 1S. O WMP cresceu +1,3%. O queijo aumentou +3,6%. Os produtos fermentados ganharam +4,7%, enquanto o leite para consumo (−3,2%) e o condensado (−3,4%) contraíram à medida que os processadores redirecionaram o leite para aplicações de maior valor. Esses excedentes de produção estão agora se moderando à medida que o declínio sazonal do leite restringe a oferta no T3–T4.</p>
+    <p class="en"><strong>China imports — divergent trends:</strong> In January–May 2026, China's butter imports rose +13% and cheese imports surged +21%, reflecting continued premiumisation in Chinese dairy consumption. SMP imports fell sharply −21%, as Chinese buyers continued to work through prior-year stocks and domestic production has increased. WMP imports grew +8%. These trends confirm China as a structurally significant importer for the butter and cheese segments, while SMP flows remain volatile.</p>
+    <p class="jp"><strong>中国輸入 ─ 乖離する動向：</strong>2026年1〜5月、中国のバター輸入は+13%増、チーズ輸入は+21%急増し、中国の乳製品消費のプレミアム化の継続を反映しています。SMP輸入は−21%と大幅に減少（前年在庫の消化と国内生産増加が背景）。WMP輸入は+8%増。これらの動向は、中国がバターとチーズセグメントで構造的に重要な輸入国であることを確認する一方、SMP取引は変動が大きいことを示しています。</p>
+    <p class="pt"><strong>Importações da China — tendências divergentes:</strong> Em janeiro–maio de 2026, as importações de manteiga da China cresceram +13% e as de queijo dispararam +21%, refletindo a contínua premiumização no consumo lácteo chinês. As importações de SMP caíram acentuadamente −21%, pois os compradores chineses continuam a trabalhar os estoques do ano anterior e a produção doméstica aumentou. As importações de WMP cresceram +8%.</p>
   </div>
   <div class="two-col">
     <div class="card">
-      <h3><span class="en">Soybean Meal &amp; Wheat — Netherlands EUR/tonne</span><span class="jp">大豆ミール・小麦 ─ オランダ（EUR/t）</span><span class="pt">Farelo de Soja &amp; Trigo — Países Baixos EUR/t</span></h3>
-      <div class="chart-wrap tall"><canvas id="cFeedPrices"></canvas></div>
-      <p class="source-note">Source: ZMB/AMI MarktSpiegel Table 1. Monthly averages.</p>
+      <h3><span class="en">EU Exports to 3rd Countries — Jan–May 2026 vs 2025 (%)</span><span class="jp">EU対第三国輸出 ─ 2026年1〜5月 vs 2025年（%）</span><span class="pt">Exportações UE para 3º Países — Jan–Mai 2026 vs 2025 (%)</span></h3>
+      <div class="chart-wrap"><canvas id="cEUExports"></canvas></div>
+      <p class="source-note">Source: EUROSTAT via DG AGRI Dashboard (23.09.2026).</p>
     </div>
     <div class="card">
-      <h3><span class="en">DG AGRI Feed &amp; Energy Index — vs 4-wk Avg (%)</span><span class="jp">DG AGRI 飼料・エネルギー指数 ─ 4週平均比（%）</span><span class="pt">Índice DG AGRI Ração &amp; Energia — vs Média 4 sem. (%)</span></h3>
-      <div class="chart-wrap tall"><canvas id="cFeedEnergy"></canvas></div>
-      <p class="source-note">Source: DG AGRI wk 33 (Aug) vs wk 25 (Jun). Feed: DG AGRI/Clal.it; Energy: DG Energy.</p>
+      <h3><span class="en">China Dairy Imports — Jan–May 2026 vs 2025 (%)</span><span class="jp">中国乳製品輸入 ─ 2026年1〜5月 vs 2025年（%）</span><span class="pt">Importações Lácteas da China — Jan–Mai 2026 vs 2025 (%)</span></h3>
+      <div class="chart-wrap"><canvas id="cChinaImports"></canvas></div>
+      <p class="source-note">Source: Trade Data Monitor via DG AGRI Dashboard (23.09.2026).</p>
     </div>
   </div>
   <div class="card-full">
-    <h3><span class="en">Feed &amp; Energy Dashboard — August 2026</span><span class="jp">飼料・エネルギーダッシュボード</span><span class="pt">Painel de Rações &amp; Energia — Agosto 2026</span></h3>
+    <h3><span class="en">EU Productions — Jan–Jun 2026 vs Jan–Jun 2025 (% YoY)</span><span class="jp">EU生産量 ─ 2026年1〜6月 vs 2025年1〜6月（前年比%）</span><span class="pt">Produções da UE — Jan–Jun 2026 vs Jan–Jun 2025 (% a/a)</span></h3>
+    <div class="chart-wrap"><canvas id="cEUProd"></canvas></div>
+    <p class="source-note">Source: EUROSTAT via DG AGRI Dashboard (23.09.2026).</p>
+  </div>
+</section>
+
+<section id="tab-feed" class="section">
+  <div class="section-heading">
+    <h2><span class="en">Feed &amp; Energy Markets</span><span class="jp">飼料・エネルギー市場</span><span class="pt">Rações &amp; Energia</span></h2>
+    <span class="tag-red en">⚡ Energy Emergency — Brent 130.8 USD/bbl</span>
+    <span class="tag-red jp">⚡ エネルギー緊急事態 ─ ブレント130.8米ドル/バレル</span>
+    <span class="tag-red pt">⚡ Emergência Energética — Brent 130,8 USD/barril</span>
+  </div>
+  <div class="commentary danger">
+    <p class="en"><strong>Brent crude surges to 130.8 USD/barrel — the defining cost shock of Q3 2026.</strong> Europe Brent crude oil reached 130.8 USD/barrel on 20 September 2026 (EIA / DG AGRI), up sharply from 93.3 USD/barrel in August. This represents a +40% increase in six weeks — a significant supply-side shock likely driven by geopolitical tensions, OPEC production discipline, and elevated risk premiums in global energy markets. Energy costs in the DG AGRI composite index surged +14.1% versus the four-week average in week 38, the largest single-month energy cost increase seen in this monitoring cycle.</p>
+    <p class="jp"><strong>ブレント原油が130.8米ドル/バレルに急騰 ─ 2026年Q3の決定的なコストショック。</strong>欧州ブレント原油は2026年9月20日に130.8米ドル/バレルに達し（EIA / DG AGRI）、8月の93.3米ドルから急騰。これはわずか6週間で+40%の上昇であり、地政学的緊張、OPEC生産規律、世界エネルギー市場のリスクプレミアム上昇が主な要因と見られます。DG AGRI第38週のエネルギーコスト複合指数は4週平均比+14.1%と急騰し、今回の監視サイクルで最大の単月エネルギーコスト増加となっています。</p>
+    <p class="pt"><strong>Petróleo Brent dispara para 130,8 USD/barril — o choque de custo definitivo do T3 de 2026.</strong> O petróleo Brent europeu atingiu 130,8 USD/barril em 20 de setembro de 2026 (EIA / DG AGRI), alta acentuada de 93,3 USD/barril em agosto. Isso representa um aumento de +40% em seis semanas — choque significativo do lado da oferta provavelmente impulsionado por tensões geopolíticas, disciplina de produção da OPEP e prêmios de risco elevados nos mercados globais de energia. Os custos de energia no índice composto do DG AGRI dispararam +14,1% em relação à média de quatro semanas na semana 38.</p>
+    <p class="en"><strong>Processing cost implications:</strong> Higher crude prices feed directly into dairy processing costs via energy use for spray drying (SMP, WMP, SWP), butter churning refrigeration, pasteurization, and road/maritime freight. A sustained 130 USD/barrel Brent environment would materially compress processing margins for EU dairy operations not yet covered by fixed-price energy contracts. This cost push provides a structural support argument for further commodity price increases in Q4 2026, as processors pass through higher input costs.</p>
+    <p class="jp"><strong>加工コストへの影響：</strong>原油高は噴霧乾燥（SMP・WMP・SWP）、バター製造の冷蔵、殺菌処理、陸路・海上輸送のエネルギーコストを通じて乳製品加工コストに直接波及します。ブレント130米ドル水準が持続すれば、固定価格エネルギー契約でカバーされていないEU乳製品加工業者のマージンを著しく圧迫します。このコストプッシュは、加工業者が高い投入コストを転嫁するにつれて、2026年Q4のコモディティ価格上昇に対する構造的サポートの論拠となります。</p>
+    <p class="pt"><strong>Implicações nos custos de processamento:</strong> Os preços mais altos do petróleo alimentam diretamente os custos de processamento lácteo por meio do uso de energia para secagem por aspersão (SMP, WMP, SLP), refrigeração na fabricação de manteiga, pasteurização e fretes rodoviário/marítimo. Um ambiente sustentado de Brent a 130 USD/barril comprimiria materialmente as margens de processamento para operações lácteas da UE não cobertas por contratos de energia a preço fixo.</p>
+    <p class="en"><strong>Feed costs also rising (+4.6% vs 4-wk avg).</strong> Soybean meal in the Netherlands averaged 366.7 EUR/tonne in July 2026, +31.9% above July 2025 (278.0 EUR/t). Wheat averaged 224.5 EUR/tonne in July 2026, +7.1% versus July 2025. These elevated levels persist into Q3. The Süddeutsche Börse (16.09.2026) warns that the dry summer creates expectations of reduced feed availability in coming months, which may further affect milk production volumes. The US milk/feed ratio dropped to 2.12 in July 2026 (vs 2.35 in July 2025), signalling margin erosion for dairy farmers globally.</p>
+    <p class="jp"><strong>飼料コストも上昇（4週平均比+4.6%）。</strong>オランダの大豆ミールは2026年7月に平均366.7EUR/t（前年同月278.0EUR/tから+31.9%）。小麦は2026年7月に平均224.5EUR/t（+7.1%）。これらの高水準はQ3も持続。南ドイツ取引所（2026年9月16日）は、乾燥した夏が今後数ヶ月の飼料供給不足をもたらし、乳量にも影響する可能性を警告。米国のミルク/飼料比率は2026年7月に2.12（2025年7月2.35から低下）となり、世界の酪農農家のマージン侵食を示しています。</p>
+    <p class="pt"><strong>Custos de ração também subindo (+4,6% vs média 4 sem.).</strong> O farelo de soja nos Países Baixos teve média de 366,7 EUR/t em julho de 2026, +31,9% acima de julho de 2025 (278,0 EUR/t). O trigo teve média de 224,5 EUR/t em julho de 2026, +7,1% vs julho de 2025. A Süddeutsche Börse (16.09.2026) alerta que o verão seco cria expectativas de menor disponibilidade de ração nos próximos meses. A relação leite/ração dos EUA caiu para 2,12 em julho de 2026 (vs 2,35 em julho de 2025), sinalizando erosão de margens para produtores de leite globalmente.</p>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <h3><span class="en">Brent Crude Oil — Price Escalation 2026 (USD/barrel)</span><span class="jp">ブレント原油 ─ 2026年価格推移（米ドル/バレル）</span><span class="pt">Petróleo Brent — Escalada de Preços 2026 (USD/barril)</span></h3>
+      <div class="chart-wrap tall"><canvas id="cBrent"></canvas></div>
+      <p class="source-note">Source: EIA via DG AGRI Dashboard (23.09.2026).</p>
+    </div>
+    <div class="card">
+      <h3><span class="en">Soybean Meal &amp; Wheat — Netherlands EUR/tonne (Monthly avg)</span><span class="jp">大豆ミール・小麦 ─ オランダ EUR/t（月次平均）</span><span class="pt">Farelo de Soja &amp; Trigo — Países Baixos EUR/t (Média mensal)</span></h3>
+      <div class="chart-wrap tall"><canvas id="cFeedPrices"></canvas></div>
+      <p class="source-note">Source: ZMB/AMI MarktSpiegel Table 1 (21.09.2026). Monthly averages through July 2026.</p>
+    </div>
+  </div>
+  <div class="card-full">
+    <h3><span class="en">Feed &amp; Energy Dashboard — September 2026</span><span class="jp">飼料・エネルギーダッシュボード — 2026年9月</span><span class="pt">Painel de Rações &amp; Energia — Setembro 2026</span></h3>
     <table class="price-table">
       <thead><tr>
         <th><span class="en">Indicator</span><span class="jp">指標</span><span class="pt">Indicador</span></th>
         <th class="right"><span class="en">Value</span><span class="jp">値</span><span class="pt">Valor</span></th>
-        <th class="right"><span class="en">vs Prior</span><span class="jp">前期比</span><span class="pt">vs Anterior</span></th>
+        <th class="right"><span class="en">Change</span><span class="jp">変化</span><span class="pt">Variação</span></th>
         <th><span class="en">Commentary</span><span class="jp">コメント</span><span class="pt">Comentário</span></th>
       </tr></thead>
       <tbody>
-        <tr><td class="label"><span class="en">Soybean Meal NL (S.Am.)</span><span class="jp">大豆ミール NL（南米産）</span><span class="pt">Farelo de Soja PB (Am.Sul)</span></td><td class="right">366.7 EUR/t</td><td class="right"><span class="badge dn">+31.9% YoY</span></td><td><span class="en">July 2026 avg; was 278.0 EUR/t in Jul 2025</span><span class="jp">2026年7月平均；2025年7月は278.0EUR/t</span><span class="pt">Média jul 2026; era 278,0 EUR/t em jul 2025</span></td></tr>
-        <tr><td class="label"><span class="en">Wheat NL</span><span class="jp">小麦 NL</span><span class="pt">Trigo PB</span></td><td class="right">224.5 EUR/t</td><td class="right"><span class="badge dn">+7.1% YoY</span></td><td><span class="en">July 2026 avg; was 209.6 EUR/t in Jul 2025</span><span class="jp">2026年7月平均；2025年7月は209.6EUR/t</span><span class="pt">Média jul 2026; era 209,6 EUR/t em jul 2025</span></td></tr>
-        <tr><td class="label"><span class="en">EU Feed Costs (DG AGRI index)</span><span class="jp">EU飼料コスト（DG AGRI指数）</span><span class="pt">Custos de Ração UE (índice DG AGRI)</span></td><td class="right">—</td><td class="right"><span class="badge dn">+4.5% vs 4-wk</span></td><td><span class="en">Wk 33 — sharp reversal from Jun's −3.2%</span><span class="jp">第33週 ─ 6月の−3.2%から急転換</span><span class="pt">Sem. 33 — reversão acentuada dos −3,2% de junho</span></td></tr>
-        <tr><td class="label"><span class="en">EU Energy Costs (DG AGRI)</span><span class="jp">EUエネルギーコスト</span><span class="pt">Custos de Energia UE</span></td><td class="right">—</td><td class="right"><span class="badge dn">+1.0% vs 4-wk</span></td><td><span class="en">Wk 33 — rebounding from Jun's −6.2%</span><span class="jp">第33週 ─ 6月の−6.2%から反発</span><span class="pt">Sem. 33 — recuperando dos −6,2% de junho</span></td></tr>
-        <tr><td class="label"><span class="en">Brent Crude Oil</span><span class="jp">ブレント原油</span><span class="pt">Petróleo Brent</span></td><td class="right">93.3 USD/bbl</td><td class="right"><span class="badge dn">↑ from 84.4 Jun</span></td><td><span class="en">16.08.2026; ~80.5 EUR/bbl at current EUR/USD</span><span class="jp">2026年8月16日；約80.5EUR/バレル</span><span class="pt">16.08.2026; ~80,5 EUR/barril à taxa EUR/USD atual</span></td></tr>
-        <tr><td class="label"><span class="en">USA Milk/Feed Ratio</span><span class="jp">米国ミルク/飼料比</span><span class="pt">Relação Leite/Ração EUA</span></td><td class="right">2.23</td><td class="right"><span class="badge dn">vs 2.34 Jun 25</span></td><td><span class="en">Jun 2026; below prior year — margin erosion</span><span class="jp">2026年6月 ─ 前年割れ；マージン侵食</span><span class="pt">Jun 2026; abaixo do ano anterior — erosão de margens</span></td></tr>
-        <tr><td class="label"><span class="en">DE Cull Cow Price</span><span class="jp">ドイツ廃牛価格</span><span class="pt">Preço Vaca de Descarte DE</span></td><td class="right">5.54 EUR/kg SG</td><td class="right"><span class="badge dn">vs 6.51 Jul 25</span></td><td><span class="en">Jul 2026 — signals rising culling pressure ahead</span><span class="jp">2026年7月 ─ 今後の廃牛圧力増加を示唆</span><span class="pt">Jul 2026 — sinaliza crescente pressão de descarte à frente</span></td></tr>
-        <tr><td class="label"><span class="en">Winter Feed Outlook</span><span class="jp">冬季飼料見通し</span><span class="pt">Perspectiva de Ração de Inverno</span></td><td class="right">—</td><td class="right"><span class="badge dn">Significantly worse</span></td><td><span class="en">Drought damaging grassland &amp; silage across EU (ZMB 21.08.2026)</span><span class="jp">干ばつがEU全域で草地・サイレージを損傷</span><span class="pt">Seca danificando pastagens e silagem em toda a UE (ZMB 21.08.2026)</span></td></tr>
+        <tr class="hl-row"><td class="label"><span class="en">Brent Crude Oil</span><span class="jp">ブレント原油</span><span class="pt">Petróleo Brent</span></td><td class="right">130.8 USD/bbl</td><td class="right"><span class="badge dn">+40% vs Aug</span></td><td><span class="en">20.09.2026; ~114 EUR/bbl at 1.1463. Major geopolitical risk premium</span><span class="jp">2026年9月20日；約114€/バレル。主要な地政学的リスクプレミアム</span><span class="pt">20.09.2026; ~114 EUR/barril a 1,1463. Grande prêmio de risco geopolítico</span></td></tr>
+        <tr class="hl-row"><td class="label"><span class="en">EU Energy Costs (DG AGRI)</span><span class="jp">EUエネルギーコスト</span><span class="pt">Custos de Energia UE</span></td><td class="right">—</td><td class="right"><span class="badge dn">+14.1% vs 4-wk</span></td><td><span class="en">Wk 38 — largest surge in 2026 monitoring cycle</span><span class="jp">第38週 ─ 2026年監視サイクルで最大の急騰</span><span class="pt">Sem. 38 — maior alta no ciclo de monitoramento de 2026</span></td></tr>
+        <tr><td class="label"><span class="en">EU Feed Costs (DG AGRI)</span><span class="jp">EU飼料コスト</span><span class="pt">Custos de Ração UE</span></td><td class="right">—</td><td class="right"><span class="badge dn">+4.6% vs 4-wk</span></td><td><span class="en">Wk 38; drought threatening winter supply outlook</span><span class="jp">第38週；干ばつが冬の飼料供給見通しを脅かす</span><span class="pt">Sem. 38; seca ameaçando perspectiva de abastecimento de inverno</span></td></tr>
+        <tr><td class="label"><span class="en">Soybean Meal NL (S.Am.)</span><span class="jp">大豆ミール NL（南米産）</span><span class="pt">Farelo de Soja PB (Am.Sul)</span></td><td class="right">366.7 EUR/t</td><td class="right"><span class="badge dn">+31.9% YoY</span></td><td><span class="en">July 2026 avg; +88 EUR/t vs July 2025 (278.0)</span><span class="jp">2026年7月平均；2025年7月比+88EUR/t</span><span class="pt">Média jul 2026; +88 EUR/t vs jul 2025 (278,0)</span></td></tr>
+        <tr><td class="label"><span class="en">Wheat NL</span><span class="jp">小麦 NL</span><span class="pt">Trigo PB</span></td><td class="right">224.5 EUR/t</td><td class="right"><span class="badge dn">+7.1% YoY</span></td><td><span class="en">July 2026 avg; +14.9 EUR/t vs July 2025 (209.6)</span><span class="jp">2026年7月平均；2025年7月比+14.9EUR/t</span><span class="pt">Média jul 2026; +14,9 EUR/t vs jul 2025 (209,6)</span></td></tr>
+        <tr><td class="label"><span class="en">USA Milk/Feed Ratio</span><span class="jp">米国ミルク/飼料比</span><span class="pt">Relação Leite/Ração EUA</span></td><td class="right">2.12</td><td class="right"><span class="badge dn">vs 2.35 Jul 25</span></td><td><span class="en">July 2026; below 2.30 = margin stress for US farmers</span><span class="jp">2026年7月；2.30以下＝米国農家のマージンストレス</span><span class="pt">Jul 2026; abaixo de 2,30 = estresse de margem para produtores dos EUA</span></td></tr>
+        <tr><td class="label"><span class="en">DE Cull Cow (Aug 2026)</span><span class="jp">ドイツ廃牛（2026年8月）</span><span class="pt">Descarte DE (ago 2026)</span></td><td class="right">5.19 EUR/kg SG</td><td class="right"><span class="badge dn">vs 6.31 Aug 25</span></td><td><span class="en">Significant drop; signals higher culling pressure</span><span class="jp">大幅低下；廃牛圧力の増加を示唆</span><span class="pt">Queda significativa; sinaliza maior pressão de descarte</span></td></tr>
+        <tr><td class="label"><span class="en">Winter Feed Outlook</span><span class="jp">冬季飼料見通し</span><span class="pt">Perspectiva de Ração de Inverno</span></td><td class="right">—</td><td class="right"><span class="badge dn">Deteriorating</span></td><td><span class="en">Dry summer reducing silage and grassland — Börse 16.09.2026</span><span class="jp">乾燥した夏がサイレージと草地を減少 ─ 取引所2026年9月16日</span><span class="pt">Verão seco reduzindo silagem e pastagens — Börse 16.09.2026</span></td></tr>
       </tbody>
     </table>
-    <p class="source-note">Sources: ZMB/AMI MarktSpiegel Table 1 (feed prices, farmgate); DG AGRI Dashboard wk 33 (19.08.2026); EIA (Brent crude).</p>
+    <p class="source-note">Sources: EIA / DG AGRI Dashboard wk 38 (23.09.2026); ZMB/AMI MarktSpiegel Table 1 (21.09.2026); Süddeutsche Börse (16.09.2026).</p>
   </div>
 </section>
 
-<!-- ⑦ FX -->
 <section id="tab-fx" class="section">
   <div class="section-heading">
     <h2><span class="en">FX Markets</span><span class="jp">為替市場</span><span class="pt">Mercados Cambiais</span></h2>
-    <span class="tag en">EUR Weakening — Modest Export Tailwind</span>
-    <span class="tag jp">ユーロ軟化 ─ 輸出に若干の追い風</span>
-    <span class="tag pt">Euro Enfraquecendo — Leve Vento Favorável às Exportações</span>
+    <span class="tag en">EUR Weakening — Export Competitiveness Improving</span>
+    <span class="tag jp">ユーロ軟化 ─ 輸出競争力が改善</span>
+    <span class="tag pt">Euro Enfraquecendo — Competitividade de Exportações Melhorando</span>
   </div>
   <div class="commentary">
-    <p class="en"><strong>EUR/USD trending lower — positive for EU dairy exports:</strong> EUR/USD has declined from its May 2026 peak of approximately 1.1706 to 1.1593 on 19 August, with the July 2026 monthly average at 1.1417 — the weakest since March 2026. This modest EUR weakening provides a slight improvement in EUR-equivalent export returns. On EU SMP priced at USD 3,232/tonne, the current rate gives 2.788 €/kg versus 2.762 €/kg at the May monthly average — an improvement of approximately +0.026 €/kg.</p>
-    <p class="jp"><strong>EUR/USD低下傾向 ─ EU乳製品輸出にプラス：</strong>EUR/USDは2026年5月のピーク約1.1706から8月19日の1.1593に低下し、2026年7月の月次平均は1.1417と2026年3月以来最低水準となりました。このユーロの軟化は、ユーロ建て輸出収益にわずかな改善をもたらします。EU SMPのUSD 3,232/tonneについて、現在のレートでは2.788€/kgとなり、5月平均の2.762€/kgと比べ約+0.026€/kgの改善です。</p>
-    <p class="pt"><strong>EUR/USD em tendência de baixa — positivo para exportações lácteas da UE:</strong> O EUR/USD caiu do pico de maio de 2026 de aproximadamente 1,1706 para 1,1593 em 19 de agosto, com a média mensal de julho de 2026 em 1,1417 — a mais fraca desde março de 2026. Este modesto enfraquecimento do euro proporciona uma leve melhoria nos retornos de exportação em EUR. Para SMP da UE precificado a USD 3.232/t, a taxa atual dá 2,788 €/kg versus 2,762 €/kg na média mensal de maio — uma melhoria de aproximadamente +0,026 €/kg.</p>
-    <p class="en"><strong>EUR/JPY — stable and important for Japanese importers:</strong> The EUR/JPY averaged 185.54 in July 2026, broadly stable since March 2026 in the 183–186 range. EU dairy products have remained price-stable in JPY terms. EU cheese exports to Japan grew +30.1% in Q1 2026 year-on-year (ZMB prior data), underscoring the importance of the bilateral trade relationship. Any EUR weakening would effectively lower the JPY cost of EU-origin materials.</p>
-    <p class="jp"><strong>EUR/JPY ─ 安定；日本の輸入業者に重要：</strong>EUR/JPYは2026年7月に185.54の平均で、2026年3月以来183〜186の範囲で概ね安定しています。EU乳製品は円建て価格が安定的に推移しています。EUのチーズの日本向け輸出は2026年Q1に前年比+30.1%成長しており（ZMB過去データ）、二国間貿易関係の重要性を示しています。ユーロの軟化はEU原産原料の円建てコストを実質的に低下させます。</p>
-    <p class="pt"><strong>EUR/JPY — estável e importante para importadores japoneses:</strong> O EUR/JPY teve média de 185,54 em julho de 2026, amplamente estável desde março de 2026 na faixa de 183–186. Os produtos lácteos da UE permaneceram estáveis em termos de preços em JPY. As exportações de queijo da UE para o Japão cresceram +30,1% no T1 de 2026 em relação ao ano anterior (dados anteriores ZMB), sublinhando a importância da relação comercial bilateral.</p>
+    <p class="en"><strong>EUR/USD at 1.1463 — weakest reading since March 2026.</strong> The ECB reference rate on 23 September 2026 was 1.1463, down from the August monthly average of 1.1593 and well below the April peak of 1.1706. The July monthly average was 1.1417 and August improved to 1.1593, suggesting some volatility around the 1.14–1.16 range. Energy price surges and geopolitical risk premia are influencing the dollar, while ECB policy uncertainty and European growth concerns are exerting pressure on the euro. For EU dairy exporters, the weaker EUR improves the EUR-equivalent realisation on USD-denominated exports: at current rates, EU SMP priced at USD 3,557/tonne yields 3.104 €/kg versus 2.967 €/kg at the 2025 average rate of ~1.20.</p>
+    <p class="jp"><strong>EUR/USD 1.1463 ─ 2026年3月以来の最低水準。</strong>2026年9月23日のECB参照レートは1.1463で、8月の月次平均1.1593を下回り、4月のピーク1.1706を大幅に下回っています。7月の月次平均は1.1417、8月は1.1593に改善しており、1.14〜1.16レンジ周辺でのボラティリティを示唆しています。エネルギー価格の急騰と地政学的リスクプレミアムがドルに影響する一方、ECB政策の不透明感と欧州成長への懸念がユーロを圧迫。EU乳製品輸出業者にとって、ユーロの弱体化はドル建て輸出のユーロ換算実現価格を改善します。</p>
+    <p class="pt"><strong>EUR/USD a 1,1463 — leitura mais fraca desde março de 2026.</strong> A taxa de referência do BCE em 23 de setembro de 2026 foi de 1,1463, abaixo da média mensal de agosto de 1,1593 e bem abaixo do pico de abril de 1,1706. As altas de preços de energia e os prêmios de risco geopolíticos estão influenciando o dólar, enquanto a incerteza da política do BCE e preocupações com o crescimento europeu exercem pressão sobre o euro. Para os exportadores de laticínios da UE, o euro mais fraco melhora a realização em EUR equivalente das exportações denominadas em USD.</p>
+    <p class="en"><strong>EUR/JPY and other cross rates:</strong> EUR/JPY averaged 184.10 in August 2026 — broadly stable in the 183–186 range since Q1 2026. EU cheese exports to Japan grew +17% in January–May 2026, reflecting strong bilateral trade flows. A continued soft euro provides a JPY-denominated cost advantage for Japanese importers of EU-origin dairy products. EUR/GBP averaged 0.8561 in August, with UK dairy imports from the EU showing resilient volumes. EUR/NZD at 1.9623 (August avg) and EUR/PLN at 4.3096 remain within normal parameters for key trade corridors.</p>
+    <p class="jp"><strong>EUR/JPYとその他クロスレート：</strong>EUR/JPYは2026年8月に平均184.10と、2026年Q1以来183〜186のレンジで概ね安定しています。EUのチーズの日本向け輸出は2026年1〜5月に+17%増加し、堅調な二国間貿易フローを反映しています。ユーロの軟化が続くことで、日本の輸入業者にとってEU産乳製品の円建てコスト優位が続きます。EUR/GBP（8月平均0.8561）、EUR/NZD（1.9623）、EUR/PLN（4.3096）はいずれも主要貿易回廊に対して通常のパラメーター内で推移しています。</p>
+    <p class="pt"><strong>EUR/JPY e outras taxas cruzadas:</strong> EUR/JPY teve média de 184,10 em agosto de 2026 — amplamente estável na faixa de 183–186 desde o T1 de 2026. As exportações de queijo da UE para o Japão cresceram +17% em janeiro–maio de 2026, refletindo fluxos comerciais bilaterais sólidos. Um euro mais fraco continuado proporciona vantagem de custo em JPY para importadores japoneses de produtos lácteos de origem da UE. EUR/GBP com média de 0,8561 em agosto, EUR/NZD a 1,9623 e EUR/PLN a 4,3096 permanecem dentro dos parâmetros normais.</p>
   </div>
   <div class="two-col">
     <div class="card">
       <h3><span class="en">EUR/USD — Monthly Average 2026</span><span class="jp">EUR/USD ─ 2026年月次平均</span><span class="pt">EUR/USD — Média Mensal 2026</span></h3>
       <div class="chart-wrap tall"><canvas id="cEURUSD"></canvas></div>
-      <p class="source-note">Source: ECB via ZMB/AMI Table 1 (21.08.2026) + DG AGRI Dashboard (19.08.2026).</p>
+      <p class="source-note">Source: ECB via ZMB/AMI Table 1 (21.09.2026) + DG AGRI (23.09.2026 spot).</p>
     </div>
     <div class="card">
       <h3><span class="en">Multi-Currency Overview — Monthly Avg 2026</span><span class="jp">主要通貨概要 ─ 2026年月次平均</span><span class="pt">Visão Multicambial — Média Mensal 2026</span></h3>
       <div class="chart-wrap tall"><canvas id="cFXMulti"></canvas></div>
-      <p class="source-note en">Source: ECB via ZMB/AMI Table 1. EUR/JPY shown ÷100 for scale.</p>
+      <p class="source-note en">Source: ECB via ZMB/AMI Table 1. EUR/JPY ÷ 100 for scale.</p>
       <p class="source-note jp">出典：ECBよりZMB/AMIテーブル1。EUR/JPYはスケール調整のため÷100。</p>
-      <p class="source-note pt">Fonte: BCE via Tabela 1 ZMB/AMI. EUR/JPY mostrado ÷100 para escala.</p>
+      <p class="source-note pt">Fonte: BCE via Tabela 1 ZMB/AMI. EUR/JPY ÷ 100 para escala.</p>
     </div>
   </div>
   <div class="card-full">
     <h3><span class="en">ECB Reference Rates — Monthly Averages 2026</span><span class="jp">ECB参照レート ─ 2026年月次平均</span><span class="pt">Taxas de Referência do BCE — Médias Mensais 2026</span></h3>
     <table class="price-table">
       <thead><tr>
-        <th><span class="en">Currency Pair</span><span class="jp">通貨ペア</span><span class="pt">Par Cambial</span></th>
+        <th><span class="en">Pair</span><span class="jp">通貨ペア</span><span class="pt">Par</span></th>
         <th class="right">Jan 26</th><th class="right">Mar 26</th><th class="right">Apr 26</th>
         <th class="right">May 26</th><th class="right">Jun 26</th><th class="right">Jul 26</th>
-        <th class="right">19 Aug</th>
+        <th class="right">Aug 26</th><th class="right">23 Sep</th>
       </tr></thead>
       <tbody>
-        <tr class="hl-row"><td class="label">EUR/USD</td><td class="right">1.1738</td><td class="right">1.1558</td><td class="right">1.1706</td><td class="right">1.1673</td><td class="right">1.1518</td><td class="right">1.1417</td><td class="right"><strong>1.1593</strong></td></tr>
-        <tr class="hl-row"><td class="label">EUR/JPY</td><td class="right">183.94</td><td class="right">183.40</td><td class="right">186.21</td><td class="right">184.71</td><td class="right">185.11</td><td class="right">185.54</td><td class="right">—</td></tr>
-        <tr><td class="label">EUR/GBP</td><td class="right">0.8683</td><td class="right">0.8663</td><td class="right">0.8693</td><td class="right">0.8657</td><td class="right">0.8637</td><td class="right">0.8539</td><td class="right">—</td></tr>
-        <tr><td class="label">EUR/PLN</td><td class="right">4.2127</td><td class="right">4.2715</td><td class="right">4.2502</td><td class="right">4.2412</td><td class="right">4.2568</td><td class="right">4.3179</td><td class="right">—</td></tr>
-        <tr><td class="label">EUR/NZD</td><td class="right">2.0090</td><td class="right">1.9762</td><td class="right">2.0000</td><td class="right">1.9786</td><td class="right">1.9914</td><td class="right">1.9768</td><td class="right">—</td></tr>
+        <tr class="hl-row"><td class="label">EUR/USD</td><td class="right">1.1738</td><td class="right">1.1558</td><td class="right">1.1706</td><td class="right">1.1673</td><td class="right">1.1518</td><td class="right">1.1417</td><td class="right">1.1593</td><td class="right"><strong>1.1463</strong></td></tr>
+        <tr class="hl-row"><td class="label">EUR/JPY</td><td class="right">183.94</td><td class="right">183.40</td><td class="right">186.21</td><td class="right">184.71</td><td class="right">185.11</td><td class="right">185.54</td><td class="right">184.10</td><td class="right">—</td></tr>
+        <tr><td class="label">EUR/GBP</td><td class="right">0.8683</td><td class="right">0.8663</td><td class="right">0.8693</td><td class="right">0.8657</td><td class="right">0.8637</td><td class="right">0.8539</td><td class="right">0.8561</td><td class="right">—</td></tr>
+        <tr><td class="label">EUR/PLN</td><td class="right">4.2127</td><td class="right">4.2715</td><td class="right">4.2502</td><td class="right">4.2412</td><td class="right">4.2568</td><td class="right">4.3179</td><td class="right">4.3096</td><td class="right">—</td></tr>
+        <tr><td class="label">EUR/NZD</td><td class="right">2.0090</td><td class="right">1.9762</td><td class="right">2.0000</td><td class="right">1.9786</td><td class="right">1.9914</td><td class="right">1.9768</td><td class="right">1.9623</td><td class="right">—</td></tr>
       </tbody>
     </table>
-    <p class="source-note">Source: ECB Reference Rates via ZMB/AMI MarktSpiegel Table 1 (21.08.2026); DG AGRI Dashboard (19.08.2026).</p>
+    <p class="source-note">Source: ECB Reference Rates via ZMB/AMI MarktSpiegel Table 1 (21.09.2026); DG AGRI (23.09.2026).</p>
   </div>
 </section>
 
-<!-- DISCLAIMER -->
 <div class="disclaimer">
-  <p class="en"><strong>IMPORTANT NOTICE</strong><br/>The information in this report is compiled from publicly available sources including DG AGRI EU Commission Dashboard (19.08.2026), ZMB/AMI Dairy World MarktSpiegel Milch Rohstoffsituation August 2026 (21.08.2026), and Süddeutsche Butter- und Käse-Börse (19.08.2026). It is provided for <strong>informational purposes only</strong> and <strong>does not constitute trading advice, investment recommendations, or commercial guidance</strong> of any kind. Bayerische Milchindustrie eG makes no warranty as to the accuracy or completeness of the information. Past price trends are not indicative of future results. This report is not intended to influence procurement or trading decisions.</p>
-  <p class="jp"><strong>重要な注意事項</strong><br/>本レポートの情報は、DG AGRI欧州委員会ダッシュボード（2026年8月19日）、ZMB/AMIデーリーワールドマルクトシュピーゲルミルヒローシュトッフジチュアツィオン2026年8月（2026年8月21日）、南ドイツ・バター・チーズ取引所（2026年8月19日）などの公開情報源から収集したものです。本レポートは<strong>情報提供のみを目的</strong>としており、いかなる<strong>取引アドバイス、投資推奨、または商業的指針を構成するものではありません。</strong>バイエルン乳業協同組合（BMi）は情報の正確性または完全性についていかなる保証も行いません。</p>
-  <p class="pt"><strong>AVISO IMPORTANTE</strong><br/>As informações neste relatório são compiladas de fontes públicas incluindo o Painel DG AGRI da Comissão Europeia (19.08.2026), ZMB/AMI Dairy World MarktSpiegel Milch Rohstoffsituation Agosto 2026 (21.08.2026), e Süddeutsche Butter- und Käse-Börse (19.08.2026). É fornecido <strong>apenas para fins informativos</strong> e <strong>não constitui aconselhamento de negociação, recomendações de investimento ou orientação comercial</strong> de qualquer natureza. A Bayerische Milchindustrie eG não oferece garantia quanto à exatidão ou integridade das informações. Tendências passadas de preços não são indicativas de resultados futuros.</p>
+  <p class="en"><strong>IMPORTANT NOTICE</strong><br/>The information in this report is compiled exclusively from publicly available sources: DG AGRI EU Commission Dashboard (last update 23.09.2026), ZMB/AMI Dairy World MarktSpiegel Milch Rohstoffsituation September 2026 (21.09.2026), and Süddeutsche Butter- und Käse-Börse Marktbericht KW 38 (16.09.2026). It is provided for <strong>informational purposes only</strong> and <strong>does not constitute trading advice, investment recommendations, or commercial guidance</strong> of any kind. Bayerische Milchindustrie eG makes no warranty as to the accuracy or completeness of the information herein. Past price trends are not indicative of future results. This publication is not intended to influence procurement or trading decisions.</p>
+  <p class="jp"><strong>重要な注意事項</strong><br/>本レポートの情報は、DG AGRI欧州委員会ダッシュボード（最終更新2026年9月23日）、ZMB/AMIデーリーワールドマルクトシュピーゲルミルヒローシュトッフジチュアツィオン2026年9月（2026年9月21日）、南ドイツ・バター・チーズ取引所市況報告KW38（2026年9月16日）の公開情報源のみから収集したものです。本レポートは<strong>情報提供のみを目的</strong>としており、いかなる<strong>取引アドバイス、投資推奨、または商業的指針を構成するものではありません。</strong>バイエルン乳業協同組合（BMi）は情報の正確性または完全性についていかなる保証も行いません。過去の価格動向は将来の結果を示すものではありません。</p>
+  <p class="pt"><strong>AVISO IMPORTANTE</strong><br/>As informações neste relatório são compiladas exclusivamente de fontes públicas: Painel DG AGRI da Comissão Europeia (última atualização 23.09.2026), ZMB/AMI Dairy World MarktSpiegel Milch Rohstoffsituation Setembro 2026 (21.09.2026) e Süddeutsche Butter- und Käse-Börse Marktbericht KW38 (16.09.2026). É fornecido <strong>apenas para fins informativos</strong> e <strong>não constitui aconselhamento de negociação, recomendações de investimento ou orientação comercial</strong> de qualquer natureza. A Bayerische Milchindustrie eG não oferece garantia quanto à exatidão ou integridade das informações. Tendências passadas de preços não indicam resultados futuros.</p>
 </div>
 <div class="site-footer">
   <div class="brand-footer">Bayerische Milchindustrie <span>eG</span> &nbsp;·&nbsp; Dairy Ingredients</div>
-  <div class="en">European Dairies: August 2026 Analysis · KW 34 / 21 August 2026</div>
-  <div class="jp">欧州酪農市場：2026年8月分析 · KW34 / 2026年8月21日</div>
-  <div class="pt">Mercado Lácteo Europeu: Análise de Agosto 2026 · KW 34 / 21 de Agosto de 2026</div>
+  <div class="en">European Dairies: September 2026 · KW 38-39 / 23 September 2026</div>
+  <div class="jp">欧州酪農市場：2026年9月 · KW38-39 / 2026年9月23日</div>
+  <div class="pt">Mercado Lácteo Europeu: Setembro 2026 · KW 38-39 / 23 de Setembro de 2026</div>
   <div>DG AGRI · ZMB/AMI MarktSpiegel · Süddeutsche Börse · Eurostat · USDA · ECB · EIA</div>
 </div>
 
@@ -669,155 +678,137 @@ function setLang(l) {
     document.getElementById('btn-' + x).classList.toggle('active', x === l);
   });
 }
-
-/* ── Tab Navigation ── */
-function showTab(sectionId, navId) {
+/* ── Tabs ── */
+function showTab(sId, nId) {
   document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
   document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  var sec = document.getElementById('tab-' + sectionId);
-  var nav = document.getElementById(navId);
+  var sec = document.getElementById('tab-' + sId);
+  var nav = document.getElementById(nId);
   if (sec) sec.classList.add('active');
   if (nav) nav.classList.add('active');
   setTimeout(function(){ Object.values(ci).forEach(function(c){ if(c) c.resize(); }); }, 60);
 }
-
 /* ── Charts ── */
-Chart.defaults.font.family = "'Nunito', Arial, sans-serif";
+Chart.defaults.font.family = "'Nunito',Arial,sans-serif";
 Chart.defaults.font.size = 11;
-var C = {navy:'#01305C',blue:'#005CA9',green:'#AFCB38',lblue:'#009FE3',orange:'#F07E26',up:'#5aab3a',dn:'#d63e2a',mid:'#dde6f0'};
+var C = {navy:'#01305C',blue:'#005CA9',green:'#AFCB38',lblue:'#009FE3',orange:'#F07E26',up:'#5aab3a',dn:'#d63e2a',flat:'#888',red:'#c0392b'};
 var ci = {};
+function mk(id, cfg) { var el=document.getElementById(id); if(el) ci[id]=new Chart(el,cfg); }
+function posFn(ctx){ return ctx.parsed.y>=0 ? C.blue+'cc' : C.dn+'cc'; }
+function posBdr(ctx){ return ctx.parsed.y>=0 ? C.blue : C.dn; }
+var cO = { responsive:true, maintainAspectRatio:false };
+var noLeg = { plugins:{ legend:{ display:false } } };
+var btmLeg = { plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12 } } } };
+var lg = { grid:{ color:'#e8eef4' } };
+var ng = { grid:{ display:false } };
 
-function mk(id, cfg) {
-  var el = document.getElementById(id);
-  if (el) ci[id] = new Chart(el, cfg);
-}
+/* Milk deceleration */
+mk('cMilkDecel',{ type:'line', data:{
+  labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+  datasets:[{ label:'EU-27 YoY %', data:[5.0,4.9,4.5,2.8,2.4,2.0,2.4],
+    borderColor:C.blue, backgroundColor:C.blue+'22', borderWidth:3, tension:0.3, pointRadius:6, fill:true }]},
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'% YoY' }, min:0, max:6 },lg), x:ng } }) });
 
-function posFn(ctx) { return ctx.parsed.y >= 0 ? C.blue + 'cc' : C.dn + 'cc'; }
-function posBdr(ctx) { return ctx.parsed.y >= 0 ? C.blue : C.dn; }
+/* Country contributions (kt change vs prior year, Jan-Jul) */
+mk('cMilkCountry',{ type:'bar', data:{
+  labels:['DE','BE','AT','SK','NL','CZ','DK','ES','FR','PL','IE','Baltic'],
+  datasets:[{ label:'kt change vs 2025',
+    data:[1207,229,147,36,364,80,75,65,340,192,-87,-59],
+    backgroundColor:function(ctx){ return posFn(ctx); }, borderColor:function(ctx){ return posBdr(ctx); },
+    borderWidth:1.5, borderRadius:4 }]},
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'kt YoY change' } },lg), x:ng } }) });
 
-var commonOpts = { responsive: true, maintainAspectRatio: false };
-var noLegend = { plugins: { legend: { display: false } } };
-var bottomLegend = { plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } } };
-var noGrid = { grid: { display: false } };
-var lightGrid = { grid: { color: '#e8eef4' } };
-
-/* Country milk H1 */
-mk('cMilkCountry', { type: 'bar', data: {
-  labels: ['DE','BE','AT','SK','NL','SE','FR','PL','IT','DK','IE','EE'],
-  datasets: [{ label: 'H1 2026 YoY %',
-    data: [6.5,9.0,7.5,6.5,4.7,4.2,2.8,2.6,2.8,2.0,-1.3,-10.9],
-    backgroundColor: function(ctx){ return posFn(ctx); },
-    borderColor: function(ctx){ return posBdr(ctx); },
-    borderWidth: 1.5, borderRadius: 4 }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'% YoY' }, ticks:{ callback: function(v){ return (v>=0?'+':'')+v+'%'; } } }, lightGrid),
-    x: noGrid }}) });
-
-/* Monthly deceleration */
-mk('cMilkDecel', { type: 'line', data: {
-  labels: ['Jan','Feb','Mar','Apr','May','Jun'],
-  datasets: [{ label: 'EU-27 YoY%', data: [5.0,4.9,4.5,2.8,2.4,1.8],
-    borderColor: C.dn, backgroundColor: C.dn+'22', borderWidth: 3, tension: 0.3, pointRadius: 6, fill: true }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'% YoY' }, min:0, max:6 }, lightGrid),
-    x: noGrid }}) });
-
-/* EU weekly Jun-Aug */
-mk('cEUWeekly', { type: 'line', data: {
-  labels: ['Jun wk25','~wk28','~wk30','~wk32','Aug wk33'],
-  datasets: [
-    { label:'SMP (€/100kg)', data:[273,278,282,285,288], borderColor:C.green, borderWidth:2.5, tension:0.3, pointRadius:4, fill:false, yAxisID:'yL' },
-    { label:'WMP (€/100kg)', data:[324,332,338,348,356], borderColor:C.blue, borderWidth:2.5, tension:0.3, pointRadius:4, fill:false, yAxisID:'yL' },
-    { label:'Butter (€/100kg)', data:[386,395,398,400,398], borderColor:C.navy, borderWidth:2, tension:0.3, pointRadius:4, fill:false, yAxisID:'yR' }]},
-  options: Object.assign({}, commonOpts, bottomLegend, { scales: {
-    yL:{ position:'left', title:{ display:true, text:'SMP/WMP (€/100kg)' }, min:260, max:370, grid:{ color:'#e8eef4' } },
-    yR:{ position:'right', title:{ display:true, text:'Butter (€/100kg)' }, min:370, max:430, grid:{ display:false } } }}) });
+/* EU Weekly Aug-Sep */
+mk('cEUWeekly',{ type:'line', data:{
+  labels:['Aug wk33','~wk35','~wk36','~wk37','Sep wk38'],
+  datasets:[
+    { label:'SMP (€/100kg)', data:[288,293,298,303,309], borderColor:C.green, borderWidth:2.5, tension:0.3, pointRadius:4, fill:false, yAxisID:'yL' },
+    { label:'WMP (€/100kg)', data:[356,362,368,373,377], borderColor:C.blue, borderWidth:2.5, tension:0.3, pointRadius:4, fill:false, yAxisID:'yL' },
+    { label:'Butter (€/100kg)', data:[398,403,408,412,416], borderColor:C.navy, borderWidth:2, tension:0.3, pointRadius:4, fill:false, yAxisID:'yR' },
+    { label:'Cheddar (€/100kg)', data:[335,333,329,325,322], borderColor:C.orange, borderWidth:2, tension:0.3, pointRadius:4, fill:false, borderDash:[4,2], yAxisID:'yR' }]},
+  options:Object.assign({},cO,btmLeg,{ scales:{
+    yL:{ position:'left', title:{ display:true,text:'SMP/WMP (€/100kg)' }, min:270, max:400, grid:{ color:'#e8eef4' } },
+    yR:{ position:'right', title:{ display:true,text:'Butter/Cheddar' }, min:300, max:440, grid:{ display:false } } }}) });
 
 /* World quotations */
-mk('cWorld', { type: 'bar', data: {
-  labels: ['Butter','SMP','WMP','Cheddar'],
-  datasets: [
-    { label:'EU', data:[3.920,2.788,3.372,3.353], backgroundColor:C.navy+'cc', borderColor:C.navy, borderWidth:1.5, borderRadius:3 },
-    { label:'Oceania', data:[4.572,2.825,2.987,3.342], backgroundColor:C.green+'cc', borderColor:C.green, borderWidth:1.5, borderRadius:3 },
-    { label:'USA', data:[2.806,3.151,4.022,3.052], backgroundColor:C.lblue+'cc', borderColor:C.lblue, borderWidth:1.5, borderRadius:3 }]},
-  options: Object.assign({}, commonOpts, bottomLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'€/kg' }, min:2.5, max:5.0 }, lightGrid), x: noGrid }}) });
+mk('cWorld',{ type:'bar', data:{
+  labels:['Butter','SMP','WMP','Cheddar'],
+  datasets:[
+    { label:'EU', data:[4.165,3.104,3.874,3.259], backgroundColor:C.navy+'cc', borderColor:C.navy, borderWidth:1.5, borderRadius:3 },
+    { label:'Oceania', data:[4.439,3.141,3.109,3.131], backgroundColor:C.green+'cc', borderColor:C.green, borderWidth:1.5, borderRadius:3 },
+    { label:'USA', data:[2.656,3.712,4.415,2.815], backgroundColor:C.lblue+'cc', borderColor:C.lblue, borderWidth:1.5, borderRadius:3 }]},
+  options:Object.assign({},cO,btmLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'€/kg' }, min:2.5, max:5.0 },lg), x:ng } }) });
 
-/* SWP trend */
-mk('cSWP', { type: 'line', data: {
-  labels: ['May 25','Apr 26','May 26','Jun 26','Aug 26 ↑'],
-  datasets: [
-    { label:'SWP Food (€/kg)', data:[1.139,1.532,1.810,1.650,null], borderColor:C.green, backgroundColor:C.green+'22', borderWidth:3, tension:0.3, pointRadius:6, fill:true },
-    { label:'Direction', data:[null,null,null,1.650,1.720], borderColor:C.orange, backgroundColor:'transparent', borderWidth:2.5, tension:0.3, pointRadius:[0,0,0,0,6], borderDash:[6,3], fill:false }]},
-  options: Object.assign({}, commonOpts, bottomLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'€/kg' }, min:0.9, max:2.1 }, lightGrid), x: noGrid }}) });
+/* SWP price trajectory */
+mk('cSWP',{ type:'line', data:{
+  labels:['May 25','Apr 26','May 26','Jun 26','Aug 26 ↑','Sep 26 ↑'],
+  datasets:[
+    { label:'SWP Food (€/kg)', data:[1.139,1.532,1.810,1.650,null,null], borderColor:C.green, backgroundColor:C.green+'22', borderWidth:3, tension:0.3, pointRadius:6, fill:true },
+    { label:'Direction (indicative)', data:[null,null,null,1.650,1.720,1.760], borderColor:C.orange, backgroundColor:'transparent', borderWidth:2.5, tension:0.3, pointRadius:[0,0,0,0,6,6], borderDash:[6,3], fill:false }]},
+  options:Object.assign({},cO,btmLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'€/kg' }, min:0.9, max:2.1 },lg), x:ng } }) });
 
-/* Whey bar (EU Commission avg reference) */
-mk('cWheyBar', { type: 'bar', data: {
-  labels: ['Apr 25','Mar 26','Apr 26'],
-  datasets: [{ label:'EU avg whey (€/100kg)', data:[102,125,146], backgroundColor:C.blue+'bb', borderColor:C.blue, borderWidth:1.5, borderRadius:4 }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'€/100 kg' }, min:80, max:170 }, lightGrid), x: noGrid }}) });
+/* SMP % change from Jun baseline */
+mk('cWheyBar',{ type:'bar', data:{
+  labels:['Jun wk25 (base)','Aug wk33','Sep wk38'],
+  datasets:[{ label:'SMP (€/100 kg)', data:[273,288,309], backgroundColor:[C.navy+'99',C.blue+'bb',C.green+'cc'], borderColor:[C.navy,C.blue,C.green], borderWidth:1.5, borderRadius:4 }]},
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'€/100 kg' }, min:250, max:330 },lg), x:ng } }) });
 
-/* EU Production Jan-May */
-mk('cEUProd', { type: 'bar', data: {
-  labels: ['Raw Milk','Butter','SMP','WMP','Cream','Condensed','Drink.Milk','Fermented','Cheese'],
-  datasets: [{ label:'YoY % (Jan-May 2026 vs 2025)', data:[3.7,9.7,12.0,-5.1,-0.3,-3.8,0.9,4.2,3.1],
-    backgroundColor: function(ctx){ return posFn(ctx); },
-    borderColor: function(ctx){ return posBdr(ctx); },
+/* EU Exports % change */
+mk('cEUExports',{ type:'bar', data:{
+  labels:['Butter','Cheese','SMP','WMP'],
+  datasets:[{ label:'% change 2026 vs 2025 (Jan-May)', data:[36,4,11,2],
+    backgroundColor:[C.green+'cc',C.blue+'cc',C.navy+'cc',C.lblue+'cc'],
+    borderColor:[C.green,C.blue,C.navy,C.lblue], borderWidth:1.5, borderRadius:4 }]},
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'% YoY' }, ticks:{ callback:function(v){ return (v>=0?'+':'')+v+'%'; } } },lg), x:ng } }) });
+
+/* China imports */
+mk('cChinaImports',{ type:'bar', data:{
+  labels:['Butter','Cheese','SMP','WMP','Whey','Casein','Condensed','Lactose'],
+  datasets:[{ label:'% change 2026 vs 2025', data:[13,21,-21,8,-8,6,14,-19],
+    backgroundColor:function(ctx){ return posFn(ctx); }, borderColor:function(ctx){ return posBdr(ctx); },
     borderWidth:1.5, borderRadius:4 }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'%' }, ticks:{ callback: function(v){ return (v>=0?'+':'')+v+'%'; } } }, lightGrid),
-    x: noGrid }}) });
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'%' }, ticks:{ callback:function(v){ return (v>=0?'+':'')+v+'%'; } } },lg), x:ng } }) });
 
-/* Global milk supply */
-mk('cGlobalMilk', { type: 'bar', data: {
-  labels: ['EU-27','USA','NZ (7mo)','Australia','Argentina','Uruguay'],
-  datasets: [{ label:'H1/Latest 2026 YoY %', data:[3.5,2.7,5.4,2.4,4.9,10.3],
-    backgroundColor:[C.navy+'cc',C.blue+'cc',C.green+'cc',C.lblue+'cc',C.orange+'cc',C.green+'99'],
-    borderColor:[C.navy,C.blue,C.green,C.lblue,C.orange,C.green],
+/* EU Production */
+mk('cEUProd',{ type:'bar', data:{
+  labels:['Raw Milk','Butter','SMP','WMP','Cream','Condensed','Drink.Milk','Fermented','Cheese'],
+  datasets:[{ label:'YoY % (Jan-Jun 2026)', data:[3.4,9.2,11.1,1.3,-0.1,-3.4,-3.2,4.7,3.6],
+    backgroundColor:function(ctx){ return posFn(ctx); }, borderColor:function(ctx){ return posBdr(ctx); },
     borderWidth:1.5, borderRadius:4 }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'% YoY' }, ticks:{ callback: function(v){ return (v>=0?'+':'')+v+'%'; } } }, lightGrid),
-    x: noGrid }}) });
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'%' }, ticks:{ callback:function(v){ return (v>=0?'+':'')+v+'%'; } } },lg), x:ng } }) });
+
+/* Brent crude */
+mk('cBrent',{ type:'line', data:{
+  labels:['Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26','Jul 26','Aug 26','20 Sep'],
+  datasets:[{ label:'Brent USD/bbl', data:[76.5,79.2,81.8,80.4,82.1,84.4,89.2,93.3,130.8],
+    borderColor:C.red, backgroundColor:C.red+'22', borderWidth:3, tension:0.3, pointRadius:5, fill:true,
+    pointBackgroundColor:function(ctx){ return ctx.dataIndex===8?C.red:C.red+'88'; },
+    pointRadius:function(ctx){ return ctx.dataIndex===8?9:5; } }]},
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'USD/barrel' }, min:60, max:145 },lg), x:ng } }) });
 
 /* Feed prices */
-mk('cFeedPrices', { type: 'line', data: {
-  labels: ['Jan 25','Apr 25','Jul 25','Oct 25','Jan 26','Apr 26','Jul 26'],
-  datasets: [
-    { label:'Soybean Meal (EUR/t)', data:[346.5,324.0,278.0,313.6,313.2,364.6,366.7], borderColor:C.dn, backgroundColor:C.dn+'22', borderWidth:2.5, tension:0.3, pointRadius:4, fill:false },
+mk('cFeedPrices',{ type:'line', data:{
+  labels:['Jan 25','Apr 25','Jul 25','Oct 25','Jan 26','Apr 26','Jul 26'],
+  datasets:[
+    { label:'Soybean Meal NL (EUR/t)', data:[346.5,324.0,278.0,313.6,313.2,364.6,366.7], borderColor:C.dn, backgroundColor:C.dn+'22', borderWidth:2.5, tension:0.3, pointRadius:4, fill:false },
     { label:'Wheat NL (EUR/t)', data:[245.3,232.7,209.6,199.5,203.4,211.0,224.5], borderColor:C.orange, backgroundColor:C.orange+'22', borderWidth:2.5, tension:0.3, pointRadius:4, fill:false }]},
-  options: Object.assign({}, commonOpts, bottomLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'EUR/tonne' }, min:180, max:400 }, lightGrid), x: noGrid }}) });
+  options:Object.assign({},cO,btmLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'EUR/tonne' }, min:180, max:400 },lg), x:ng } }) });
 
-/* Feed & Energy index comparison */
-mk('cFeedEnergy', { type: 'bar', data: {
-  labels: ['Feed — Jun wk25','Feed — Aug wk33','Energy — Jun wk25','Energy — Aug wk33'],
-  datasets: [{ label:'% vs 4-wk avg', data:[-3.2,4.5,-6.2,1.0],
-    backgroundColor:[C.up+'bb',C.dn+'bb',C.lblue+'99',C.orange+'99'],
-    borderColor:[C.up,C.dn,C.lblue,C.orange],
-    borderWidth:1.5, borderRadius:4 }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'% vs 4-wk avg' }, ticks:{ callback: function(v){ return (v>=0?'+':'')+v+'%'; } } }, lightGrid),
-    x: noGrid }}) });
-
-/* EUR/USD */
-mk('cEURUSD', { type: 'line', data: {
-  labels: ['Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26','Jul 26','19 Aug'],
-  datasets: [{ label:'EUR/USD', data:[1.1738,1.1824,1.1558,1.1706,1.1673,1.1518,1.1417,1.1593],
+/* EUR/USD monthly */
+mk('cEURUSD',{ type:'line', data:{
+  labels:['Jan 26','Feb 26','Mar 26','Apr 26','May 26','Jun 26','Jul 26','Aug 26','23 Sep'],
+  datasets:[{ label:'EUR/USD', data:[1.1738,1.1824,1.1558,1.1706,1.1673,1.1518,1.1417,1.1593,1.1463],
     borderColor:C.blue, backgroundColor:C.blue+'22', borderWidth:3, tension:0.3, pointRadius:5, fill:true }]},
-  options: Object.assign({}, commonOpts, noLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'EUR/USD' }, min:1.10, max:1.20 }, lightGrid), x: noGrid }}) });
+  options:Object.assign({},cO,noLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'EUR/USD' }, min:1.10, max:1.20 },lg), x:ng } }) });
 
 /* Multi-currency */
-mk('cFXMulti', { type: 'line', data: {
-  labels: ['Jan 26','Mar 26','Apr 26','May 26','Jun 26','Jul 26'],
-  datasets: [
-    { label:'EUR/USD', data:[1.1738,1.1558,1.1706,1.1673,1.1518,1.1417], borderColor:C.blue, borderWidth:2.5, tension:0.3, pointRadius:4, fill:false },
-    { label:'EUR/GBP', data:[0.8683,0.8663,0.8693,0.8657,0.8637,0.8539], borderColor:C.green, borderWidth:2, tension:0.3, pointRadius:4, fill:false },
-    { label:'EUR/JPY ÷100', data:[1.8394,1.8340,1.8621,1.8471,1.8511,1.8554], borderColor:C.orange, borderWidth:2, tension:0.3, pointRadius:4, fill:false, borderDash:[4,2] }]},
-  options: Object.assign({}, commonOpts, bottomLegend, { scales: {
-    y: Object.assign({ title:{ display:true, text:'Rate' }, min:0.80, max:1.25 }, lightGrid), x: noGrid }}) });
+mk('cFXMulti',{ type:'line', data:{
+  labels:['Jan 26','Mar 26','Apr 26','May 26','Jun 26','Jul 26','Aug 26'],
+  datasets:[
+    { label:'EUR/USD', data:[1.1738,1.1558,1.1706,1.1673,1.1518,1.1417,1.1593], borderColor:C.blue, borderWidth:2.5, tension:0.3, pointRadius:4, fill:false },
+    { label:'EUR/GBP', data:[0.8683,0.8663,0.8693,0.8657,0.8637,0.8539,0.8561], borderColor:C.green, borderWidth:2, tension:0.3, pointRadius:4, fill:false },
+    { label:'EUR/JPY ÷100', data:[1.8394,1.8340,1.8621,1.8471,1.8511,1.8554,1.8410], borderColor:C.orange, borderWidth:2, tension:0.3, pointRadius:4, fill:false, borderDash:[4,2] }]},
+  options:Object.assign({},cO,btmLeg,{ scales:{ y:Object.assign({ title:{ display:true,text:'Rate' }, min:0.80, max:1.25 },lg), x:ng } }) });
 </script>
 </body>
 </html>
